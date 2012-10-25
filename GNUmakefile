@@ -1,5 +1,5 @@
 
-name := crystal
+name := rise_bench
 G4TARGET := $(name)
 G4EXLIB := true
 
