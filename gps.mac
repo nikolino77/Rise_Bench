@@ -1,0 +1,10 @@
+# Macro file for the 
+# initialization of G4GeneralParticleSource
+# to be used together with "task2b.c"
+#
+#
+/gps/energy 511 keV
+/gps/particle gamma
+/gps/position 0. 0. -10 mm
+/gps/ang/type iso
+/run/beamOn 10000
