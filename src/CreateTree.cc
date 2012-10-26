@@ -23,8 +23,7 @@ CreateTree::CreateTree(TString name,Bool_t hits,Bool_t absorptions)
  
   	this->GetTree()->Branch("Run",&this->Run,"Run/I");
   	this->GetTree()->Branch("Event",&this->Event,"Event/I");
-  	this->GetTree()->Branch("Process",&this->Process,"Process/I");
-  	this->GetTree()->Branch("NumOptPhotons",&this->NumOptPhotons,"NumOptPhotons/I");
+	this->GetTree()->Branch("NumOptPhotons",&this->NumOptPhotons,"NumOptPhotons/I");
   	this->GetTree()->Branch("NumCerenkovPhotons",&this->NumCerenkovPhotons,"NumCerenkovPhotons/I");
   	this->GetTree()->Branch("NumScintPhotons",&this->NumScintPhotons,"NumScintPhotons/I");
   	this->GetTree()->Branch("NumOptPhotonsAbsorbed",&this->NumOptPhotonsAbsorbed,"NumOptPhotonsAbsorbed/I");
@@ -60,41 +59,15 @@ CreateTree::CreateTree(TString name,Bool_t hits,Bool_t absorptions)
   	this->GetTree()->Branch("AbsLength",&this->AbsLength,"AbsLength/F");
   
   	this->GetTree()->Branch("Shape",&this->Shape,"Shape/F");
-  	this->GetTree()->Branch("Readout",&this->Readout,"Readout/F");
-  
+	
   	this->GetTree()->Branch("ScMaterial",&this->ScMaterial,"ScMaterial/F");
-     
-  	this->GetTree()->Branch("DOI",&this->DOI,"DOI/F");
-  	this->GetTree()->Branch("zPhotCompt",&this->zPhotCompt,"zPhotCompt/F");
-  	this->GetTree()->Branch("zeIoni",&this->zeIoni,"zeIoni/F");
-  	this->GetTree()->Branch("zScint",&this->zScint,"zScint/F");
 
   	this->GetTree()->Branch("ReflBackside",&this->ReflBackside,"ReflBackside/I");
-
-  	this->GetTree()->Branch("NumProcess",&this->NumProcess,"NumProcess/I");
-  	this->GetTree()->Branch("EProcessStart",&this->EProcessStart,"EProcessStart[NumProcess]/F");
-  	this->GetTree()->Branch("EProcessFinal",&this->EProcessFinal,"EProcessFinal[NumProcess]/F");
-  	this->GetTree()->Branch("IDProcess",&this->IDProcess,"IDProcess[NumProcess]/I");
-  	this->GetTree()->Branch("DOIProcess",&this->DOIProcess,"DOIProcess[NumProcess]/F");
 
   	this->GetTree()->Branch("AirLayer",&this->AirLayer,"AirLayer/I");
   	this->GetTree()->Branch("AirGap",&this->AirGap,"AirGap/F");
   	this->GetTree()->Branch("AirLayerSigmaAlpha",&this->AirLayerSigmaAlpha,"AirLayerSigmaAlpha/F");
 
-  	this->GetTree()->Branch("gammax",&this->gammax,"gammax/F");
-  	this->GetTree()->Branch("gammay",&this->gammay,"gammay/F");
-  	this->GetTree()->Branch("gammaz",&this->gammaz,"gammaz/F");
-
-  	// electrons/gammas
-  	this->GetTree()->Branch("PartNum",&this->PartNum,"PartNum/I");
-  	this->GetTree()->Branch("PartID",&this->PartID,"PartID[PartNum]/I");
-  	this->GetTree()->Branch("PartProcess",&this->PartProcess,"PartProcess[PartNum]/I");
-  	this->GetTree()->Branch("PartIDParent",&this->PartIDParent,"PartIDParent[PartNum]/I");
-  	this->GetTree()->Branch("PartEn",&this->PartEn,"PartEn[PartNum]/F");
-  	this->GetTree()->Branch("PartType",&this->PartType,"PartType[PartNum]/I");
-	
-  	this->GetTree()->Branch("TestI",&this->TestI,"TestI/I");
-  	this->GetTree()->Branch("TestF",&this->TestF,"TestF/F");
 
 /*--------------------MY STUFF-----------------*/
 
@@ -111,6 +84,11 @@ CreateTree::CreateTree(TString name,Bool_t hits,Bool_t absorptions)
 	this->GetTree()->Branch("firstPosX",&firstPosX);
 	this->GetTree()->Branch("firstPosY",&firstPosY);
 	this->GetTree()->Branch("firstPosZ",&firstPosZ);
+	
+	this->GetTree()->Branch("Cer_Time",&Cer_Time);
+	this->GetTree()->Branch("Scint_Time",&Scint_Time);
+	this->GetTree()->Branch("Cer_Time_prod",&Cer_Time_prod);
+	this->GetTree()->Branch("Scint_Time_prod",&Scint_Time_prod);
 
 
   	// Photons at exit interface
@@ -121,6 +99,8 @@ CreateTree::CreateTree(TString name,Bool_t hits,Bool_t absorptions)
     	this->GetTree()->Branch("Time",&Time);	
     	this->GetTree()->Branch("Parent",&Parent);
     	this->GetTree()->Branch("ID",&ID);	
+	this->GetTree()->Branch("Wglth_ex", &Wglth_ex);	
+  	this->GetTree()->Branch("OptPhotonEnergy",&OptPhotonEnergy);
   	
 	
   	this->Clear();
@@ -147,25 +127,15 @@ void CreateTree::Clear()
 
   	Run=0;
   	Event=0;
-  	Process=0;
   	NumOptPhotons=0;
 	NumCerenkovPhotons=0;
 	NumScintPhotons=0;
   	NumOptPhotonsAbsorbed=0;
   	NumOptPhotonsRayleigh=0;
-  	MPPCNumHits=0;
   	NumCherenkovPr=0;
   	NumeBrem=0;
   	NumOptPhotonsInterface = 0;
   	NumOptPhotonsExit	 = 0;
-
-  	zPhotCompt=-999;
-  	zeIoni=-999;
-  	zScint=-999;
-
-  	DOI=-1;
-  	TestI=0;
-  	TestF=0;
 
   	NumBoundaryAbsorption=0;
   	NumBoundaryReflection=0;
@@ -179,15 +149,12 @@ void CreateTree::Clear()
   	NumBoundaryLambertianReflection=0;
   	NumBoundaryBackScattering=0;
 
-  	NumProcess=0;
-  	PartNum=0;
-
 	OutSurface=0;
 	opticProcess.clear();
 	firstPosX.clear();
 	firstPosY.clear();
 	firstPosZ.clear();
-
+	
 	depositionProcess.clear();
 	energyDeposited.clear();
 	depositionX.clear();		
@@ -197,6 +164,12 @@ void CreateTree::Clear()
     	Time.clear();
     	Parent.clear();
     	ID.clear();
+	Wglth_ex.clear();
+	OptPhotonEnergy.clear();
+	Scint_Time.clear();
+	Cer_Time.clear();
+	Scint_Time_prod.clear();
+	Cer_Time_prod.clear();
 
 	energyTot = 0;	
 }

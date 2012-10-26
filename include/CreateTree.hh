@@ -56,24 +56,11 @@ class CreateTree
   Int_t               NumBoundaryBackScattering;
 
   Int_t               NumBoundaryStepTooSmall;
-  Int_t               Process; // 1: Photo-Effect; 2: Compton-Effect
 
   Int_t               NumCherenkovPr;
   Int_t               NumeBrem; 
   Int_t	              NumOptPhotonsExit;		// Optical photons after interface
   Int_t	              NumOptPhotonsInterface;		// Optical photons at interface
-
-  Float_t             zPhotCompt;
-  Float_t             zeIoni;
-  Float_t             zScint;
-
-  Float_t             EProcessStart[MaxNumPro];
-  Float_t             EProcessFinal[MaxNumPro]; 
-  Int_t               NumProcess;
-  Int_t               IDProcess[MaxNumPro];
-  Float_t             DOIProcess[MaxNumPro];
-
-
 
   Float_t             BoundaryAbsorptionPosX[MaxNum];
   Float_t             BoundaryAbsorptionPosY[MaxNum];
@@ -92,10 +79,7 @@ class CreateTree
   Float_t             BulkAbsorptionPosZ[MaxNum];
   Float_t             BulkAbsorptionTime[MaxNum];
   Float_t             BulkAbsorptionPhotonEnergy[MaxNum];
-
-
-  Float_t             OptPhotonEnergy[MaxNum];
-
+  
   Float_t             ScintillationYield;
   Float_t             RiseTime;
   Float_t             CrystalHeight;
@@ -108,8 +92,6 @@ class CreateTree
   Float_t             GapMaterial;
   Float_t             GapRefIndex;
   Float_t             Shape; 
-  Float_t             Readout;
-  Float_t             DOI;
   Float_t             ScMaterial; 
 
   Int_t               ReflBackside;
@@ -118,42 +100,32 @@ class CreateTree
   Float_t             AirGap; 
   Float_t             AirLayerSigmaAlpha; 
 
-  Float_t             gammax;
-  Float_t             gammay;
-  Float_t             gammaz;
+  Int_t 		OutSurface;
 
-  Int_t               PartNum;
-  Float_t             PartEn[MaxNum];
-  Int_t               PartID[MaxNum];             
-  Int_t               PartProcess[MaxNum];
-  Int_t               PartIDParent[MaxNum];
-  Int_t               PartType[MaxNum];
+  vector<float> energyDeposited;
+  vector<string> depositionProcess;
+  vector<float> depositionX;
+  vector<float> depositionY;
+  vector<float> depositionZ;
+  Float_t energyTot;
+  vector<string> opticProcess;
+  vector<float> firstPosX;
+  vector<float> firstPosY;
+  vector<float> firstPosZ;
+  
+  vector<float> Cer_Time;
+  vector<float> Scint_Time;
 
+  vector<float> Cer_Time_prod;
+  vector<float> Scint_Time_prod;
+  vector<float> Wglth_ex;
+  vector<float> OptPhotonEnergy;
 
-	Int_t 		OutSurface;
+  vector<float> Time;	// Time at interface
+  vector<int> IntOut;	// Bool value (0 for rebounced, 1 for exit)	
+  vector<int> Parent;	// Production process (1 for Cerenkov, 2 for Scintillation, 0 for unknown)
+  vector<int> ID;	// ID of the particle
 
-	vector<float> energyDeposited;
-	vector<string> depositionProcess;
-	vector<float> depositionX;
-	vector<float> depositionY;
-	vector<float> depositionZ;
-	Float_t energyTot;
-	vector<string> opticProcess;
-	vector<float> firstPosX;
-	vector<float> firstPosY;
-	vector<float> firstPosZ;
-
-	vector<float> Time;	// Time at interface
-	vector<int> IntOut;	// Bool value (0 for rebounced, 1 for exit)	
-	vector<int> Parent;	// Production process (1 for Cerenkov, 2 for Scintillation, 0 for unknown)
-	vector<int> ID;		// ID of the particle
-
-		
-
-
-
-  Int_t               TestI;
-  Float_t             TestF;
 };
 
 /*  

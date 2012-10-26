@@ -22,30 +22,6 @@ StackingAction::ClassifyNewTrack(const G4Track * aTrack)
 
   // ------------ Retrieve tracks and particle history -------------- //
 
-  // Non optical particles
-  if(aTrack->GetDefinition() != G4OpticalPhoton::OpticalPhotonDefinition()) 
-  {
-        Int_t idx = CreateTree::Instance()->PartNum;
-	/*if(idx+1 == 100) {
-		CreateTree::Instance()->PartNum = 0;
-		idx = CreateTree::Instance()->PartNum;
-	}*/
-        CreateTree::Instance()->PartNum++;
-        CreateTree::Instance()->PartEn[idx]=aTrack->GetKineticEnergy();
-        CreateTree::Instance()->PartID[idx]=aTrack->GetTrackID();
-        CreateTree::Instance()->PartProcess[idx]=-1; // unknown process 
-        if(aTrack->GetCreatorProcess() && aTrack->GetCreatorProcess()->GetProcessName()=="phot")  CreateTree::Instance()->PartProcess[idx]=1;  // phot
-        if(aTrack->GetCreatorProcess() && aTrack->GetCreatorProcess()->GetProcessName()=="compt") CreateTree::Instance()->PartProcess[idx]=2;  // compt
-        if(aTrack->GetCreatorProcess() && aTrack->GetCreatorProcess()->GetProcessName()=="eBrem") CreateTree::Instance()->PartProcess[idx]=3;  // brems
-        if(aTrack->GetCreatorProcess() && aTrack->GetCreatorProcess()->GetProcessName()=="eIoni") CreateTree::Instance()->PartProcess[idx]=4;  // ioni
-        if(!aTrack->GetCreatorProcess())  CreateTree::Instance()->PartProcess[idx]=0; //
-        CreateTree::Instance()->PartIDParent[idx]=aTrack->GetParentID();
-        CreateTree::Instance()->PartType[idx]=-1;
-        if(aTrack->GetDefinition()->GetParticleName()=="gamma") CreateTree::Instance()->PartType[idx]=0; // gamma
-        if(aTrack->GetDefinition()->GetParticleName()=="e-") CreateTree::Instance()->PartType[idx]=1;    // e-
-        if(aTrack->GetDefinition()->GetParticleName()=="e+") CreateTree::Instance()->PartType[idx]=2;    // e+
-  }
-
 
 // ------------------------ MIA PARTE ------------------------- //
 
@@ -53,9 +29,6 @@ if(aTrack->GetDefinition() == G4OpticalPhoton::OpticalPhotonDefinition())
 {
 	G4ThreeVector pos = aTrack->GetPosition();
 	G4ThreeVector ver = aTrack->GetVertexPosition();
-	//CreateTree::Instance()->finalPosX[idx] = pos[0];
-	//CreateTree::Instance()->finalPosY[idx] = pos[1];
-	//CreateTree::Instance()->finalPosZ[idx] = pos[2];
 	CreateTree::Instance()->opticProcess.push_back(aTrack->GetCreatorProcess()->GetProcessName());
 	CreateTree::Instance()->firstPosX.push_back(pos[0]);
 	CreateTree::Instance()->firstPosY.push_back(pos[1]);
@@ -64,34 +37,25 @@ if(aTrack->GetDefinition() == G4OpticalPhoton::OpticalPhotonDefinition())
 // ------------------------ FINE ------------------------- //
 
 
-
   // Optical photons
   if(aTrack->GetDefinition() == G4OpticalPhoton::OpticalPhotonDefinition())
   { 
 	if(aTrack->GetCreatorProcess() && aTrack->GetCreatorProcess()->GetProcessName()=="Cerenkov")
     	{
-		//if (cerenkovCounter++==2000000) cerenkovCounter=0;
       		cerenkovCounter++;
+		CreateTree::Instance() -> Cer_Time_prod.push_back(aTrack->GetGlobalTime());
 	}
         if(aTrack->GetCreatorProcess() && aTrack->GetCreatorProcess()->GetProcessName()=="Scintillation")
     	{
-		//if (scintCounter++==2000000) scintCounter=0;
-      		scintCounter++;
-
+		scintCounter++;
+		CreateTree::Instance() -> Scint_Time_prod.push_back(aTrack->GetGlobalTime());
 	}
     	if(aTrack->GetParentID()>0)
     	{
-		//if (gammaCounter++==2000000) gammaCounter=0;
       		gammaCounter++;
-      		CreateTree::Instance()->OptPhotonEnergy[gammaCounter-1] = aTrack->GetTotalEnergy();
 	}
-	
-
-
+	CreateTree::Instance()->OptPhotonEnergy.push_back(aTrack->GetTotalEnergy());
   }
-  
-
-
 
   return fUrgent;
 

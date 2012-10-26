@@ -377,12 +377,6 @@ void DetectorConstruction::initializeReflectivitySurface(G4OpticalSurface* surfa
 	myST->AddProperty("REALRINDEX", tyvek_rwavelength, tyvek_rindex, 19);
 	myST->AddProperty("IMAGINARYRINDEX", tyvek_cwavelength, tyvek_cindex, 29);
 
-
-	G4double air_rwavelength[1000]={0.1*eV,1*eV,2*eV,3*eV,4*eV};
-	G4double air_rindex[1000] = {1,1,1,1,1};
-
-	G4double air_cwavelength[1000]={0.1*eV,1*eV,2*eV,3*eV,4*eV};
-	G4double air_cindex[1000] = {1,1,1,1,1};
 	//myST->AddProperty("REALRINDEX", air_rwavelength, air_rindex, 5);
 	//myST->AddProperty("IMAGINARYRINDEX", air_cwavelength, air_cindex, 5);
 
@@ -415,6 +409,7 @@ void DetectorConstruction::initializeMaterials(){
   	else if(crystal_material==4)   ScMaterial = MyMaterials::LUAGPR();
   	else if(crystal_material==5)   ScMaterial = MyMaterials::PbWO();
 	else if(crystal_material==6)   ScMaterial = MyMaterials::Air();
+	else if(crystal_material==7)   ScMaterial = MyMaterials::Quartz();
   	else if(crystal_material>6 || crystal_material<=0) 
 	{
     		G4cerr<<"<DetectorConstruction::Construct>: Invalid material specifier "<<crystal_material<<G4endl;
@@ -449,10 +444,6 @@ void DetectorConstruction::initializeMaterials(){
     		G4double Abslengh[2]    = {crystal_abslength*mm,crystal_abslength*mm};
     		ScMaterial->GetMaterialPropertiesTable()->AddProperty("ABSLENGTH",EphotonMat,Abslengh,2);
   	} 
-	else 
-	{
-    		//CreateTree::Instance()->AbsLength = ScMaterial->GetMaterialPropertiesTable()->GetProperty("ABSLENGTH")->GetProperty(1.0*eV);
-  	}
 }
 
 void DetectorConstruction::readConfigFile(string configFileName){

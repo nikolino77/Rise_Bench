@@ -65,44 +65,10 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
      && thePostPoint->GetProcessDefinedStep()->GetProcessName()!="UserMaxStep" // !!!!!!!!!!!!!!!!!
      && thePostPoint->GetProcessDefinedStep()->GetProcessName()!="msc"
      && thePostPoint->GetProcessDefinedStep()->GetProcessName()!="Rayl") 
-   {
-     G4cout<<thePostPoint->GetProcessDefinedStep()->GetProcessName()<<G4endl;
-   }
-
-  // Storing photoelectric and low energy processes (DOI, energy)
-  if(thePostPoint->GetProcessDefinedStep()->GetProcessName()=="phot" 
-     || thePostPoint->GetProcessDefinedStep()->GetProcessName()=="LowEnPhotoElec")
   {
-    CreateTree::Instance() -> Process = 1;
-    Float_t d = 0.5*CreateTree::Instance()->CrystalHeight - thePostPoint->GetPosition().z();
-    CreateTree::Instance() -> DOI = d;
-    //CreateTree::Instance()->zPhotCompt = thePostPoint->GetPosition().z();
-
-    CreateTree::Instance() -> EProcessStart[CreateTree::Instance()->NumProcess] = thePrePoint->GetTotalEnergy();
-    CreateTree::Instance() -> EProcessFinal[CreateTree::Instance()->NumProcess] = thePostPoint->GetTotalEnergy();
-    CreateTree::Instance() -> IDProcess[CreateTree::Instance()->NumProcess] = 1;
-    CreateTree::Instance() -> DOIProcess[CreateTree::Instance()->NumProcess] = d;
-    CreateTree::Instance() -> NumProcess++;
+    G4cout<<thePostPoint->GetProcessDefinedStep()->GetProcessName()<<G4endl;
   }
-
-  // Storing Compton processes (DOI, energy)
-  if(thePostPoint->GetProcessDefinedStep()->GetProcessName()=="compt" 
-     ||  thePostPoint->GetProcessDefinedStep()->GetProcessName()=="LowEnCompton")
-  {
-    CreateTree::Instance() -> Process=2;
-    Float_t d=0.5*CreateTree::Instance()->CrystalHeight - thePostPoint->GetPosition().z();
-    CreateTree::Instance() -> DOI = d;
-    //CreateTree::Instance()->zPhotCompt = thePostPoint->GetPosition().z();
-
-    CreateTree::Instance()->EProcessStart[CreateTree::Instance()->NumProcess] = thePrePoint->GetTotalEnergy();
-    CreateTree::Instance()->EProcessFinal[CreateTree::Instance()->NumProcess] = thePostPoint->GetTotalEnergy();
-    CreateTree::Instance()->DOIProcess[CreateTree::Instance()->NumProcess] = d;
-    CreateTree::Instance()->IDProcess[CreateTree::Instance()->NumProcess] = 2;
-    CreateTree::Instance()->NumProcess++;
-  }
-
   
-
   // Storing Rayleigh processes
   if(thePostPoint->GetProcessDefinedStep()->GetProcessName()=="OpRayleigh" )
   {
@@ -113,6 +79,7 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
   if(thePostPoint->GetProcessDefinedStep()->GetProcessName()=="Cerenkov" )
   {
     CreateTree::Instance()->NumCherenkovPr++;
+    CreateTree::Instance()-> Cer_Time.push_back(theStep-> GetTrack()-> GetGlobalTime());
   }
   
   // Storing Brem processes
@@ -121,17 +88,9 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
     CreateTree::Instance()->NumeBrem++;
   }
 
-/*if (thePrePV->GetName()!="World"){
-G4ThreeVector in  = thePrePoint->GetMomentumDirection();
-		G4ThreeVector out = thePostPoint->GetMomentumDirection();
-cout<<"Tutti: "<<thePrePV->GetName()<<" "<<thePostPV->GetName()<<endl;
-cout<<"Tutti: "<<in[2]<<" "<<out[2]<<endl;
-}*/
 
-// ------------------------ MIA PARTE ------------------------- //
-
-
-  if(theStep->GetTotalEnergyDeposit()!=0/* && thePostPoint->GetPhysicalVolume()->GetName()=="Crystal"*/)
+  // ------------------------ Energy deposition info ------------------------- //
+  if(theStep->GetTotalEnergyDeposit()!=0)
   {
     CreateTree::Instance()->depositionProcess.push_back(thePostPoint->GetProcessDefinedStep()->GetProcessName());
     CreateTree::Instance()->energyDeposited.push_back(-theStep->GetTotalEnergyDeposit());
@@ -141,21 +100,13 @@ cout<<"Tutti: "<<in[2]<<" "<<out[2]<<endl;
     CreateTree::Instance()->energyTot = CreateTree::Instance()->energyTot - theStep->GetTotalEnergyDeposit();
   } 
 
-
-// ------------------------ FINE ------------------------- //
-
-
-    
-/* ---------- INFO AT EXIT ---------- */
-
+  
+  // ---------- INFO AT EXIT ---------- //
   if(particleType==G4OpticalPhoton::OpticalPhotonDefinition())
   {
-    //cout << "------------------ OTTICO ---------------" << endl;
     if (thePrePV->GetName()=="TopAir" &&  thePostPV->GetName()=="Crystal")
     {	
-      //cout << "------------------ rimbalza ---------------" << endl;
-      Int_t counter = CreateTree::Instance() -> NumOptPhotonsInterface;
-      CreateTree::Instance()->NumOptPhotonsInterface++;
+      CreateTree::Instance()-> NumOptPhotonsInterface++;
       CreateTree::Instance()-> Time.push_back(theStep-> GetTrack()-> GetGlobalTime());      
       CreateTree::Instance()-> ID.push_back(theStep-> GetTrack()-> GetTrackID());
       CreateTree::Instance()-> IntOut.push_back(0);
@@ -180,26 +131,23 @@ cout<<"Tutti: "<<in[2]<<" "<<out[2]<<endl;
 
     else if (thePrePV->GetName()=="TopAir" &&  thePostPV->GetName()=="World")
     { 	
-      //cout << "------------------ esce ---------------" << endl;
-      Int_t counter = CreateTree::Instance()-> NumOptPhotonsInterface;
       CreateTree::Instance()-> NumOptPhotonsInterface++;
       CreateTree::Instance()-> NumOptPhotonsExit++;
 
       CreateTree::Instance()-> Time.push_back(theStep-> GetTrack()-> GetGlobalTime());
       CreateTree::Instance()-> ID.push_back(theStep -> GetTrack() -> GetTrackID());
       CreateTree::Instance()-> IntOut.push_back(1);
+      CreateTree::Instance()-> Wglth_ex.push_back(theStep -> GetTrack() ->GetTotalEnergy());
 	
       if(theStep-> GetTrack()-> GetCreatorProcess() 
          && theStep-> GetTrack()-> GetCreatorProcess()-> GetProcessName()=="Cerenkov") 
       {
         CreateTree::Instance()->Parent.push_back(1);
-	//cout << "cerenkov" << "\t" << CreateTree::Instance()->Parent.at(CreateTree::Instance()->Parent.size()-1) <<endl;
       }     
       else if(theStep-> GetTrack()-> GetCreatorProcess() 
          && theStep-> GetTrack()-> GetCreatorProcess()-> GetProcessName()=="Scintillation")
       { 
         CreateTree::Instance()-> Parent.push_back(2);
-	//cout << "scint" << endl;
       }
       else
       { 
