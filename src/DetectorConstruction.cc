@@ -1,8 +1,3 @@
-//
-// Martin Goettlich @ DESY
-// sc. crystal fibre read-out at both sides
-//
-
 #include "DetectorConstruction.hh"
 #include "CreateTree.hh"
 #include "MyMaterials.hh"
@@ -60,13 +55,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	G4LogicalBorderSurface* CrystalSurfaceTop  	= NULL;
 	G4OpticalSurface* OpCrystalSurface 		= NULL;
 
-	
-
-
 	//
 	// C O M M O N   V O L U M E S 
 	//
-
 	
 	/*-------EXPERIMENTAL HALL-------*/
 
@@ -85,13 +76,20 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     	Crystal_phys = new G4PVPlacement(0,G4ThreeVector(0,0,0),Crystal_log,"Crystal",expHall_log,false,0);
 
 
-	/*-------TOP AIR LAYER-------*/
+	/*-------TOP AIR LAYER/DETECTOR-------*/
 	
-	G4Box* TA_box = new G4Box("TopAir",0.5*crystal_x,0.5*crystal_y,0.5*airgap);
-      	G4LogicalVolume* TA_log  = new G4LogicalVolume(TA_box,Air,"TopAir",0,0,0);
-      	G4VPhysicalVolume* TA_phys = new G4PVPlacement(0,G4ThreeVector(0,0,0.5*(crystal_height+airgap)),TA_log,"TopAir",expHall_log,false,0);
-
-
+	if(mat_det == 1)
+	{
+	  G4Box* TA_box = new G4Box("TopAir",0.5*crystal_x,0.5*crystal_y,0.5*airgap);
+      	  G4LogicalVolume* TA_log  = new G4LogicalVolume(TA_box,Air,"TopAir",0,0,0);
+      	  G4VPhysicalVolume* TA_phys = new G4PVPlacement(0,G4ThreeVector(0,0,0.5*(crystal_height+airgap)),TA_log,"TopAir",expHall_log,false,0);
+	}
+	if else(mat_det == 0)
+	{
+	  G4Box* TA_box = new G4Box("TopAir",0.5*det_dx,0.5*det_dy,0.5*det_dz);
+	  G4LogicalVolume* TA_log  = new G4LogicalVolume(TA_box,Silicon,"TopAir",0,0,0);
+      	  G4VPhysicalVolume* TA_phys = new G4PVPlacement(0,G4ThreeVector(0.5*det_x,0.5*det_y,0.5*det_z),TA_log,"TopAir",expHall_log,false,0);
+	}
 	
 	//
 	// S U R F A C E S   C O N F I G U R A T I O N 
@@ -454,6 +452,14 @@ void DetectorConstruction::readConfigFile(string configFileName){
 	config.readInto(crystal_y,"crystaly");
 	config.readInto(airgap,"airgap");
 
+        config.readInto(det_x,"det_x");
+	config.readInto(det_y,"det_y");
+	config.readInto(det_z,"det_z");
+	config.readInto(det_dx,"det_dx");
+	config.readInto(det_dy,"det_dy");
+	config.readInto(det_dz,"det_dz");
+	config.readInto(mat_det,"mat_det");
+		
 	config.readInto(crystal_material,"scmaterial");
 	config.readInto(crystal_risetime,"risetime");
 	config.readInto(crystal_lightyield,"lightyield");

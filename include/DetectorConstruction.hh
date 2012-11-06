@@ -35,7 +35,14 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     		G4double crystal_x;    
     		G4double crystal_y;
     		G4double crystal_height;
-    		int      crystal_material;
+    		G4double det_dx;
+		G4double det_dy;
+		G4double det_dz;
+		G4double det_x;
+		G4double det_y;
+		G4double det_z;
+		int	 mat_det;
+		int      crystal_material;
     		int      crystal_lightyield;
     		G4double crystal_risetime;
     		G4double crystal_abslength;
@@ -83,7 +90,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 		G4Material* Silicon;
 		G4Material* OptGrease;
 		G4Material* ScMaterial;
-
+		G4Material* Quartz;
 
 
     		G4VPhysicalVolume* Construct();

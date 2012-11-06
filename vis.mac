@@ -19,7 +19,7 @@
 /vis/verbose errors
 #
 # Draw geometry:
-#/vis/drawVolume
+/vis/drawVolume
 #
 # Specify style (surface or wireframe):
 #/vis/viewer/set/style wireframe
@@ -61,7 +61,7 @@
 # For file-based drivers, use this to create an empty detector view:
 #/vis/viewer/flush
 #
-/vis/viewer/set/viewpointThetaPhi 45 -30
-/vis/viewer/zoomTo 1
-/vis/drawView 90 90
+#/vis/viewer/set/viewpointThetaPhi 45 -30
+#/vis/viewer/zoomTo 1
+#/vis/drawView 90 90
 #/control/execute gps.mac
