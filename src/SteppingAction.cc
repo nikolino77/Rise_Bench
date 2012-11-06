@@ -88,7 +88,6 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
     CreateTree::Instance()->NumeBrem++;
   }
 
-
   // ------------------------ Energy deposition info ------------------------- //
   if(theStep->GetTotalEnergyDeposit()!=0)
   {
@@ -101,7 +100,7 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
   } 
 
   
-  // ---------- INFO AT EXIT ---------- //
+  // ---------- INFO AT DETECTOR ---------- //
   if(particleType==G4OpticalPhoton::OpticalPhotonDefinition())
   {
     if (thePrePV->GetName()=="TopAir" &&  thePostPV->GetName()=="Crystal")

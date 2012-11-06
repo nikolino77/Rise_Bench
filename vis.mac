@@ -1,5 +1,6 @@
 # Use this open statement to create an OpenGL view:
 #/vis/open OGLIX
+#/vis/open OGLSQt
 #
 # Use this open statement to create a .prim file suitable for
 # viewing in DAWN:
@@ -39,8 +40,9 @@
 /vis/scene/add/hits
 #
 # To draw only gammas:
-#/vis/filtering/trajectories/create/particleFilter
-#/vis/filtering/trajectories/particleFilter-0/add gamma
+/vis/filtering/trajectories/create/particleFilter
+/vis/filtering/trajectories/particleFilter-0/add gamma
+/vis/filtering/trajectories/particleFilter-0/invert true
 #
 # To invert the above, drawing all particles except gammas,
 # keep the above two lines but also add:
@@ -61,7 +63,7 @@
 # For file-based drivers, use this to create an empty detector view:
 #/vis/viewer/flush
 #
-#/vis/viewer/set/viewpointThetaPhi 45 -30
+/vis/viewer/set/viewpointThetaPhi 45 -30
 #/vis/viewer/zoomTo 1
 #/vis/drawView 90 90
 #/control/execute gps.mac

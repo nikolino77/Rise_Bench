@@ -120,7 +120,9 @@ int main(int argc,char** argv)
   	else if(material==4)  G4cout<<"Scintillator material: LuAG:Pr"<<G4endl;
   	else if(material==5)  G4cout<<"Scintillator material: PbWO"<<G4endl;
   	else if(material==6)  G4cout<<"Scintillator material: Air"<<G4endl;
-  	else if(material>6 || material<=0) 
+	else if(material==7)  G4cout<<"Scintillator material: Quartz"<<G4endl;
+
+  	else if(material>7 || material<=0) 
 	{
     		G4cerr<<"<main>: Invalid material specifier: "<<material<<G4endl;
     		exit(0);

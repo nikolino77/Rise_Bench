@@ -78,17 +78,14 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 	/*-------TOP AIR LAYER/DETECTOR-------*/
 	
-	if(mat_det == 1)
+        G4Box* TA_box = new G4Box("TopAir",0.5*det_dx,0.5*det_dy,0.5*det_dz);
+	G4LogicalVolume* TA_log  = new G4LogicalVolume(TA_box,Air,"TopAir",0,0,0);
+	G4VPhysicalVolume* TA_phys = new G4PVPlacement(0,G4ThreeVector(det_x,det_y,det_z),
+						        TA_log,"TopAir",expHall_log,false,0);
+
+	if(mat_det == 0)
 	{
-	  G4Box* TA_box = new G4Box("TopAir",0.5*crystal_x,0.5*crystal_y,0.5*airgap);
-      	  G4LogicalVolume* TA_log  = new G4LogicalVolume(TA_box,Air,"TopAir",0,0,0);
-      	  G4VPhysicalVolume* TA_phys = new G4PVPlacement(0,G4ThreeVector(0,0,0.5*(crystal_height+airgap)),TA_log,"TopAir",expHall_log,false,0);
-	}
-	if else(mat_det == 0)
-	{
-	  G4Box* TA_box = new G4Box("TopAir",0.5*det_dx,0.5*det_dy,0.5*det_dz);
-	  G4LogicalVolume* TA_log  = new G4LogicalVolume(TA_box,Silicon,"TopAir",0,0,0);
-      	  G4VPhysicalVolume* TA_phys = new G4PVPlacement(0,G4ThreeVector(0.5*det_x,0.5*det_y,0.5*det_z),TA_log,"TopAir",expHall_log,false,0);
+	  TA_log -> SetMaterial(Silicon);
 	}
 	
 	//
@@ -408,7 +405,7 @@ void DetectorConstruction::initializeMaterials(){
   	else if(crystal_material==5)   ScMaterial = MyMaterials::PbWO();
 	else if(crystal_material==6)   ScMaterial = MyMaterials::Air();
 	else if(crystal_material==7)   ScMaterial = MyMaterials::Quartz();
-  	else if(crystal_material>6 || crystal_material<=0) 
+  	else if(crystal_material>7 || crystal_material<=0) 
 	{
     		G4cerr<<"<DetectorConstruction::Construct>: Invalid material specifier "<<crystal_material<<G4endl;
    		exit(0);

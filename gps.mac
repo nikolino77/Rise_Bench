@@ -7,4 +7,4 @@
 /gps/particle gamma
 /gps/position 0. 0. -6 mm
 /gps/ang/type iso
-#/run/beamOn 10000
+/run/beamOn 10000000

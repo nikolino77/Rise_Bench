@@ -168,6 +168,7 @@ G4Material *MyMaterials::Water()
 
     return Water;
 }
+
 G4Material *MyMaterials::Vacuum()
 {
     G4double a, z, density;
@@ -195,6 +196,7 @@ G4Material *MyMaterials::Vacuum()
 
     return Air;
 }
+
 G4Material *MyMaterials::Silicon()
 {
     G4double a, z, density;
@@ -203,11 +205,11 @@ G4Material *MyMaterials::Silicon()
     G4Material *Silicon = new G4Material ("Silicon", density = 2.33 * g / cm3, 1);
     Silicon->AddElement (Si, 1);
 
-    const G4int NUM = 4;
+    const G4int NUM = 5;
 
-    G4double Energy[NUM]         = { 0.0001 * eV, 1.0 * eV, 1.84 * eV, 4.08 * eV };
-    G4double RIND_INDEX[NUM]     = { 4.0, 4.0, 4.0, 4.0 };
-    G4double ABS_LENGTH[NUM]     = { 0.1 * mm, 0.1 * mm, 0.1 * mm, 0.1 * mm};
+    G4double Energy[NUM]         = { 0.0001 * eV, 1.0 * eV, 1.84 * eV, 4.08 * eV,  6.26 * eV};
+    G4double RIND_INDEX[NUM]     = { 4.0, 4.0, 4.0, 4.0, 4.0 };
+    G4double ABS_LENGTH[NUM]     = { 0.1 * mm, 0.1 * mm, 0.1 * mm, 0.1 * mm, 0.1 * mm};
 
     G4MaterialPropertiesTable *Si_mt = new G4MaterialPropertiesTable();
     Si_mt->AddProperty ("RINDEX",        Energy,  RIND_INDEX,     NUM);
@@ -229,19 +231,19 @@ G4Material *MyMaterials::Quartz()
     Quartz->AddElement (Si, 1);
     Quartz->AddElement (O, 2);
 
-    const G4int nEntries_RI = 12;
+    const G4int nEntries_RI = 11;
     G4double PhotonEnergy[nEntries_RI] = {
-        0.6 * eV, 1.0 * eV, 2.0 * eV, 2.5 * eV, 3.0 * eV, 3.5 * eV,
+        1.0 * eV, 2.0 * eV, 2.5 * eV, 3.0 * eV, 3.5 * eV,
         4.0 * eV, 4.5 * eV, 5.0 * eV, 5.5 * eV, 6.0 * eV, 6.26 * eV       
     };
     G4double RefractiveIndex[nEntries_RI] = {
-        1.52, 1.53, 1.54, 1.55, 1.56, 1.56, 1.57, 1.59, 1.60, 1.62,
+        1.53, 1.54, 1.55, 1.56, 1.56, 1.57, 1.59, 1.60, 1.62,
 	1.64, 1.65
     };
 
-    const G4int nEntries_ABS = 4;
-    G4double ABS_Energy[nEntries_ABS]       = { 0.0001 * eV, 1.0 * eV, 1.84 * eV, 4.08 * eV };
-    G4double ABS_LENGTH[nEntries_ABS]       = { 1 * mm, 138.*mm, 138.*mm, 138.*mm };
+    const G4int nEntries_ABS = 5;
+    G4double ABS_Energy[nEntries_ABS]       = { 0.0001 * eV, 1.0 * eV, 1.84 * eV, 4.08 * eV, 6.26 * eV};
+    G4double ABS_LENGTH[nEntries_ABS]       = { 1 * mm, 138.*mm, 138.*mm, 138.*mm, 138. *mm };
 
     G4MaterialPropertiesTable *myMPT = new G4MaterialPropertiesTable();
     myMPT->AddProperty ("RINDEX", PhotonEnergy, RefractiveIndex, nEntries_RI);
