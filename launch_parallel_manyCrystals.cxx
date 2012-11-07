@@ -25,24 +25,20 @@ using boost::thread;
 
 
 
-void myThread(int treatedFacesNumber, int couplingMaterial,int recursive, Float_t xDim, Float_t yDim) {
+void myThread(int filenum) {
 	//COPY CFG FILE
-	ostringstream temp1;
-	temp1 <<treatedFacesNumber;
-	ostringstream temp2;
-	temp2 <<couplingMaterial;
-	ostringstream temp3;
-	temp3 <<recursive;
+	ostringstream temp;
+	temp << filenum;
+	
+	string code = "_" + filenum.str() + "_";
+	string newConfigFile = "crystal" + code + ".cfg";
 
-	string code ="_"+temp1.str()+"_"+temp2.str()+"_"+temp3.str();
-	string newConfigFile = "crystal"+code+".cfg";
-
-	string command = "cp ../crystal.cfg "+newConfigFile;
-	cout<<command<<endl;
-	system(command.c_str());
+	//string command = "cp ../crystal.cfg " + newConfigFile;
+	//cout<<command<<endl;
+	//system(command.c_str());
 
 	//MODIFY PARAMETERS
-	newConfigFile = "./"+newConfigFile;
+	newConfigFile = "./" + newConfigFile;
 	ConfigFile reconCfg(newConfigFile.c_str());	
 
 	ostringstream buffer;
