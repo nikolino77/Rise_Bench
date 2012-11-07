@@ -39,8 +39,6 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
   G4Track* theTrack = theStep->GetTrack();
   G4ParticleDefinition* particleType = theTrack->GetDefinition();
 
-
-  
   // ------------------------ STORING PARTICLE AND PROCESSES ------------------------- //
   
   // Storing time, energy and position of optical photons absorbed
@@ -48,7 +46,7 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
   {
     if(thePostPoint->GetProcessDefinedStep()->GetProcessName()=="OpAbsorption")
     {
-    CreateTree::Instance()->NumOptPhotonsAbsorbed++;
+      CreateTree::Instance()->NumOptPhotonsAbsorbed++;
     }
   }
 
@@ -72,31 +70,31 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
   // Storing Rayleigh processes
   if(thePostPoint->GetProcessDefinedStep()->GetProcessName()=="OpRayleigh" )
   {
-    CreateTree::Instance()->NumOptPhotonsRayleigh++;
+    CreateTree::Instance()-> NumOptPhotonsRayleigh++;
   }
 
   // Storing Cerenkov processes
   if(thePostPoint->GetProcessDefinedStep()->GetProcessName()=="Cerenkov" )
   {
-    CreateTree::Instance()->NumCherenkovPr++;
+    CreateTree::Instance()-> NumCherenkovPr++;
     CreateTree::Instance()-> Cer_Time.push_back(theStep-> GetTrack()-> GetGlobalTime());
   }
   
   // Storing Brem processes
   if(thePostPoint->GetProcessDefinedStep()->GetProcessName()=="eBrem" )
   {
-    CreateTree::Instance()->NumeBrem++;
+    CreateTree::Instance()-> NumeBrem++;
   }
 
   // ------------------------ Energy deposition info ------------------------- //
   if(theStep->GetTotalEnergyDeposit()!=0)
   {
-    CreateTree::Instance()->depositionProcess.push_back(thePostPoint->GetProcessDefinedStep()->GetProcessName());
-    CreateTree::Instance()->energyDeposited.push_back(-theStep->GetTotalEnergyDeposit());
-    CreateTree::Instance()->depositionX.push_back(thePostPoint->GetPosition().x());
-    CreateTree::Instance()->depositionY.push_back(thePostPoint->GetPosition().y());
-    CreateTree::Instance()->depositionZ.push_back(thePostPoint->GetPosition().z());
-    CreateTree::Instance()->energyTot = CreateTree::Instance()->energyTot - theStep->GetTotalEnergyDeposit();
+    CreateTree::Instance()-> depositionProcess.push_back(thePostPoint-> GetProcessDefinedStep()-> GetProcessName());
+    CreateTree::Instance()-> energyDeposited.push_back(-theStep-> GetTotalEnergyDeposit());
+    CreateTree::Instance()-> depositionX.push_back(thePostPoint-> GetPosition().x());
+    CreateTree::Instance()-> depositionY.push_back(thePostPoint-> GetPosition().y());
+    CreateTree::Instance()-> depositionZ.push_back(thePostPoint-> GetPosition().z());
+    CreateTree::Instance()-> energyTot = CreateTree::Instance()-> energyTot - theStep-> GetTotalEnergyDeposit();
   } 
 
   
@@ -123,7 +121,7 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
       else
       { 
         CreateTree::Instance()-> Parent.push_back(3);
-	cout << "boh" <<endl;
+		cout << "boh" <<endl;
       }
 
     }
@@ -132,7 +130,6 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
     { 	
       CreateTree::Instance()-> NumOptPhotonsInterface++;
       CreateTree::Instance()-> NumOptPhotonsExit++;
-
       CreateTree::Instance()-> Time.push_back(theStep-> GetTrack()-> GetGlobalTime());
       CreateTree::Instance()-> ID.push_back(theStep -> GetTrack() -> GetTrackID());
       CreateTree::Instance()-> IntOut.push_back(1);

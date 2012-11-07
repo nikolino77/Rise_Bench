@@ -27,35 +27,29 @@ StackingAction::ClassifyNewTrack(const G4Track * aTrack)
 
 if(aTrack->GetDefinition() == G4OpticalPhoton::OpticalPhotonDefinition()) 
 {
-	G4ThreeVector pos = aTrack->GetPosition();
-	G4ThreeVector ver = aTrack->GetVertexPosition();
-	CreateTree::Instance()->opticProcess.push_back(aTrack->GetCreatorProcess()->GetProcessName());
-	CreateTree::Instance()->firstPosX.push_back(pos[0]);
-	CreateTree::Instance()->firstPosY.push_back(pos[1]);
-	CreateTree::Instance()->firstPosZ.push_back(pos[2]); 
-}
-// ------------------------ FINE ------------------------- //
+	G4ThreeVector pos = aTrack-> GetPosition();
+	G4ThreeVector ver = aTrack-> GetVertexPosition();
+	CreateTree::Instance()-> opticProcess.push_back(aTrack->GetCreatorProcess()->GetProcessName());
+	CreateTree::Instance()-> OptPhotonEnergy.push_back(aTrack->GetTotalEnergy());
+	CreateTree::Instance()-> firstPosX.push_back(pos[0]);
+	CreateTree::Instance()-> firstPosY.push_back(pos[1]);
+	CreateTree::Instance()-> firstPosZ.push_back(pos[2]); 
 
-
-  // Optical photons
-  if(aTrack->GetDefinition() == G4OpticalPhoton::OpticalPhotonDefinition())
-  { 
 	if(aTrack->GetCreatorProcess() && aTrack->GetCreatorProcess()->GetProcessName()=="Cerenkov")
-    	{
-      		cerenkovCounter++;
+    {
+      	cerenkovCounter++;
 		CreateTree::Instance() -> Cer_Time_prod.push_back(aTrack->GetGlobalTime());
 	}
-        if(aTrack->GetCreatorProcess() && aTrack->GetCreatorProcess()->GetProcessName()=="Scintillation")
-    	{
+    if(aTrack->GetCreatorProcess() && aTrack->GetCreatorProcess()->GetProcessName()=="Scintillation")
+    {
 		scintCounter++;
 		CreateTree::Instance() -> Scint_Time_prod.push_back(aTrack->GetGlobalTime());
 	}
-    	if(aTrack->GetParentID()>0)
-    	{
-      		gammaCounter++;
+    if(aTrack->GetParentID()>0)
+    {
+      	gammaCounter++;
 	}
-	CreateTree::Instance()->OptPhotonEnergy.push_back(aTrack->GetTotalEnergy());
-  }
+}
 
   return fUrgent;
 
@@ -65,9 +59,9 @@ if(aTrack->GetDefinition() == G4OpticalPhoton::OpticalPhotonDefinition())
 void StackingAction::NewStage()
 {
   //G4cout<<"Number of optical photons produces in this event : "<<gammaCounter<<G4endl;
-  CreateTree::Instance()->NumOptPhotons = gammaCounter;
-  CreateTree::Instance()->NumCerenkovPhotons = cerenkovCounter;
-  CreateTree::Instance()->NumScintPhotons = scintCounter;
+  CreateTree::Instance()-> NumOptPhotons = gammaCounter;
+  CreateTree::Instance()-> NumCerenkovPhotons = cerenkovCounter;
+  CreateTree::Instance()-> NumScintPhotons = scintCounter;
 }
 
 

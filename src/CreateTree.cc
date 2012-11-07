@@ -35,8 +35,6 @@ CreateTree::CreateTree(TString name,Bool_t hits,Bool_t absorptions)
   	this->GetTree()->Branch("NumBoundaryAbsorption",&this->NumBoundaryAbsorption,"NumBoundaryAbsorption/I");
   	this->GetTree()->Branch("NumBoundaryReflection",&this->NumBoundaryReflection,"NumBoundaryReflection/I");
 
-
-  	this->GetTree()->Branch("OptPhotonEnergy",&this->OptPhotonEnergy,"OptPhotonEnergy[NumOptPhotons]/F");
   	this->GetTree()->Branch("NumBoundaryFresnelRefraction",&this->NumBoundaryFresnelRefraction,"NumBoundaryFresnelRefraction/I");
   	this->GetTree()->Branch("NumBoundaryStepTooSmall",&this->NumBoundaryStepTooSmall,"NumBoundaryStepTooSmall/I");
   	this->GetTree()->Branch("NumBoundaryFresnelReflection",&this->NumBoundaryFresnelReflection,"NumBoundaryFresnelReflection/I");
@@ -89,20 +87,18 @@ CreateTree::CreateTree(TString name,Bool_t hits,Bool_t absorptions)
 	this->GetTree()->Branch("Scint_Time",&Scint_Time);
 	this->GetTree()->Branch("Cer_Time_prod",&Cer_Time_prod);
 	this->GetTree()->Branch("Scint_Time_prod",&Scint_Time_prod);
-
+	this->GetTree()->Branch("OptPhotonEnergy",&OptPhotonEnergy);
 
   	// Photons at exit interface
 
 	this->GetTree()->Branch("NumOptPhotonsExit",&this->NumOptPhotonsExit,"NumOptPhotonsExit/I");  
 	this->GetTree()->Branch("NumOptPhotonsInterface",&this->NumOptPhotonsInterface,"NumOptPhotonsInterface/I");  
-    	this->GetTree()->Branch("IntOut",&IntOut);		
-    	this->GetTree()->Branch("Time",&Time);	
-    	this->GetTree()->Branch("Parent",&Parent);
-    	this->GetTree()->Branch("ID",&ID);	
+    this->GetTree()->Branch("IntOut",&IntOut);		
+    this->GetTree()->Branch("Time",&Time);	
+    this->GetTree()->Branch("Parent",&Parent);
+    this->GetTree()->Branch("ID",&ID);	
 	this->GetTree()->Branch("Wglth_ex", &Wglth_ex);	
-  	this->GetTree()->Branch("OptPhotonEnergy",&OptPhotonEnergy);
-  	
-	
+  		
   	this->Clear();
 }
 
@@ -160,10 +156,10 @@ void CreateTree::Clear()
 	depositionX.clear();		
 	depositionY.clear();		
 	depositionZ.clear();	
-    	IntOut.clear();
-    	Time.clear();
-    	Parent.clear();
-    	ID.clear();
+    IntOut.clear();
+    Time.clear();
+    Parent.clear();
+    ID.clear();
 	Wglth_ex.clear();
 	OptPhotonEnergy.clear();
 	Scint_Time.clear();
