@@ -88,10 +88,14 @@ int checK_ratio() {
 	TH1F* t_sc_50 = new TH1F("t_sc_50","t_sc_50",50,0,50);
 	TH1F* t_c_100 = new TH1F("Cerenkov","Cerenkov",50,0,50);
 	TH1F* t_sc_100 = new TH1F("Scintillation","Scintillation",50,0,50);
+	TH1F* t_c_100_norm = new TH1F("t_c_100_norm","t_c_100_norm",50,0,50);
+	TH1F* t_sc_100_norm = new TH1F("t_sc_100_norm","t_sc_100_norm",50,0,50);
 	TH1F* t_c_150 = new TH1F("t_c_150","t_c_150",50,0,50);
 	TH1F* t_sc_150 = new TH1F("t_sc_150","t_sc_150",50,0,50);
 	TH1F* t_c_200 = new TH1F("t_c_200","t_c_200",50,0,50);
 	TH1F* t_sc_200 = new TH1F("t_sc_200","t_sc_200",50,0,50);
+	TH1F* t_c_200_norm = new TH1F("t_c_200_norm","t_c_200_norm",50,0,50);
+	TH1F* t_sc_200_norm = new TH1F("t_sc_200_norm","t_sc_200_norm",50,0,50);
 	TH1F* t_c_300 = new TH1F("t_c_300","t_c_300",50,0,50);
 	TH1F* t_sc_300 = new TH1F("t_sc_300","t_sc_300",50,0,50);	
 
@@ -99,11 +103,15 @@ int checK_ratio() {
 	int num_sc_50 = 0;
 	int num_ce_100 = 0;
         int num_sc_100 = 0;
+	int num_ce_100_norm = 0;
+        int num_sc_100_norm = 0;
 	int num_ce_150 = 0;
 	int num_sc_150 = 0;
   	int num_ce_200 = 0;
 	int num_sc_200 = 0;
-        int num_ce_300 = 0;
+  	int num_ce_200_norm = 0;
+	int num_sc_200_norm = 0;
+	int num_ce_300 = 0;
 	int num_sc_300 = 0;	
 	double start   = 0.06;
 
@@ -111,11 +119,13 @@ int checK_ratio() {
         for (Int_t i=0; i<nentries; i++)
 	{	
 	  Singles->GetEntry(i);		
-	  
+	  int extr = 0;
           for(j = 0; j<IntOut->size(); j++))
 	  {	
 	    if(IntOut->at(j) == 1 && NumOptPhotonsExit!=0)
 	    {
+	      wlgth = Wglth -> at(extr);
+	      extr++;
 	      if(Parent->at(j) == 2)		
 	      {
 		if (Time->at(j) < 0.05 +start)
@@ -164,7 +174,18 @@ int checK_ratio() {
 	      }
 	      else
 	      {
-	        cout << Parent->at(j) <<endl;
+	        cout << "Anomaly -> " << Parent->at(j) <<endl;
+	      }
+	      if(Parent->at(j) == 1 && wlgth < && wlgth >)
+              {
+		if (Time->at(j) < 0.1 + start)
+		{
+		  num_ce_100_norm ++;
+		}
+		if (Time->at(j) < 0.2 + start)
+		{
+		  num_ce_200_norm ++;
+		}
 	      }
             }		
 	  }
@@ -175,11 +196,15 @@ int checK_ratio() {
 	    t_sc_50 -> Fill(num_sc_50);
 	    t_c_100 -> Fill(num_ce_100);
 	    t_sc_100 -> Fill(num_sc_100);
+	    t_c_100_norm -> Fill(num_ce_100_norm);
+	    t_sc_100_norm -> Fill(num_sc_100_norm);
 	    t_c_150 -> Fill(num_ce_150);
 	    t_sc_150 -> Fill(num_sc_150);
 	    t_c_200 -> Fill(num_ce_200);
 	    t_sc_200 -> Fill(num_sc_200);
-            t_c_300 -> Fill(num_ce_300);
+	    t_c_200_norm -> Fill(num_ce_200_norm);
+	    t_sc_200_norm -> Fill(num_sc_200_norm);
+	    t_c_300 -> Fill(num_ce_300);
 	    t_sc_300 -> Fill(num_sc_300);
 	  }
 	
@@ -187,10 +212,14 @@ int checK_ratio() {
 	num_sc_50 = 0;
 	num_ce_100 = 0;
         num_sc_100 = 0;
+	num_ce_100_norm = 0;
+        num_sc_100_norm = 0;
 	num_ce_150 = 0;
 	num_sc_150 = 0;
   	num_ce_200 = 0;
 	num_sc_200 = 0;
+	num_ce_200_norm = 0;
+	num_sc_200_norm = 0;
         num_ce_300 = 0;
 	num_sc_300 = 0;
 	}
@@ -202,10 +231,14 @@ int checK_ratio() {
 	t_sc_50			-> Write();
 	t_c_100			-> Write();
 	t_sc_100		-> Write();
+	t_c_100_norm		-> Write();
+	t_sc_100_norm		-> Write();
 	t_c_150			-> Write();
 	t_sc_150		-> Write();
 	t_c_200			-> Write();
 	t_sc_200		-> Write();
+	t_c_200_norm		-> Write();
+	t_sc_200_norm		-> Write();
 	t_c_300			-> Write();
 	t_sc_300		-> Write();
 
@@ -228,13 +261,19 @@ int checK_ratio() {
 	c2			-> Write();
 
 	TCanvas *c3 = new TCanvas("c3");
-	t_c_300			-> SetLineColor(kRed);
-	t_sc_300		-> SetLineColor(kBlue);
-	t_c_300			-> Draw();
-	t_sc_300		-> Draw("same");
+	t_c_100_norm		-> SetLineColor(kRed);
+	t_sc_100_norm		-> SetLineColor(kBlue);
+	t_c_100_norm		-> Draw();
+	t_sc_100_norm		-> Draw("same");
 	c3			-> Write();
-
 	
+	TCanvas *c4 = new TCanvas("c4");
+	t_c_200_norm		-> SetLineColor(kRed);
+	t_sc_200_norm		-> SetLineColor(kBlue);
+	t_c_200_norm		-> Draw();
+	t_sc_200_norm		-> Draw("same");
+	c4			-> Write();
+
 	TGraph* cer = new TGraph(5);
 	cer -> SetPoint (1, 50, t_c_50->Integral(2, 50)/t_sc_300->Integral(2, 50));
 	cer -> SetPoint (2, 100, t_c_100->Integral(2, 50)/t_sc_300->Integral(2, 50));
@@ -242,6 +281,11 @@ int checK_ratio() {
 	cer -> SetPoint (4, 200, t_c_200->Integral(2, 50)/t_sc_300->Integral(2, 50));
 	cer -> SetPoint (5, 300, t_c_300->Integral(2, 50)/t_sc_300->Integral(2, 50));
 	cer -> SetMarkerColor(kRed);
+	
+	TGraph* cer_norm = new TGraph(2);
+	cer_norm -> SetPoint (1, 100, t_c_100_norm->Integral(2, 50)/t_sc_200_norm->Integral(2, 50));
+	cer_norm -> SetPoint (2, 200, t_c_200_norm->Integral(2, 50)/t_sc_200_norm->Integral(2, 50));
+	cer_norm -> SetMarkerColor(kRed);
 
 	TGraph* sc = new TGraph(5);
 	sc -> SetPoint (1, 50, t_sc_50->Integral(2, 50)/t_sc_300->Integral(2, 50));
@@ -250,15 +294,29 @@ int checK_ratio() {
 	sc -> SetPoint (4, 200, t_sc_200->Integral(2, 50)/t_sc_300->Integral(2, 50));
 	sc -> SetPoint (5, 300, t_sc_300->Integral(2, 50)/t_sc_300->Integral(2, 50));
 	sc -> SetMarkerColor(kBlue);
+	
+	TGraph* sc_norm = new TGraph(2);
+	sc_norm -> SetPoint (1, 100, t_sc_100_norm->Integral(2, 50)/t_sc_200_norm->Integral(2, 50));
+	sc_norm -> SetPoint (2, 200, t_sc_200_norm->Integral(2, 50)/t_sc_200_norm->Integral(2, 50));
+	sc_norm -> SetMarkerColor(kRed);
 
 	TLegend *leg = new TLegend(0.1,0.7,0.48,0.9);
 	leg -> AddEntry(cer, "Cerenkov", "l");
 	leg -> AddEntry(sc, "Scintillation", "l");
 
-	TCanvas *c4 = new TCanvas("c4");
+	TLegend *leg_norm = new TLegend(0.1,0.7,0.48,0.9);
+	leg_norm -> AddEntry(cer_norm, "Cerenkov", "l");
+	leg_norm -> AddEntry(sc_norm, "Scintillation", "l");
+	
+	TCanvas *c5 = new TCanvas("c5");
 	sc  -> Draw("APL");
 	cer -> Draw("SAME");
 	leg -> Draw();
-
+	
+	TCanvas *c6 = new TCanvas("c6");
+	sc_norm  -> Draw("APL");
+	cer_norm -> Draw("SAME");
+	leg -> Draw();
+	
 	return 0;
 }
