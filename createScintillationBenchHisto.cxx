@@ -164,20 +164,20 @@ int createScintillationBenchHisto() {
 	        if(Parent->at(j) == 2)		
 	        {
   	          numScint++;
-			  ScintTime_ex -> Fill(Time->at(j));
-			  Time_ex -> Fill(Time->at(j));	
+	          ScintTime_ex -> Fill(Time->at(j));
+	          Time_ex -> Fill(Time->at(j));	
 	        }
 	        else if(Parent->at(j) == 1)
-            {
+                {
 	          numCer++;
 	          CerTime_ex -> Fill(Time->at(j));
-		      Time_ex -> Fill(Time->at(j));
+		  Time_ex -> Fill(Time->at(j));
 	        }
 	        else
 	        {
 	          cout << Parent->at(j) <<endl;
 	        }
-          }		
+              }		
 	    }    
 	    numScint_ex -> Fill(numScint);		
 	    numCer_ex -> Fill(numCer);
