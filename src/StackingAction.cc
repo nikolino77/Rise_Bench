@@ -40,13 +40,17 @@ if(aTrack->GetDefinition() == G4OpticalPhoton::OpticalPhotonDefinition())
 		CreateTree::Instance() -> Cer_Time_prod.push_back(aTrack->GetGlobalTime());
 		CreateTree::Instance() -> OptPhotonEnergy.push_back(aTrack->GetTotalEnergy());
 	}
-    if(aTrack->GetCreatorProcess() && aTrack->GetCreatorProcess()->GetProcessName()=="Scintillation")
+    else if(aTrack->GetCreatorProcess() && aTrack->GetCreatorProcess()->GetProcessName()=="Scintillation")
     {
 		scintCounter++;
 		CreateTree::Instance() -> Scint_Time_prod.push_back(aTrack->GetGlobalTime());
 		CreateTree::Instance() -> OptPhotonEnergy.push_back(aTrack->GetTotalEnergy());
 	}
-    if(aTrack->GetParentID()>0)
+	else
+	{
+	  	cout << "Anomalous process" << endl;
+	}
+	if(aTrack->GetParentID()>0)
     {
       	gammaCounter++;
 	}

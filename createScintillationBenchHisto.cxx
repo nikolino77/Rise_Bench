@@ -84,7 +84,7 @@ int createScintillationBenchHisto() {
 	TH1F* numScintillation = new TH1F("numScintillation","NumScintillation",1000,0,80000);
 
 	TH1F* wlgth_cer_prod = new TH1F("wlgth_cer_prod","wlgth_cer_prod",100,0,1e-05);
-	TH1F* wlgth_sc_prod = new TH1F("wlgth_sc_prod","wlgth_sc_prod",100,2e-05,4e-05);
+	TH1F* wlgth_sc_prod = new TH1F("wlgth_sc_prod","wlgth_sc_prod",100,0,1e-05);
 	   
 
 	Int_t nentries = Singles->GetEntries(); 
@@ -122,6 +122,7 @@ int createScintillationBenchHisto() {
 	TH1F* ScintTime = new TH1F("ScintTime","ScintTime",1000,0,1);
 	TH1F* CerTime = new TH1F("CerTime","CerTime",100,0,0.3);
     TH1F* wlgth_cer_exit = new TH1F("wlgth_cer_exit","wlgth_cer_exit",100,0,1e-05);
+    TH1F* wlgth_sc_exit = new TH1F("wlgth_sc_exit","wlgth_sc_exit",100,0,1e-05); 
      
 	for (Int_t i=0; i<nentries; i++)
 	{	
@@ -153,31 +154,29 @@ int createScintillationBenchHisto() {
 	  int j;	
       if (NumOptPhotonsExit!=0)
       {	
-        for(j = 0; j<Wglth_ex->size(); j++)
-        {
-          wlgth_cer_exit -> Fill(Wglth_ex->at(j));   
-        }
-	    for(j = 0; j<IntOut->size(); j++)
+        for(j = 0; j<IntOut->size(); j++)
 	    {	
 	      if(IntOut->at(j) == 1)
 	      {	
 	        if(Parent->at(j) == 2)		
 	        {
   	          numScint++;
-	          ScintTime_ex -> Fill(Time->at(j));
-	          Time_ex -> Fill(Time->at(j));	
+			  ScintTime_ex -> Fill(Time->at(j));
+			  Time_ex -> Fill(Time->at(j));
+			  wlgth_sc_exit -> Fill(Wglth_ex->at(j));	
 	        }
 	        else if(Parent->at(j) == 1)
-                {
+            {
 	          numCer++;
 	          CerTime_ex -> Fill(Time->at(j));
-		  Time_ex -> Fill(Time->at(j));
+		      Time_ex -> Fill(Time->at(j));
+		      wlgth_cer_exit -> Fill(Wglth_ex->at(j));
 	        }
 	        else
 	        {
 	          cout << Parent->at(j) <<endl;
 	        }
-              }		
+          }		
 	    }    
 	    numScint_ex -> Fill(numScint);		
 	    numCer_ex -> Fill(numCer);
@@ -201,6 +200,7 @@ int createScintillationBenchHisto() {
 	ScintTime_prod 		-> Write();
 	Time_ex 			-> Write();
 	wlgth_cer_exit		-> Write();
+	wlgth_sc_exit		-> Write();
 	wlgth_cer_prod		-> Write();
 	wlgth_sc_prod		-> Write();
 
