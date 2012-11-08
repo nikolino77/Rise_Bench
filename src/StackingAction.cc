@@ -30,7 +30,6 @@ if(aTrack->GetDefinition() == G4OpticalPhoton::OpticalPhotonDefinition())
 	G4ThreeVector pos = aTrack-> GetPosition();
 	G4ThreeVector ver = aTrack-> GetVertexPosition();
 	CreateTree::Instance()-> opticProcess.push_back(aTrack->GetCreatorProcess()->GetProcessName());
-	CreateTree::Instance()-> OptPhotonEnergy.push_back(aTrack->GetTotalEnergy());
 	CreateTree::Instance()-> firstPosX.push_back(pos[0]);
 	CreateTree::Instance()-> firstPosY.push_back(pos[1]);
 	CreateTree::Instance()-> firstPosZ.push_back(pos[2]); 
@@ -39,11 +38,13 @@ if(aTrack->GetDefinition() == G4OpticalPhoton::OpticalPhotonDefinition())
     {
       	cerenkovCounter++;
 		CreateTree::Instance() -> Cer_Time_prod.push_back(aTrack->GetGlobalTime());
+		CreateTree::Instance() -> OptPhotonEnergy.push_back(aTrack->GetTotalEnergy());
 	}
     if(aTrack->GetCreatorProcess() && aTrack->GetCreatorProcess()->GetProcessName()=="Scintillation")
     {
 		scintCounter++;
 		CreateTree::Instance() -> Scint_Time_prod.push_back(aTrack->GetGlobalTime());
+		CreateTree::Instance() -> OptPhotonEnergy.push_back(aTrack->GetTotalEnergy());
 	}
     if(aTrack->GetParentID()>0)
     {

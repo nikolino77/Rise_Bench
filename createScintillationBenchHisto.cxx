@@ -14,7 +14,7 @@ using namespace std;
 int createScintillationBenchHisto() {
 
 	string pathName = "./";
-	string length = "out";
+	string length = "out_lso";
 	string finish = "";
 	string rootInputFileName = "./" + length + "" + finish + ".root";
 	string rootOutputFileName = "./data_" + length + "_" + finish + ".root";

@@ -1978,19 +1978,17 @@ G4Material *MyMaterials::LSO()
     };
 
 
-    const G4int LSO_NUMENTRIES_2 = 4;
-    G4double LSO_RIND_Energy[LSO_NUMENTRIES_2]      = { 0.0001 * eV, 1.0 * eV, 1.84 * eV, 4.08 * eV };
-    G4double LSO_RIND_INDEX[LSO_NUMENTRIES_2]       = { 1.82, 1.82, 1.82, 1.82 };
-    G4double LSO_ABS_Energy[LSO_NUMENTRIES_2]       = { 0.0001 * eV, 1.0 * eV, 1.84 * eV, 4.08 * eV };
-    //G4double LSO_ABS_LENGTH[LSO_NUMENTRIES_2]     = { 50.*m, 50.*m, 50.*m};
-    G4double LSO_ABS_LENGTH[LSO_NUMENTRIES_2]       = { 1 * mm, 138.*mm, 138.*mm, 138.*mm };
-    //G4double LSO_Rayleigh[LSO_NUMENTRIES_2]       = { 138.*mm, 138.*mm, 138.*mm};
+    const G4int LSO_NUMENTRIES_2 = 5;
+    G4double LSO_RIND_Energy[LSO_NUMENTRIES_2]      = { 1.91 * eV, 2.06 * eV, 2.27 * eV, 3.06 * eV, 3.54 * eV };
+    G4double LSO_RIND_INDEX[LSO_NUMENTRIES_2]       = { 1.8, 1.8, 1.81, 1.83, 1.85 };
+    G4double LSO_ABS_Energy[LSO_NUMENTRIES_2]       = { 1.91 * eV, 2.06 * eV, 2.27 * eV, 3.06 * eV, 3.54 * eV };
+    G4double LSO_ABS_LENGTH[LSO_NUMENTRIES_2]       = { 138.*mm, 138.*mm, 138.*mm, 138.*mm, 138.*mm };
 
     G4MaterialPropertiesTable *LSO_mt = new G4MaterialPropertiesTable();
     LSO_mt->AddProperty ("FASTCOMPONENT", LSO_FAST_Energy, LSO_FAST_COMPONENT, LSO_NUMENTRIES_1);
     LSO_mt->AddProperty ("RINDEX",        LSO_RIND_Energy, LSO_RIND_INDEX,     LSO_NUMENTRIES_2);
     LSO_mt->AddProperty ("ABSLENGTH",     LSO_ABS_Energy,  LSO_ABS_LENGTH,     LSO_NUMENTRIES_2);
-    //LSO_mt->AddProperty("RAYLEIGH",      LSO_ABS_Energy,  LSO_Rayleigh,     LSO_NUMENTRIES_2);
+
     LSO_mt->AddConstProperty ("SCINTILLATIONYIELD", 60000. / MeV);
     LSO_mt->AddConstProperty ("RESOLUTIONSCALE", 3.2);
     LSO_mt->AddConstProperty ("FASTTIMECONSTANT", 42.*ns);

@@ -107,6 +107,7 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
       CreateTree::Instance()-> Time.push_back(theStep-> GetTrack()-> GetGlobalTime());      
       CreateTree::Instance()-> ID.push_back(theStep-> GetTrack()-> GetTrackID());
       CreateTree::Instance()-> IntOut.push_back(0);
+      CreateTree::Instance()-> Wglth_ex.push_back(theStep -> GetTrack() ->GetTotalEnergy());
 
       if(theStep->GetTrack()-> GetCreatorProcess() 
          && theStep-> GetTrack()-> GetCreatorProcess()-> GetProcessName()=="Cerenkov")  
@@ -148,7 +149,7 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
       else
       { 
         CreateTree::Instance()-> Parent.push_back(3);
-	cout << "boh" <<endl;
+	    cout << "boh" <<endl;
       }
     }
 
