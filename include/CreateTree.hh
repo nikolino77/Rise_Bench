@@ -54,6 +54,7 @@ class CreateTree
   Int_t               NumBoundaryTotalInternalReflection;
   Int_t               NumBoundaryLambertianReflection;
   Int_t               NumBoundaryBackScattering;
+  Int_t				  NumGammaEnter;
 
   Int_t               NumBoundaryStepTooSmall;
 

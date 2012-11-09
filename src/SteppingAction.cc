@@ -96,7 +96,15 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
     CreateTree::Instance()-> depositionZ.push_back(thePostPoint-> GetPosition().z());
     CreateTree::Instance()-> energyTot = CreateTree::Instance()-> energyTot - theStep-> GetTotalEnergyDeposit();
   } 
+  
 
+  if(thePostPV && particleType==G4Gamma::GammaDefinition())
+  {
+    if(thePrePV->GetName()=="World" &&  thePostPV->GetName()=="Crystal")
+    {
+      CreateTree::Instance()-> NumGammaEnter = 1;    
+    }
+  }
   
   // ---------- INFO AT DETECTOR ---------- //
   if(particleType==G4OpticalPhoton::OpticalPhotonDefinition())

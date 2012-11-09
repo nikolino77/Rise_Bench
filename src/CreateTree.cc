@@ -30,8 +30,8 @@ CreateTree::CreateTree(TString name,Bool_t hits,Bool_t absorptions)
   	this->GetTree()->Branch("NumOptPhotonsRayleigh",&this->NumOptPhotonsRayleigh,"NumOptPhotonsRayleigh/I");
   	this->GetTree()->Branch("NumCherenkovPr",&this->NumCherenkovPr,"NumCherenkovPr/I");
   	this->GetTree()->Branch("NumeBrem",&this->NumeBrem,"NumeBrem/I");  
+  	this->GetTree()->Branch("NumGammaEnter",&this->NumGammaEnter,"NumGammaEnter/I");  
   
-
   	this->GetTree()->Branch("NumBoundaryAbsorption",&this->NumBoundaryAbsorption,"NumBoundaryAbsorption/I");
   	this->GetTree()->Branch("NumBoundaryReflection",&this->NumBoundaryReflection,"NumBoundaryReflection/I");
 
@@ -132,6 +132,7 @@ void CreateTree::Clear()
   	NumeBrem=0;
   	NumOptPhotonsInterface = 0;
   	NumOptPhotonsExit	 = 0;
+  	NumGammaEnter = 0;
 
   	NumBoundaryAbsorption=0;
   	NumBoundaryReflection=0;

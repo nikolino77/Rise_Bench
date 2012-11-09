@@ -14,10 +14,10 @@ using namespace std;
 int createScintillationBenchHisto() {
 
 	string pathName = "./";
-	string length = "out_lso";
+	string length = "out_quartz";
 	string finish = "";
 	string rootInputFileName = "./" + length + "" + finish + ".root";
-	string rootOutputFileName = "./data_" + length + "_" + finish + ".root";
+	string rootOutputFileName = "./data_" + length + "" + finish + ".root";
 	cout << "Opening file " << rootInputFileName << endl;
 	cout << "Writing file " << rootOutputFileName << endl;
 	TFile * f 	= new TFile(rootInputFileName.c_str(),"OPEN");
@@ -29,6 +29,7 @@ int createScintillationBenchHisto() {
 	Int_t	            NumOptPhotonsExit;
 	Int_t	            NumOptPhotonsInterface;
 	Int_t		        NumOptPhotons;
+	Int_t				NumGammaEnter;
 
 	vector<string> *depositionProcess = new vector<string>();
 	vector<float> *energyDeposited 	= new vector<float>();
@@ -52,23 +53,25 @@ int createScintillationBenchHisto() {
 	vector<int> *Parent = new vector<int>();	// Production process (1 for Cerenkov, 2 for Scintillation, 0 for unknown)
 	vector<int> *ID = new vector<int>();		// ID of the particle
 
-	Singles->SetBranchAddress("depositionProcess",&depositionProcess);
-	Singles->SetBranchAddress("energyDeposited",&energyDeposited);
-	Singles->SetBranchAddress("depositionX",&depositionX);
-	Singles->SetBranchAddress("depositionY",&depositionY);
-	Singles->SetBranchAddress("depositionZ",&depositionZ);
+	//Singles->SetBranchAddress("depositionProcess",&depositionProcess);
+	//Singles->SetBranchAddress("energyDeposited",&energyDeposited);
+	//Singles->SetBranchAddress("depositionX",&depositionX);
+	//Singles->SetBranchAddress("depositionY",&depositionY);
+	//Singles->SetBranchAddress("depositionZ",&depositionZ);
+	Singles->SetBranchAddress("NumGammaEnter",&NumGammaEnter);
 
 	Singles->SetBranchAddress("NumCerenkovPhotons",&NumCerenkovPhotons);
 	Singles->SetBranchAddress("NumScintPhotons",&NumScintPhotons);
 	Singles->SetBranchAddress("NumOptPhotonsExit",&NumOptPhotonsExit);
-	Singles->SetBranchAddress("NumOptPhotonsInterface",&NumOptPhotonsInterface);
+	//Singles->SetBranchAddress("NumOptPhotonsInterface",&NumOptPhotonsInterface);
 	Singles->SetBranchAddress("NumOptPhotons",&NumOptPhotons);
 
-	Singles->SetBranchAddress("Time",&Time);
+	//Singles->SetBranchAddress("Time",&Time);
 	Singles->SetBranchAddress("IntOut",&IntOut);
 	Singles->SetBranchAddress("Parent",&Parent);
 	Singles->SetBranchAddress("ID",&ID);
 	
+	/*
 	Singles->SetBranchAddress("opticProcess",&opticProcess);
 	Singles->SetBranchAddress("firstPosX",&firstPosX);
 	Singles->SetBranchAddress("firstPosY",&firstPosY);
@@ -77,6 +80,7 @@ int createScintillationBenchHisto() {
 	Singles->SetBranchAddress("Cer_Time",&Cer_Time);
 	Singles->SetBranchAddress("Scint_Time_prod",&Scint_Time_prod);
 	Singles->SetBranchAddress("Cer_Time_prod",&Cer_Time_prod);
+	*/
 	Singles->SetBranchAddress("OptPhotonEnergy",&OptPhotonEnergy);
 	Singles->SetBranchAddress("Wglth_ex",&Wglth_ex);
 	
@@ -89,7 +93,7 @@ int createScintillationBenchHisto() {
 
 	Int_t nentries = Singles->GetEntries(); 
 	cout<<nentries<<endl;
-
+/*
 	for (Int_t i=0; i<nentries; i++)
     {			
 	  Singles->GetEntry(i);
@@ -110,7 +114,7 @@ int createScintillationBenchHisto() {
 	    }	
 	  }
 	}
-
+*/
 	TH1F* numextracted = new TH1F("numextracted","Numextracted",1000,0,5000);
 	TH1F* numScint_ex = new TH1F("numScint_ex","NumScint_ex",1000,0,4000);
 	TH1F* numCer_ex = new TH1F("numCer_ex","NumCer_ex",15,0,15);
@@ -124,11 +128,18 @@ int createScintillationBenchHisto() {
     TH1F* wlgth_cer_exit = new TH1F("wlgth_cer_exit","wlgth_cer_exit",100,0,1e-05);
     TH1F* wlgth_sc_exit = new TH1F("wlgth_sc_exit","wlgth_sc_exit",100,0,1e-05); 
      
+    int num_event_cer = 0;
+    int num_gamma_ent = 0; 
+     
 	for (Int_t i=0; i<nentries; i++)
 	{	
 	  Singles->GetEntry(i);
+	  if(NumGammaEnter == 1)
+	  {
+	    num_gamma_ent++;
+	  }
       
-      for(j = 0; j<Scint_Time_prod->size(); j++))
+   /*  for(j = 0; j<Scint_Time_prod->size(); j++))
 	  {
 	    ScintTime_prod -> Fill(Scint_Time_prod->at(j));
 	  }
@@ -149,7 +160,7 @@ int createScintillationBenchHisto() {
 	  {
 	    CerTime -> Fill(Cer_Time->at(j));
 	  }
-
+*/
 	  int numScint, numCer;
 	  int j;	
       if (NumOptPhotonsExit!=0)
@@ -161,16 +172,16 @@ int createScintillationBenchHisto() {
 	        if(Parent->at(j) == 2)		
 	        {
   	          numScint++;
-			  ScintTime_ex -> Fill(Time->at(j));
-			  Time_ex -> Fill(Time->at(j));
-			  wlgth_sc_exit -> Fill(Wglth_ex->at(j));	
+			  //ScintTime_ex -> Fill(Time->at(j));
+			  //Time_ex -> Fill(Time->at(j));
+			  //wlgth_sc_exit -> Fill(Wglth_ex->at(j));	
 	        }
 	        else if(Parent->at(j) == 1)
             {
 	          numCer++;
-	          CerTime_ex -> Fill(Time->at(j));
-		      Time_ex -> Fill(Time->at(j));
-		      wlgth_cer_exit -> Fill(Wglth_ex->at(j));
+	          //CerTime_ex -> Fill(Time->at(j));
+		      //Time_ex -> Fill(Time->at(j));
+		      //wlgth_cer_exit -> Fill(Wglth_ex->at(j));
 	        }
 	        else
 	        {
@@ -180,10 +191,19 @@ int createScintillationBenchHisto() {
 	    }    
 	    numScint_ex -> Fill(numScint);		
 	    numCer_ex -> Fill(numCer);
+	    if(numCer_ex >= 1)
+	    {
+	      num_event_cer++;  
+	    }
 	  }
 	  numScint = 0;
 	  numCer = 0;
 	}
+	
+	cout << "N_events_al_1_C_coll = " << num_event_cer << endl;
+	cout << "N_gamma_entered = " << num_gamma_ent << endl;
+	double result = num_event_cer/num_gamma_ent;
+	cout << "N_events_al_1_C_coll / N_gamma_entered = " << result << endl;
 	
 	TFile * data 	= new TFile(rootOutputFileName.c_str(),"RECREATE");
 

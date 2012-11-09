@@ -5,6 +5,6 @@
 #
 /gps/energy 511 keV
 /gps/particle gamma
-/gps/position 0. -20 0 mm
+/gps/position 0. -3 0 mm
 /gps/ang/type iso
-/run/beamOn 100000000
+/run/beamOn 10000000
