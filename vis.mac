@@ -20,7 +20,7 @@
 /vis/verbose errors
 #
 # Draw geometry:
-/vis/drawVolume
+#/vis/drawVolume
 #
 # Specify style (surface or wireframe):
 #/vis/viewer/set/style wireframe
