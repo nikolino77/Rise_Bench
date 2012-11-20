@@ -111,7 +111,7 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
   {
     if (thePrePV->GetName()=="TopAir" &&  thePostPV->GetName()=="Crystal")
     {	
-      /*CreateTree::Instance()-> NumOptPhotonsInterface++;
+      CreateTree::Instance()-> NumOptPhotonsInterface++;
       CreateTree::Instance()-> Time.push_back(theStep-> GetTrack()-> GetGlobalTime());      
       CreateTree::Instance()-> ID.push_back(theStep-> GetTrack()-> GetTrackID());
       CreateTree::Instance()-> IntOut.push_back(0);
@@ -132,7 +132,6 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
         CreateTree::Instance()-> Parent.push_back(3);
 		cout << "boh" <<endl;
       }
-      */
     }
 
     else if (thePrePV->GetName()=="TopAir" &&  thePostPV->GetName()=="World")
