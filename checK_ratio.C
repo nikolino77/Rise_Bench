@@ -15,7 +15,7 @@ int checK_ratio() {
 
 
 	string pathName = "./";
-	string length = "out";
+	string length = "out_quartz_conf";
 	string finish = "";
 	string rootInputFileName = "./" + length + "" + finish + ".root";
 	string rootOutputFileName = "./data_" + length + "_" + finish + ".root";
@@ -124,7 +124,7 @@ int checK_ratio() {
 	  {	
 	    if(IntOut->at(j) == 1 && NumOptPhotonsExit!=0)
 	    {
-	      wlgth = Wglth -> at(extr);
+	      double wlgth = Wglth -> at(extr);
 	      extr++;
 	      if(Parent->at(j) == 2)		
 	      {

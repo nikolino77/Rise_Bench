@@ -72,13 +72,13 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   	G4VPhysicalVolume* Crystal_phys   = NULL;
 
 	G4Box* Crystal_box = new G4Box("Crystal",0.5*crystal_x,0.5*crystal_y,0.5*crystal_height);
-    	Crystal_log = new G4LogicalVolume(Crystal_box,ScMaterial,"Crystal",0,0,0);
-    	Crystal_phys = new G4PVPlacement(0,G4ThreeVector(0,0,0),Crystal_log,"Crystal",expHall_log,false,0);
+    Crystal_log = new G4LogicalVolume(Crystal_box,ScMaterial,"Crystal",0,0,0);
+    Crystal_phys = new G4PVPlacement(0,G4ThreeVector(0,0,0),Crystal_log,"Crystal",expHall_log,false,0);
 
 
 	/*-------TOP AIR LAYER/DETECTOR-------*/
 	
-        G4Box* TA_box = new G4Box("TopAir",0.5*det_dx,0.5*det_dy,0.5*det_dz);
+    G4Box* TA_box = new G4Box("TopAir",0.5*det_dx,0.5*det_dy,0.5*det_dz);
 	G4LogicalVolume* TA_log  = new G4LogicalVolume(TA_box,Air,"TopAir",0,0,0);
 	G4VPhysicalVolume* TA_phys = new G4PVPlacement(0,G4ThreeVector(det_x,det_y,det_z),
 						        TA_log,"TopAir",expHall_log,false,0);
