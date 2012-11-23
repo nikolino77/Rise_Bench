@@ -177,7 +177,7 @@ G4Material *MyMaterials::Vacuum()
     G4Element *N = new G4Element ("Nitrogen", "N", z = 7 , a = 14.01 * g / mole);
     G4Element *O = new G4Element ("Oxygen"  , "O", z = 8 , a = 16.00 * g / mole);
 
-    G4Material *Air = new G4Material ("Air", density = 0.001 * mg / cm3, nelements = 2);
+    G4Material *Air = new G4Material ("Air", density = 0.0001 * mg / cm3, nelements = 2);
     Air->AddElement (N, 70.*perCent);
     Air->AddElement (O, 30.*perCent);
 
@@ -244,7 +244,6 @@ G4Material *MyMaterials::Quartz()
     Quartz->AddElement (Si, 1);
     Quartz->AddElement (O, 2);
 
-    /*
     const G4int nEntries_RI = 11;
     G4double PhotonEnergy[nEntries_RI] = {
         1.0 * eV, 2.0 * eV, 2.5 * eV, 3.0 * eV, 3.5 * eV,
@@ -254,9 +253,9 @@ G4Material *MyMaterials::Quartz()
         1.53, 1.54, 1.55, 1.56, 1.56, 1.57, 1.59, 1.60, 1.62,
 	1.64, 1.65
     };
-    */
     
-     const G4int nEntries_RI = 11;
+    /*
+    const G4int nEntries_RI = 11;
     G4double PhotonEnergy[nEntries_RI] = {
         1.0 * eV, 2.0 * eV, 2.5 * eV, 3.0 * eV, 3.5 * eV,
         4.0 * eV, 4.5 * eV, 5.0 * eV, 5.5 * eV, 6.0 * eV, 6.26 * eV       
@@ -265,14 +264,15 @@ G4Material *MyMaterials::Quartz()
         1.55, 1.55, 1.55, 1.55, 1.55, 1.55, 1.55, 1.55, 1.55,
 	1.55, 1.55
     };
+    */
 
     const G4int nEntries_ABS = 4;
     G4double ABS_Energy[nEntries_ABS]       = { 1.0 * eV, 1.84 * eV, 4.08 * eV, 6.26 * eV };
     G4double ABS_LENGTH[nEntries_ABS]       = { 138.*mm, 138.*mm, 138.*mm, 138. *mm };
 
     G4MaterialPropertiesTable *myMPT = new G4MaterialPropertiesTable();
-    myMPT->AddProperty ("RINDEX", PhotonEnergy, RefractiveIndex, nEntries_RI);
-    myMPT->AddProperty ("ABSLENGTH", ABS_Energy, ABS_LENGTH, nEntries_ABS);
+    //myMPT->AddProperty ("RINDEX", PhotonEnergy, RefractiveIndex, nEntries_RI);
+    //myMPT->AddProperty ("ABSLENGTH", ABS_Energy, ABS_LENGTH, nEntries_ABS);
     Quartz->SetMaterialPropertiesTable (myMPT);
     return Quartz;
 }
