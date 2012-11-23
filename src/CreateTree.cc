@@ -87,8 +87,7 @@ CreateTree::CreateTree(TString name,Bool_t hits,Bool_t absorptions)
 	this->GetTree()->Branch("Scint_Time",&Scint_Time);
 	this->GetTree()->Branch("Cer_Time_prod",&Cer_Time_prod);
 	this->GetTree()->Branch("Scint_Time_prod",&Scint_Time_prod);
-	this->GetTree()->Branch("OptPhotonEnergy_scint",&OptPhotonEnergy_scint);
-	this->GetTree()->Branch("OptPhotonEnergy_cer",&OptPhotonEnergy_cer);
+	this->GetTree()->Branch("OptPhotonEnergy",&OptPhotonEnergy);
 
   	// Photons at exit interface
 
@@ -163,8 +162,7 @@ void CreateTree::Clear()
     Parent.clear();
     ID.clear();
 	Wglth_ex.clear();
-	OptPhotonEnergy_scint.clear();
-	OptPhotonEnergy_cer.clear();
+	OptPhotonEnergy.clear();
 	Scint_Time.clear();
 	Cer_Time.clear();
 	Scint_Time_prod.clear();

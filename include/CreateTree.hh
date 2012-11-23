@@ -120,8 +120,7 @@ class CreateTree
   vector<float> Cer_Time_prod;
   vector<float> Scint_Time_prod;
   vector<double> Wglth_ex;
-  vector<double> OptPhotonEnergy_scint;
-  vector<double> OptPhotonEnergy_cer;
+  vector<double> OptPhotonEnergy;
 
   vector<float> Time;	// Time at interface
   vector<int> IntOut;	// Bool value (0 for rebounced, 1 for exit)	
