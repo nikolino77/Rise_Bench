@@ -2012,7 +2012,7 @@ G4Material *MyMaterials::LSO()
     const G4int LSO_NUMENTRIES_2 = 7;
     G4double LSO_RIND_Energy[LSO_NUMENTRIES_2]      = { 0.1 * eV, 1.91 * eV, 2.06 * eV, 2.27 * eV, 3.06 * eV, 3.54 * eV, 10 * eV };
     G4double LSO_RIND_INDEX[LSO_NUMENTRIES_2]       = { 1.82, 1.82, 1.82, 1.82, 1.82, 1.82, 1.82 };
-    G4double LSO_ABS_Energy[LSO_NUMENTRIES_2]       = { 0.1 * ev, 1.91 * eV, 2.06 * eV, 2.27 * eV, 3.06 * eV, 3.54 * eV, 10 * eV };
+    G4double LSO_ABS_Energy[LSO_NUMENTRIES_2]       = { 0.1 * eV, 1.91 * eV, 2.06 * eV, 2.27 * eV, 3.06 * eV, 3.54 * eV, 10 * eV };
     G4double LSO_ABS_LENGTH[LSO_NUMENTRIES_2]       = { 138.*mm, 138.*mm, 138.*mm, 138.*mm, 138.*mm, 138.*mm, 138.*mm };
 
     G4MaterialPropertiesTable *LSO_mt = new G4MaterialPropertiesTable();
