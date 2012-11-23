@@ -38,13 +38,13 @@ if(aTrack->GetDefinition() == G4OpticalPhoton::OpticalPhotonDefinition())
     {
       	cerenkovCounter++;
 		CreateTree::Instance() -> Cer_Time_prod.push_back(aTrack->GetGlobalTime());
-		CreateTree::Instance() -> OptPhotonEnergy.push_back(aTrack->GetTotalEnergy());
+		CreateTree::Instance() -> OptPhotonEnergy_cer.push_back(aTrack->GetTotalEnergy());
 	}
     else if(aTrack->GetCreatorProcess() && aTrack->GetCreatorProcess()->GetProcessName()=="Scintillation")
     {
 		scintCounter++;
 		CreateTree::Instance() -> Scint_Time_prod.push_back(aTrack->GetGlobalTime());
-		CreateTree::Instance() -> OptPhotonEnergy.push_back(aTrack->GetTotalEnergy());
+		CreateTree::Instance() -> OptPhotonEnergy_scint.push_back(aTrack->GetTotalEnergy());
 	}
 	else
 	{
