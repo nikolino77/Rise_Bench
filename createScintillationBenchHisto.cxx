@@ -48,8 +48,7 @@ int createScintillationBenchHisto() {
 
 	vector<float> *Time = new vector<float>();	// Bool value (0 for rebounced, 1 for exit)
 	vector<double> *Wglth_ex = new vector<double>();	// Bool value (0 for rebounced, 1 for exit)
-	vector<double> *OptPhotonEnergy_cer = new vector<double>();
-	vector<double> *OptPhotonEnergy_scint = new vector<double>();	
+	vector<double> *OptPhotonEnergy = new vector<double>();	
 	vector<int> *IntOut = new vector<int>();	// Time at interface	
 	vector<int> *Parent = new vector<int>();	// Production process (1 for Cerenkov, 2 for Scintillation, 0 for unknown)
 	vector<int> *ID = new vector<int>();		// ID of the particle
@@ -82,8 +81,7 @@ int createScintillationBenchHisto() {
 	Singles->SetBranchAddress("Scint_Time_prod",&Scint_Time_prod);
 	Singles->SetBranchAddress("Cer_Time_prod",&Cer_Time_prod);
 	
-	Singles->SetBranchAddress("OptPhotonEnergy_cer",&OptPhotonEnergy_cer);
-	Singles->SetBranchAddress("OptPhotonEnergy_scint",&OptPhotonEnergy_scint);
+	Singles->SetBranchAddress("OptPhotonEnergy",&OptPhotonEnergy);
 	Singles->SetBranchAddress("Wglth_ex",&Wglth_ex);
 	
 	TH1F* numCerenkov = new TH1F("numCerenkov","NumCerenkov",100,0,100);
