@@ -1,5 +1,5 @@
 # Use this open statement to create an OpenGL view:
-/vis/open OGLIX
+#/vis/open OGLIX
 #/vis/open OGLSQt
 #
 # Use this open statement to create a .prim file suitable for
@@ -20,7 +20,7 @@
 /vis/verbose errors
 #
 # Draw geometry:
-/vis/drawVolume
+#/vis/drawVolume
 #
 # Specify style (surface or wireframe):
 #/vis/viewer/set/style wireframe

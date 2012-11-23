@@ -14,7 +14,7 @@ using namespace std;
 int createScintillationBenchHisto() {
 
 	string pathName = "./";
-	string length = "out_lso_conf";
+	string length = "dir_opposite_2";
 	string finish = "";
 	string rootInputFileName = "./" + length + "" + finish + ".root";
 	string rootOutputFileName = "./data_" + length + "" + finish + ".root";
@@ -84,7 +84,7 @@ int createScintillationBenchHisto() {
 	Singles->SetBranchAddress("OptPhotonEnergy",&OptPhotonEnergy);
 	Singles->SetBranchAddress("Wglth_ex",&Wglth_ex);
 	
-	TH1F* numCerenkov = new TH1F("numCerenkov","NumCerenkov",60,0,60);
+	TH1F* numCerenkov = new TH1F("numCerenkov","NumCerenkov",100,0,100);
 	TH1F* numScintillation = new TH1F("numScintillation","NumScintillation",1000,0,80000);
 
 	TH1F* wlgth_cer_prod = new TH1F("wlgth_cer_prod","wlgth_cer_prod",100,0,1e-05);
@@ -117,8 +117,8 @@ int createScintillationBenchHisto() {
 
 	TH1F* numextracted = new TH1F("numextracted","Numextracted",1000,0,5000);
 	TH1F* numScint_ex = new TH1F("numScint_ex","NumScint_ex",1000,0,4000);
-	TH1F* numCer_ex = new TH1F("numCer_ex","NumCer_ex",15,0,15);
-	TH1F* numCer_ex_norm = new TH1F("numCer_ex_norm","NumCer_ex_norm",15,0,15);
+	TH1F* numCer_ex = new TH1F("numCer_ex","NumCer_ex",100,0,100);
+	TH1F* numCer_ex_norm = new TH1F("numCer_ex_norm","NumCer_ex_norm",100,0,100);
 	TH1F* CerTime_ex = new TH1F("CerTime_ex","CerTime_ex",400,0,0.4);
 	TH1F* ScintTime_ex = new TH1F("ScintTime_ex","ScintTime_ex",4000,0,4);
 	TH1F* Time_ex = new TH1F("Time_ex","Time_ex",4000,0,4);

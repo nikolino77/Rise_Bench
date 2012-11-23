@@ -62,7 +62,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	/*-------EXPERIMENTAL HALL-------*/
 
   	G4Box* expHall_box = new G4Box("World",expHall_x,expHall_y,expHall_z);
-  	G4LogicalVolume* expHall_log = new G4LogicalVolume(expHall_box,Air,"World",0,0,0);
+  	G4LogicalVolume* expHall_log = new G4LogicalVolume(expHall_box,Vacuum,"World",0,0,0);
   	G4VPhysicalVolume* expHall_phys = new G4PVPlacement(0,G4ThreeVector(0,0,0),expHall_log,"World",0,false,0);
 
 
