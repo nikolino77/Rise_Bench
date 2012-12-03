@@ -14,16 +14,15 @@ class CreateTree
 
   TTree*              ftree;
   TString             fname;
-
   Bool_t              HITS;
-  Bool_t              ABSORPTIONS;
-
+  Bool_t              WINDOW;
+  
   static const Int_t  MaxNum = 2000000;
   static const Int_t  MaxNumPro = 1000;
 
   public:
 
-  CreateTree(TString name,Bool_t hits,Bool_t absorptions);
+  CreateTree(TString name,Bool_t hits, Bool_t window);
   ~CreateTree();
 
   TTree*              GetTree() const { return ftree; };
@@ -33,54 +32,9 @@ class CreateTree
   void                Clear();
   static CreateTree*  Instance() { return fInstance; };
   static CreateTree*  fInstance;
-
   Bool_t              Hits() const { return this->HITS; };
-  Bool_t              Absorptions() const { return this->ABSORPTIONS; };
+  Bool_t              Window() const { return this->WINDOW; };
 
-  Int_t               Run;
-  Int_t               Event;
-  Int_t               NumOptPhotons;
-  Int_t               NumCerenkovPhotons;
-  Int_t               NumScintPhotons;
-  Int_t               NumOptPhotonsAbsorbed;
-  Int_t               NumOptPhotonsRayleigh;
-  Int_t               MPPCNumHits;
-  Int_t               NumBoundaryAbsorption;
-  Int_t               NumBoundaryReflection;
-  Int_t               NumBoundaryFresnelRefraction;
-  Int_t               NumBoundaryFresnelReflection;
-  Int_t               NumBoundaryLobeReflection;
-  Int_t               NumBoundarySpikeReflection;
-  Int_t               NumBoundaryTotalInternalReflection;
-  Int_t               NumBoundaryLambertianReflection;
-  Int_t               NumBoundaryBackScattering;
-  Int_t				  NumGammaEnter;
-
-  Int_t               NumBoundaryStepTooSmall;
-
-  Int_t               NumCherenkovPr;
-  Int_t               NumeBrem; 
-  Int_t	              NumOptPhotonsExit;		// Optical photons after interface
-  Int_t	              NumOptPhotonsInterface;		// Optical photons at interface
-
-  Float_t             BoundaryAbsorptionPosX[MaxNum];
-  Float_t             BoundaryAbsorptionPosY[MaxNum];
-  Float_t             BoundaryAbsorptionPosZ[MaxNum];
-  Float_t             BoundaryAbsorptionTime[MaxNum];
-  Float_t             BoundaryAbsorptionPhotonEnergy[MaxNum];
-
-  Float_t             BoundaryReflectionPosX[MaxNum];
-  Float_t             BoundaryReflectionPosY[MaxNum];
-  Float_t             BoundaryReflectionPosZ[MaxNum];
-  Float_t             BoundaryReflectionTime[MaxNum];
-  Int_t               BoundaryReflectionType[MaxNum];
-
-  Float_t             BulkAbsorptionPosX[MaxNum];
-  Float_t             BulkAbsorptionPosY[MaxNum];
-  Float_t             BulkAbsorptionPosZ[MaxNum];
-  Float_t             BulkAbsorptionTime[MaxNum];
-  Float_t             BulkAbsorptionPhotonEnergy[MaxNum];
-  
   Float_t             ScintillationYield;
   Float_t             RiseTime;
   Float_t             CrystalHeight;
@@ -94,47 +48,38 @@ class CreateTree
   Float_t             GapRefIndex;
   Float_t             Shape; 
   Float_t             ScMaterial; 
-
-  Int_t               ReflBackside;
-
-  Int_t               AirLayer;
-  Float_t             AirGap; 
-  Float_t             AirLayerSigmaAlpha; 
-
-  Int_t 		OutSurface;
-
-  vector<float> energyDeposited;
-  vector<string> depositionProcess;
-  vector<float> depositionX;
-  vector<float> depositionY;
-  vector<float> depositionZ;
-  Float_t energyTot;
-  vector<string> opticProcess;
-  vector<float> firstPosX;
-  vector<float> firstPosY;
-  vector<float> firstPosZ;
   
-  vector<float> Cer_Time;
-  vector<float> Scint_Time;
+  Int_t			Run;
+  Int_t			Event;
+  
+  Int_t               NumOptPhotonsAbsorbed;
+  Int_t		      NumGammaEnter;
 
-  vector<float> Cer_Time_prod;
-  vector<float> Scint_Time_prod;
-  vector<double> Wglth_ex;
-  vector<double> OptPhotonEnergy;
+  vector<float>       energyDeposited;
+  vector<string>      depositionProcess;
+  vector<float>       depositionX;
+  vector<float>       depositionY;
+  vector<float>       depositionZ;
+  vector<string>      opticProcess;
+  vector<float>       firstPosX;
+  vector<float>       firstPosY;
+  vector<float>       firstPosZ;
+  
+  vector<double>       Prod_Time;
 
-  vector<float> Time;	// Time at interface
-  vector<int> IntOut;	// Bool value (0 for rebounced, 1 for exit)	
-  vector<int> Parent;	// Production process (1 for Cerenkov, 2 for Scintillation, 0 for unknown)
-  vector<int> ID;	// ID of the particle
+  vector<double>      Wglth_ex;
+  vector<double>      OptPhotonEnergy;
+  
+  vector<int>         Volume;		
 
+  vector<double>      Time;		// Time at interface
+  vector<int>         Extraction;	// Extraction face	
+  vector<int>         Parent;		// Production process (1 for Cerenkov, 2 for Scintillation, 0 for unknown)
+  vector<int>         ID;		// ID of the particle
+
+  vector<double>      Wglth_ex_det;
+  vector<double>      Time_det;	
+  vector<int>         Parent_det;		
+  vector<int>         ID_det;		
+  
 };
-
-/*  
- 00085 enum G4OpBoundaryProcessStatus {  Undefined,
- 00086                                   FresnelRefraction, FresnelReflection,
- 00087                                   TotalInternalReflection,
- 00088                                   LambertianReflection, LobeReflection,
- 00089                                   SpikeReflection, BackScattering,
- 00090                                   Absorption, Detection, NotAtBoundary,
- 00091                                   SameMaterial, StepTooSmall, NoRINDEX };
-*/

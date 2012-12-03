@@ -18,13 +18,6 @@ public:
   ~SteppingAction();
   virtual void UserSteppingAction(const G4Step*);
 
-  //void SetOneStepPrimaries(G4bool b){oneStepPrimaries=b;}
-  //G4bool GetOneStepPrimaries(){return oneStepPrimaries;}
-  
-// private:
-
-//   G4bool oneStepPrimaries;
-//   SteppingMessenger* steppingMessenger;
 };
 
 #endif

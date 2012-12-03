@@ -97,12 +97,13 @@ int main(int argc,char** argv)
      		myseed=CreateSeed();
   	}
   	G4cout<<"Random seed : "<<myseed<<G4endl;
-  	Bool_t HITS = (Bool_t) config.read<int>("hits");
-  	Bool_t ABSORPTIONS = (Bool_t) config.read<int>("absorptions");
-  	G4cout<<"Store x,y,z of hits : "<<HITS<<G4endl;
-  	G4cout<<"Store x,y,z of absorptions : "<<ABSORPTIONS<<G4endl;
-
-
+  
+	Bool_t HITS = (Bool_t) config.read<int>("hits");
+        G4cout<<"External detector : " << HITS <<G4endl;
+	
+	Bool_t WINDOW = (Bool_t) config.read<int>("window");
+        G4cout<<"External detector : " << WINDOW <<G4endl;
+	
   	// Other crystal parameters
   	G4double len = config.read<double>("height");
   	G4cout<<"Crystal length [mm]: "<<len<<G4endl;
@@ -111,6 +112,19 @@ int main(int argc,char** argv)
   	G4double crystaly = config.read<double>("crystaly");
   	G4cout<<"Crystal dimension y [mm]: "<<crystaly<<G4endl;
 
+	G4double depth = config.read<double>("depth");
+  	G4cout<<"Depth control volume [mm]: "<<depth<<G4endl;
+  	G4double det_mat = config.read<double>("det_mat");
+  	G4cout<<"Detector material: "<<det_mat<<G4endl; 
+  	G4double det_d = config.read<double>("det_d");
+  	G4cout<<"Detector thickness [mm]: "<<det_d<<G4endl;
+	G4double det_x = config.read<double>("det_x");
+  	G4cout<<"Detector x position [mm]: "<<det_x<<G4endl;
+	G4double det_y = config.read<double>("det_y");
+  	G4cout<<"Detector y position [mm]: "<<det_y<<G4endl;
+	G4double det_z = config.read<double>("det_z");
+  	G4cout<<"Detector z position [mm]: "<<det_z<<G4endl;
+	
 	// Scintillator characteristics  
   	G4cout<<"\nScintillator properties: "<<G4endl;
   	G4long material = config.read<int>("scmaterial");
@@ -145,15 +159,7 @@ int main(int argc,char** argv)
 	{
     		G4cout<<"Scintillation rise time [ns]: material default"<<G4endl;
   	}
-  	G4double abslen = config.read<double>("abslength");
-  	if(abslen>=0) 
-	{
-    		G4cout<<"Absorption length in crystal [mm]: "<<abslen<<G4endl;
-  	} 
-	else 
-	{
-    		G4cout<<"Absorption length in crystal [mm]: material default"<<G4endl;
-  	}
+
   
   	// Crystal surface properties
   	G4cout<<"\nCrystal surface properties: "<<G4endl;
@@ -174,7 +180,7 @@ int main(int argc,char** argv)
   	TFile* outfile = new TFile((TString)filename,"RECREATE");
   	outfile->cd();
 
-	CreateTree* mytree = new CreateTree("g4pet",HITS,ABSORPTIONS);
+	CreateTree* mytree = new CreateTree("g4pet",HITS, WINDOW);
   	G4VUserDetectorConstruction* detector = new DetectorConstruction();
 
 	// -----------------------------------------

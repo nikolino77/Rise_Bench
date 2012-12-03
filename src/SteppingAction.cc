@@ -33,14 +33,11 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
   G4StepPoint* thePostPoint = theStep->GetPostStepPoint();
   G4VPhysicalVolume* thePostPV = thePostPoint->GetPhysicalVolume();
 
-  G4OpBoundaryProcessStatus boundaryStatus=Undefined;
-  static G4OpBoundaryProcess* boundary=NULL;
-
   G4Track* theTrack = theStep->GetTrack();
   G4ParticleDefinition* particleType = theTrack->GetDefinition();
 
   // ------------------------ STORING PARTICLE AND PROCESSES ------------------------- //
-  
+    
   // Storing time, energy and position of optical photons absorbed
   if(particleType==G4OpticalPhoton::OpticalPhotonDefinition())
   {
@@ -50,6 +47,7 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
     }
   }
 
+  
   // Printing out the processes step by step
   if(thePostPoint->GetProcessDefinedStep()->GetProcessName()!="Transportation"
      && thePostPoint->GetProcessDefinedStep()->GetProcessName()!="OpAbsorption" 
@@ -67,24 +65,6 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
     G4cout<<thePostPoint->GetProcessDefinedStep()->GetProcessName()<<G4endl;
   }
   
-  // Storing Rayleigh processes
-  if(thePostPoint->GetProcessDefinedStep()->GetProcessName()=="OpRayleigh" )
-  {
-    CreateTree::Instance()-> NumOptPhotonsRayleigh++;
-  }
-
-  // Storing Cerenkov processes
-  if(thePostPoint->GetProcessDefinedStep()->GetProcessName()=="Cerenkov" )
-  {
-    CreateTree::Instance()-> NumCherenkovPr++;
-    CreateTree::Instance()-> Cer_Time.push_back(theStep-> GetTrack()-> GetGlobalTime());
-  }
-  
-  // Storing Brem processes
-  if(thePostPoint->GetProcessDefinedStep()->GetProcessName()=="eBrem" )
-  {
-    CreateTree::Instance()-> NumeBrem++;
-  }
 
   // ------------------------ Energy deposition info ------------------------- //
   if(theStep->GetTotalEnergyDeposit()!=0)
@@ -94,54 +74,40 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
     CreateTree::Instance()-> depositionX.push_back(thePostPoint-> GetPosition().x());
     CreateTree::Instance()-> depositionY.push_back(thePostPoint-> GetPosition().y());
     CreateTree::Instance()-> depositionZ.push_back(thePostPoint-> GetPosition().z());
-    CreateTree::Instance()-> energyTot = CreateTree::Instance()-> energyTot - theStep-> GetTotalEnergyDeposit();
   } 
   
 
   if(thePostPV && particleType==G4Gamma::GammaDefinition())
   {
-    if(thePrePV->GetName()=="World" &&  thePostPV->GetName()=="Crystal")
+    if(thePrePV->GetName()=="Air_source" &&  thePostPV->GetName()=="Crystal")
     {
       CreateTree::Instance()-> NumGammaEnter = 1;    
     }
   }
   
-  // ---------- INFO AT DETECTOR ---------- //
+  // ---------- INFO AT CONTROL VOLUME ---------- //
   if(particleType==G4OpticalPhoton::OpticalPhotonDefinition())
   {
-    if (thePrePV->GetName()=="TopAir" &&  thePostPV->GetName()=="Crystal")
-    {	
-      CreateTree::Instance()-> NumOptPhotonsInterface++;
-      CreateTree::Instance()-> Time.push_back(theStep-> GetTrack()-> GetGlobalTime());      
-      CreateTree::Instance()-> ID.push_back(theStep-> GetTrack()-> GetTrackID());
-      CreateTree::Instance()-> IntOut.push_back(0);
-      CreateTree::Instance()-> Wglth_ex.push_back(theStep -> GetTrack() ->GetTotalEnergy());
-
-      if(theStep->GetTrack()-> GetCreatorProcess() 
-         && theStep-> GetTrack()-> GetCreatorProcess()-> GetProcessName()=="Cerenkov")  
-      {
-        CreateTree::Instance()-> Parent.push_back(1);  
-      }    
-      else if(theStep-> GetTrack()-> GetCreatorProcess() 
-         && theStep-> GetTrack()-> GetCreatorProcess()-> GetProcessName()=="Scintillation")
-      { 
-        CreateTree::Instance()-> Parent.push_back(2);
-      }
-      else
-      { 
-        CreateTree::Instance()-> Parent.push_back(3);
-		cout << "boh" <<endl;
-      }
-    }
-
-    else if (thePrePV->GetName()=="TopAir" &&  thePostPV->GetName()=="World")
+    if ((thePrePV->GetName()=="Air_opposite" &&  thePostPV->GetName()=="World")
+	|| (thePrePV->GetName()=="Air_source" &&  thePostPV->GetName()=="World")
+	|| (thePrePV->GetName()=="Air_side" &&  thePostPV->GetName()=="World"))
     { 	
-      CreateTree::Instance()-> NumOptPhotonsInterface++;
-      CreateTree::Instance()-> NumOptPhotonsExit++;
       CreateTree::Instance()-> Time.push_back(theStep-> GetTrack()-> GetGlobalTime());
-      CreateTree::Instance()-> ID.push_back(theStep -> GetTrack() -> GetTrackID());
-      CreateTree::Instance()-> IntOut.push_back(1);
+      CreateTree::Instance()-> ID.push_back(theStep -> GetTrack() -> GetTrackID());      
       CreateTree::Instance()-> Wglth_ex.push_back(theStep -> GetTrack() ->GetTotalEnergy());
+	
+      if (thePrePV->GetName()=="Air_opposite" &&  thePostPV->GetName()=="World")
+      {
+        CreateTree::Instance()-> Extraction.push_back(1);
+      }
+      else if(thePrePV->GetName()=="Air_source" &&  thePostPV->GetName()=="World")
+      {
+	CreateTree::Instance()-> Extraction.push_back(2);
+      }
+      else if(thePrePV->GetName()=="Air_side" &&  thePostPV->GetName()=="World")
+      {
+	CreateTree::Instance()-> Extraction.push_back(3);
+      }
 	
       if(theStep-> GetTrack()-> GetCreatorProcess() 
          && theStep-> GetTrack()-> GetCreatorProcess()-> GetProcessName()=="Cerenkov") 
@@ -156,13 +122,58 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
       else
       { 
         CreateTree::Instance()-> Parent.push_back(3);
-	    cout << "boh" <<endl;
+	cout << "boh" <<endl;
       }
     }
-
   }  
+  
+  // ---------- INFO AT DETECTOR ---------- //
+  if(CreateTree::Instance() -> Hits())
+  {
+    if(particleType==G4OpticalPhoton::OpticalPhotonDefinition() )
+    {  
+      if ((thePrePV->GetName()=="Detector" &&  thePostPV->GetName()=="World"))
+      { 	    	   
+	if(CreateTree::Instance() -> Window())
+	{
+	  if(theTrack -> GetLogicalVolumeAtVertex() -> GetName() == "Crystal")
+	  {
+	    CreateTree::Instance()-> Volume.push_back(1);
+	  }
+          else if(theTrack -> GetLogicalVolumeAtVertex() -> GetName() == "Window")
+	  {
+	    CreateTree::Instance()-> Volume.push_back(2);
+	  }
+	  else
+	  {
+	    CreateTree::Instance()-> Volume.push_back(3);
+	    cout << "Anomaly (production volume)" <<endl;
+	  }
+	}
+	
+	CreateTree::Instance()-> Time_det.push_back(theStep-> GetTrack()-> GetGlobalTime());
+        CreateTree::Instance()-> ID_det.push_back(theStep -> GetTrack() -> GetTrackID());      
+        CreateTree::Instance()-> Wglth_ex_det.push_back(theStep -> GetTrack() ->GetTotalEnergy());
+		
+        if(theStep-> GetTrack()-> GetCreatorProcess() 
+           && theStep-> GetTrack()-> GetCreatorProcess()-> GetProcessName()=="Cerenkov") 
+        {
+          CreateTree::Instance()->Parent_det.push_back(1);
+        }     
+        else if(theStep-> GetTrack()-> GetCreatorProcess() 
+           && theStep-> GetTrack()-> GetCreatorProcess()-> GetProcessName()=="Scintillation")
+        { 
+          CreateTree::Instance()-> Parent_det.push_back(2);
+        }
+        else
+        { 
+          CreateTree::Instance()-> Parent_det.push_back(3);
+	  cout << "Anomaly (production process)" <<endl;
+        }
+      }
+    }  
+  }
 
-
-
+  
 }
 

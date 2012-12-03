@@ -5,45 +5,26 @@ CreateTree* CreateTree::fInstance = NULL;
 
 using namespace std;
 
-CreateTree::CreateTree(TString name,Bool_t hits,Bool_t absorptions)
+CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window)
 {
 	
-
 	if(fInstance) 
 	{
     		return;
   	}
 
-  	this->HITS=hits;
-  	this->ABSORPTIONS=absorptions;
-
+	this->HITS=hits;
+	this->WINDOW=window;
   	this->fInstance = this;
   	this->fname = name;
   	this->ftree = new TTree("tree","name");
  
   	this->GetTree()->Branch("Run",&this->Run,"Run/I");
   	this->GetTree()->Branch("Event",&this->Event,"Event/I");
-	this->GetTree()->Branch("NumOptPhotons",&this->NumOptPhotons,"NumOptPhotons/I");
-  	this->GetTree()->Branch("NumCerenkovPhotons",&this->NumCerenkovPhotons,"NumCerenkovPhotons/I");
-  	this->GetTree()->Branch("NumScintPhotons",&this->NumScintPhotons,"NumScintPhotons/I");
+	
   	this->GetTree()->Branch("NumOptPhotonsAbsorbed",&this->NumOptPhotonsAbsorbed,"NumOptPhotonsAbsorbed/I");
-  	this->GetTree()->Branch("NumOptPhotonsRayleigh",&this->NumOptPhotonsRayleigh,"NumOptPhotonsRayleigh/I");
-  	this->GetTree()->Branch("NumCherenkovPr",&this->NumCherenkovPr,"NumCherenkovPr/I");
-  	this->GetTree()->Branch("NumeBrem",&this->NumeBrem,"NumeBrem/I");  
   	this->GetTree()->Branch("NumGammaEnter",&this->NumGammaEnter,"NumGammaEnter/I");  
   
-  	this->GetTree()->Branch("NumBoundaryAbsorption",&this->NumBoundaryAbsorption,"NumBoundaryAbsorption/I");
-  	this->GetTree()->Branch("NumBoundaryReflection",&this->NumBoundaryReflection,"NumBoundaryReflection/I");
-
-  	this->GetTree()->Branch("NumBoundaryFresnelRefraction",&this->NumBoundaryFresnelRefraction,"NumBoundaryFresnelRefraction/I");
-  	this->GetTree()->Branch("NumBoundaryStepTooSmall",&this->NumBoundaryStepTooSmall,"NumBoundaryStepTooSmall/I");
-  	this->GetTree()->Branch("NumBoundaryFresnelReflection",&this->NumBoundaryFresnelReflection,"NumBoundaryFresnelReflection/I");
-  	this->GetTree()->Branch("NumBoundaryLobeReflection",&this->NumBoundaryLobeReflection,"NumBoundaryLobeReflection/I");
-  	this->GetTree()->Branch("NumBoundarySpikeReflection",&this->NumBoundarySpikeReflection,"NumBoundarySpikeReflection/I");
-  	this->GetTree()->Branch("NumBoundaryTotalInternalReflection",&this->NumBoundaryTotalInternalReflection,"NumBoundaryTotalInternalReflection/I");
-  	this->GetTree()->Branch("NumBoundaryLambertianReflection",&this->NumBoundaryLambertianReflection,"NumBoundaryLambertianReflection/I");
-  	this->GetTree()->Branch("NumBoundaryBackScattering",&this->NumBoundaryBackScattering,"NumBoundaryBackScattering/I");
-
   	this->GetTree()->Branch("ScintillationYield",&this->ScintillationYield,"ScintillationYield/F");
   	this->GetTree()->Branch("RiseTime",&this->RiseTime,"RiseTime/F"); 
   	this->GetTree()->Branch("Reflectivity",&this->Reflectivity,"Reflectivity/F");
@@ -60,45 +41,43 @@ CreateTree::CreateTree(TString name,Bool_t hits,Bool_t absorptions)
 	
   	this->GetTree()->Branch("ScMaterial",&this->ScMaterial,"ScMaterial/F");
 
-  	this->GetTree()->Branch("ReflBackside",&this->ReflBackside,"ReflBackside/I");
-
-  	this->GetTree()->Branch("AirLayer",&this->AirLayer,"AirLayer/I");
-  	this->GetTree()->Branch("AirGap",&this->AirGap,"AirGap/F");
-  	this->GetTree()->Branch("AirLayerSigmaAlpha",&this->AirLayerSigmaAlpha,"AirLayerSigmaAlpha/F");
-
-
-/*--------------------MY STUFF-----------------*/
-
-  	this->GetTree()->Branch("OutSurface",&this->OutSurface,"OutSurface/I");
+	/*--------------------MY STUFF-----------------*/
 
 	this->GetTree()->Branch("depositionProcess",&depositionProcess);
 	this->GetTree()->Branch("energyDeposited",&energyDeposited);
 	this->GetTree()->Branch("depositionX",&depositionX);
 	this->GetTree()->Branch("depositionY",&depositionY);
 	this->GetTree()->Branch("depositionZ",&depositionZ);
-  	this->GetTree()->Branch("energyTot",&this->energyTot,"energyTot/F");
 
 	this->GetTree()->Branch("opticProcess",&opticProcess);
 	this->GetTree()->Branch("firstPosX",&firstPosX);
 	this->GetTree()->Branch("firstPosY",&firstPosY);
 	this->GetTree()->Branch("firstPosZ",&firstPosZ);
 	
-	this->GetTree()->Branch("Cer_Time",&Cer_Time);
-	this->GetTree()->Branch("Scint_Time",&Scint_Time);
-	this->GetTree()->Branch("Cer_Time_prod",&Cer_Time_prod);
-	this->GetTree()->Branch("Scint_Time_prod",&Scint_Time_prod);
+	this->GetTree()->Branch("Prod_Time",&Prod_Time);
 	this->GetTree()->Branch("OptPhotonEnergy",&OptPhotonEnergy);
 
   	// Photons at exit interface
 
-	this->GetTree()->Branch("NumOptPhotonsExit",&this->NumOptPhotonsExit,"NumOptPhotonsExit/I");  
-	this->GetTree()->Branch("NumOptPhotonsInterface",&this->NumOptPhotonsInterface,"NumOptPhotonsInterface/I");  
-    this->GetTree()->Branch("IntOut",&IntOut);		
-    this->GetTree()->Branch("Time",&Time);	
-    this->GetTree()->Branch("Parent",&Parent);
-    this->GetTree()->Branch("ID",&ID);	
-	this->GetTree()->Branch("Wglth_ex", &Wglth_ex);	
-  		
+        this->GetTree()->Branch("Extraction",&Extraction);		
+        this->GetTree()->Branch("Time",&Time);	
+        this->GetTree()->Branch("Parent",&Parent);
+        this->GetTree()->Branch("ID",&ID);	
+	this->GetTree()->Branch("Wglth_ex", &Wglth_ex);
+	
+	// Photons at detector
+	if(this->HITS)
+	{	
+          this->GetTree()->Branch("Time_det",&Time_det);	
+          this->GetTree()->Branch("Parent_det",&Parent_det);
+          this->GetTree()->Branch("ID_det",&ID_det);	
+	  this->GetTree()->Branch("Wglth_ex_det", &Wglth_ex_det);
+	  if(this->WINDOW)
+	  {
+	    this->GetTree()->Branch("Volume",&Volume);		
+	  }
+	}
+	
   	this->Clear();
 }
 
@@ -120,33 +99,11 @@ Bool_t CreateTree::Write()
 
 void CreateTree::Clear()
 {
-
-  	Run=0;
-  	Event=0;
-  	NumOptPhotons=0;
-	NumCerenkovPhotons=0;
-	NumScintPhotons=0;
-  	NumOptPhotonsAbsorbed=0;
-  	NumOptPhotonsRayleigh=0;
-  	NumCherenkovPr=0;
-  	NumeBrem=0;
-  	NumOptPhotonsInterface = 0;
-  	NumOptPhotonsExit	 = 0;
-  	NumGammaEnter = 0;
-
-  	NumBoundaryAbsorption=0;
-  	NumBoundaryReflection=0;
-  	NumBoundaryStepTooSmall=0;
-  	NumBoundaryFresnelRefraction=0;
-
-  	NumBoundaryFresnelReflection=0;
-  	NumBoundaryLobeReflection=0;
-  	NumBoundarySpikeReflection=0;
-  	NumBoundaryTotalInternalReflection=0;
-  	NumBoundaryLambertianReflection=0;
-  	NumBoundaryBackScattering=0;
-
-	OutSurface=0;
+  	Run			= 0;
+  	Event			= 0;
+  	NumOptPhotonsAbsorbed	= 0;
+  	NumGammaEnter 		= 0;
+  	
 	opticProcess.clear();
 	firstPosX.clear();
 	firstPosY.clear();
@@ -157,16 +114,18 @@ void CreateTree::Clear()
 	depositionX.clear();		
 	depositionY.clear();		
 	depositionZ.clear();	
-    IntOut.clear();
-    Time.clear();
-    Parent.clear();
-    ID.clear();
+	Extraction.clear();
+	Parent.clear();
+	ID.clear();
 	Wglth_ex.clear();
 	OptPhotonEnergy.clear();
-	Scint_Time.clear();
-	Cer_Time.clear();
-	Scint_Time_prod.clear();
-	Cer_Time_prod.clear();
+	Prod_Time.clear();
+	Time.clear();
+	
+	Volume.clear();
 
-	energyTot = 0;	
+	Time_det.clear();
+	Parent_det.clear();
+	ID_det.clear();
+	Wglth_ex_det.clear();
 }

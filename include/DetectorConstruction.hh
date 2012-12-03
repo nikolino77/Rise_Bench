@@ -35,14 +35,21 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     		G4double crystal_x;    
     		G4double crystal_y;
     		G4double crystal_height;
-    		G4double det_dx;
-		G4double det_dy;
-		G4double det_dz;
+    		G4double depth;
+		G4double det_d;
 		G4double det_x;
 		G4double det_y;
 		G4double det_z;
-		int	 mat_det;
+		
+		G4double win_diam;
+		G4double win_depth;
+		G4double win_x;
+		G4double win_y;
+		G4double win_z;
+		
+		int	 det_mat;
 		int      crystal_material;
+		int      win_material;
     		int      crystal_lightyield;
     		G4double crystal_risetime;
     		G4double crystal_abslength;
@@ -90,6 +97,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 		G4Material* Silicon;
 		G4Material* OptGrease;
 		G4Material* ScMaterial;
+		G4Material* WiMaterial;
 		G4Material* Quartz;
 
 
@@ -105,8 +113,6 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     		//DetectorMessenger* detectorMessenger;
 		void readConfigFile(string configFileName);
 		void initializeMaterials();
-		void initializeSurface(G4OpticalSurface* mySurface, string surfaceType);
-		void initializeReflectivitySurface(G4OpticalSurface* mySurface, string surfaceType);
 };
 
 
