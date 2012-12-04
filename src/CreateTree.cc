@@ -5,7 +5,7 @@ CreateTree* CreateTree::fInstance = NULL;
 
 using namespace std;
 
-CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window)
+CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window, Bool_t crystal)
 {
 	
 	if(fInstance) 
@@ -15,6 +15,7 @@ CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window)
 
 	this->HITS=hits;
 	this->WINDOW=window;
+	this->CRYSTAL=crystal;
   	this->fInstance = this;
   	this->fname = name;
   	this->ftree = new TTree("tree","name");

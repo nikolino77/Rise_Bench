@@ -16,13 +16,14 @@ class CreateTree
   TString             fname;
   Bool_t              HITS;
   Bool_t              WINDOW;
+  Bool_t              CRYSTAL;
   
   static const Int_t  MaxNum = 2000000;
   static const Int_t  MaxNumPro = 1000;
 
   public:
 
-  CreateTree(TString name,Bool_t hits, Bool_t window);
+  CreateTree(TString name,Bool_t hits, Bool_t window, Bool_t crystal);
   ~CreateTree();
 
   TTree*              GetTree() const { return ftree; };
@@ -34,6 +35,7 @@ class CreateTree
   static CreateTree*  fInstance;
   Bool_t              Hits() const { return this->HITS; };
   Bool_t              Window() const { return this->WINDOW; };
+  Bool_t              Crystal() const { return this->CRYSTAL; };
 
   Float_t             ScintillationYield;
   Float_t             RiseTime;

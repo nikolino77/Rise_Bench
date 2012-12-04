@@ -78,54 +78,60 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
   
 
   if(thePostPV && particleType==G4Gamma::GammaDefinition())
-  {
-    if(thePrePV->GetName()=="Air_source" &&  thePostPV->GetName()=="Crystal")
+  { 
+    if(CreateTree::Instance() -> Crystal())
     {
-      CreateTree::Instance()-> NumGammaEnter = 1;    
+      if(thePrePV->GetName()=="Air_source" &&  thePostPV->GetName()=="Crystal")
+      {
+        CreateTree::Instance()-> NumGammaEnter = 1;    
+      }
     }
   }
   
   // ---------- INFO AT CONTROL VOLUME ---------- //
-  if(particleType==G4OpticalPhoton::OpticalPhotonDefinition())
+  if(CreateTree::Instance() -> Crystal())
   {
-    if ((thePrePV->GetName()=="Air_opposite" &&  thePostPV->GetName()=="World")
-	|| (thePrePV->GetName()=="Air_source" &&  thePostPV->GetName()=="World")
-	|| (thePrePV->GetName()=="Air_side" &&  thePostPV->GetName()=="World"))
-    { 	
-      CreateTree::Instance()-> Time.push_back(theStep-> GetTrack()-> GetGlobalTime());
-      CreateTree::Instance()-> ID.push_back(theStep -> GetTrack() -> GetTrackID());      
-      CreateTree::Instance()-> Wglth_ex.push_back(theStep -> GetTrack() ->GetTotalEnergy());
+    if(particleType==G4OpticalPhoton::OpticalPhotonDefinition())
+    {
+      if ((thePrePV->GetName()=="Air_opposite" &&  thePostPV->GetName()=="World")
+	  || (thePrePV->GetName()=="Air_source" &&  thePostPV->GetName()=="World")
+	  || (thePrePV->GetName()=="Air_side" &&  thePostPV->GetName()=="World"))
+      { 	
+        CreateTree::Instance()-> Time.push_back(theStep-> GetTrack()-> GetGlobalTime());
+        CreateTree::Instance()-> ID.push_back(theStep -> GetTrack() -> GetTrackID());      
+        CreateTree::Instance()-> Wglth_ex.push_back(theStep -> GetTrack() ->GetTotalEnergy());
 	
-      if (thePrePV->GetName()=="Air_opposite" &&  thePostPV->GetName()=="World")
-      {
-        CreateTree::Instance()-> Extraction.push_back(1);
-      }
-      else if(thePrePV->GetName()=="Air_source" &&  thePostPV->GetName()=="World")
-      {
-	CreateTree::Instance()-> Extraction.push_back(2);
-      }
-      else if(thePrePV->GetName()=="Air_side" &&  thePostPV->GetName()=="World")
-      {
-	CreateTree::Instance()-> Extraction.push_back(3);
-      }
+        if (thePrePV->GetName()=="Air_opposite" &&  thePostPV->GetName()=="World")
+        {
+          CreateTree::Instance()-> Extraction.push_back(1);
+        }
+        else if(thePrePV->GetName()=="Air_source" &&  thePostPV->GetName()=="World")
+        {
+	  CreateTree::Instance()-> Extraction.push_back(2);
+        }
+        else if(thePrePV->GetName()=="Air_side" &&  thePostPV->GetName()=="World")
+        {
+	  CreateTree::Instance()-> Extraction.push_back(3);
+        }
 	
-      if(theStep-> GetTrack()-> GetCreatorProcess() 
-         && theStep-> GetTrack()-> GetCreatorProcess()-> GetProcessName()=="Cerenkov") 
-      {
-        CreateTree::Instance()->Parent.push_back(1);
-      }     
-      else if(theStep-> GetTrack()-> GetCreatorProcess() 
-         && theStep-> GetTrack()-> GetCreatorProcess()-> GetProcessName()=="Scintillation")
-      { 
-        CreateTree::Instance()-> Parent.push_back(2);
-      }
-      else
-      { 
-        CreateTree::Instance()-> Parent.push_back(3);
-	cout << "boh" <<endl;
+        if(theStep-> GetTrack()-> GetCreatorProcess() 
+           && theStep-> GetTrack()-> GetCreatorProcess()-> GetProcessName()=="Cerenkov") 
+        {
+          CreateTree::Instance()->Parent.push_back(1);
+        }     
+        else if(theStep-> GetTrack()-> GetCreatorProcess() 
+           && theStep-> GetTrack()-> GetCreatorProcess()-> GetProcessName()=="Scintillation")
+        { 
+          CreateTree::Instance()-> Parent.push_back(2);
+        }
+        else
+        { 
+          CreateTree::Instance()-> Parent.push_back(3);
+	  cout << "boh" <<endl;
+        }
       }
     }
-  }  
+  }
   
   // ---------- INFO AT DETECTOR ---------- //
   if(CreateTree::Instance() -> Hits())

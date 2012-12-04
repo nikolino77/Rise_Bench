@@ -102,7 +102,10 @@ int main(int argc,char** argv)
         G4cout<<"External detector : " << HITS <<G4endl;
 	
 	Bool_t WINDOW = (Bool_t) config.read<int>("window");
-        G4cout<<"External detector : " << WINDOW <<G4endl;
+        G4cout<<"Window : " << WINDOW <<G4endl;
+	
+	Bool_t CRYSTAL = (Bool_t) config.read<int>("crystal");
+        G4cout<<"Crystal present : " << CRYSTAL <<G4endl;
 	
   	// Other crystal parameters
   	G4double len = config.read<double>("height");
@@ -180,7 +183,7 @@ int main(int argc,char** argv)
   	TFile* outfile = new TFile((TString)filename,"RECREATE");
   	outfile->cd();
 
-	CreateTree* mytree = new CreateTree("g4pet",HITS, WINDOW);
+	CreateTree* mytree = new CreateTree("g4pet",HITS, WINDOW, CRYSTAL);
   	G4VUserDetectorConstruction* detector = new DetectorConstruction();
 
 	// -----------------------------------------
