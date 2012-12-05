@@ -5,7 +5,7 @@ CreateTree* CreateTree::fInstance = NULL;
 
 using namespace std;
 
-CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window, Bool_t crystal)
+CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window, Bool_t crystal, Bool_t control, Bool_t deposition)
 {
 	
 	if(fInstance) 
@@ -16,6 +16,9 @@ CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window, Bool_t crystal)
 	this->HITS=hits;
 	this->WINDOW=window;
 	this->CRYSTAL=crystal;
+	this->CONTROL=control;
+	this->DEPOSITION=deposition;
+
   	this->fInstance = this;
   	this->fname = name;
   	this->ftree = new TTree("tree","name");
@@ -63,7 +66,6 @@ CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window, Bool_t crystal)
         this->GetTree()->Branch("Extraction",&Extraction);		
         this->GetTree()->Branch("Time",&Time);	
         this->GetTree()->Branch("Parent",&Parent);
-        this->GetTree()->Branch("ID",&ID);	
 	this->GetTree()->Branch("Wglth_ex", &Wglth_ex);
 	
 	// Photons at detector
@@ -71,7 +73,6 @@ CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window, Bool_t crystal)
 	{	
           this->GetTree()->Branch("Time_det",&Time_det);	
           this->GetTree()->Branch("Parent_det",&Parent_det);
-          this->GetTree()->Branch("ID_det",&ID_det);	
 	  this->GetTree()->Branch("Wglth_ex_det", &Wglth_ex_det);
 	  if(this->WINDOW)
 	  {
@@ -117,7 +118,6 @@ void CreateTree::Clear()
 	depositionZ.clear();	
 	Extraction.clear();
 	Parent.clear();
-	ID.clear();
 	Wglth_ex.clear();
 	OptPhotonEnergy.clear();
 	Prod_Time.clear();
@@ -127,6 +127,5 @@ void CreateTree::Clear()
 
 	Time_det.clear();
 	Parent_det.clear();
-	ID_det.clear();
 	Wglth_ex_det.clear();
 }

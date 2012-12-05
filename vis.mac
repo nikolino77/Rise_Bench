@@ -1,5 +1,5 @@
 # Use this open statement to create an OpenGL view:
-/vis/open OGLIX
+#/vis/open OGLIX
 #/vis/open OGLSQt
 #
 # Use this open statement to create a .prim file suitable for
@@ -41,7 +41,7 @@
 #
 # To draw only gammas:
 /vis/filtering/trajectories/create/particleFilter
-/vis/filtering/trajectories/particleFilter-0/add opticalphoton
+/vis/filtering/trajectories/particleFilter-0/add gamma
 #
 # To invert the above, drawing all particles except gammas,
 # keep the above two lines but also add:

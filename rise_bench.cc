@@ -107,6 +107,12 @@ int main(int argc,char** argv)
 	Bool_t CRYSTAL = (Bool_t) config.read<int>("crystal");
         G4cout<<"Crystal present : " << CRYSTAL <<G4endl;
 	
+	Bool_t CONTROL = (Bool_t) config.read<int>("control");
+        G4cout<<"Control volumes : " << CONTROL <<G4endl;
+	
+	Bool_t DEPOSITION = (Bool_t) config.read<int>("deposition");
+        G4cout<<"Deposition data : " << DEPOSITION <<G4endl;
+	
   	// Other crystal parameters
   	G4double len = config.read<double>("height");
   	G4cout<<"Crystal length [mm]: "<<len<<G4endl;
@@ -183,7 +189,7 @@ int main(int argc,char** argv)
   	TFile* outfile = new TFile((TString)filename,"RECREATE");
   	outfile->cd();
 
-	CreateTree* mytree = new CreateTree("g4pet",HITS, WINDOW, CRYSTAL);
+	CreateTree* mytree = new CreateTree("g4pet",HITS, WINDOW, CRYSTAL, CONTROL, DEPOSITION);
   	G4VUserDetectorConstruction* detector = new DetectorConstruction();
 
 	// -----------------------------------------

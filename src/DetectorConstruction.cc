@@ -68,20 +68,22 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
           Crystal_phys = new G4PVPlacement(0,G4ThreeVector(0,0,0),Crystal_log,"Crystal",expHall_log,false,0);
 
 	  /*-------TOP AIR LAYERS/DETECTOR-------*/
+	  if(CreateTree::Instance()->Control())
+	  {
+            G4Box* opp_box = new G4Box("Air_opposite",0.5*crystal_x,0.5*crystal_y,0.5*depth);
+	    G4LogicalVolume* opp_log  = new G4LogicalVolume(opp_box,Vacuum,"Air_opposite",0,0,0);
+	    G4VPhysicalVolume* opp_phys = new G4PVPlacement(0,G4ThreeVector(0.,0.,0.5*crystal_height+0.5*depth),opp_log,"Air_opposite",expHall_log,false,0);
 	
-          G4Box* opp_box = new G4Box("Air_opposite",0.5*crystal_x,0.5*crystal_y,0.5*depth);
-	  G4LogicalVolume* opp_log  = new G4LogicalVolume(opp_box,Vacuum,"Air_opposite",0,0,0);
-	  G4VPhysicalVolume* opp_phys = new G4PVPlacement(0,G4ThreeVector(0.,0.,0.5*crystal_height+0.5*depth),opp_log,"Air_opposite",expHall_log,false,0);
+	    G4Box* source_box = new G4Box("Air_source",0.5*crystal_x,0.5*crystal_y,0.5*depth);
+	    G4LogicalVolume* source_log  = new G4LogicalVolume(source_box,Vacuum,"Air_source",0,0,0);
+	    G4VPhysicalVolume* source_phys = new G4PVPlacement(0,G4ThreeVector(0.,0.,-0.5*crystal_height-0.5*depth),source_log,"Air_source",expHall_log,false,0);
 	
-	  G4Box* source_box = new G4Box("Air_source",0.5*crystal_x,0.5*crystal_y,0.5*depth);
-	  G4LogicalVolume* source_log  = new G4LogicalVolume(source_box,Vacuum,"Air_source",0,0,0);
-	  G4VPhysicalVolume* source_phys = new G4PVPlacement(0,G4ThreeVector(0.,0.,-0.5*crystal_height-0.5*depth),source_log,"Air_source",expHall_log,false,0);
-	
-	  G4Box* side_box = new G4Box("side_box",0.5*crystal_x+0.5*depth,0.5*crystal_y+0.5*depth,0.5*crystal_height);
-	  G4Box* side_empty_box = new G4Box("side_empty_box",0.5*crystal_x,0.5*crystal_y,0.5*crystal_height);
-	  G4SubtractionSolid* side = new G4SubtractionSolid("side", side_box, side_empty_box);
-	  G4LogicalVolume* side_log  = new G4LogicalVolume(side,Vacuum,"Air_side",0,0,0);
-	  G4VPhysicalVolume* side_phys = new G4PVPlacement(0,G4ThreeVector(0,0,0),side_log,"Air_side",expHall_log,false,0);
+	    G4Box* side_box = new G4Box("side_box",0.5*crystal_x+0.5*depth,0.5*crystal_y+0.5*depth,0.5*crystal_height);
+	    G4Box* side_empty_box = new G4Box("side_empty_box",0.5*crystal_x,0.5*crystal_y,0.5*crystal_height);
+	    G4SubtractionSolid* side = new G4SubtractionSolid("side", side_box, side_empty_box);
+	    G4LogicalVolume* side_log  = new G4LogicalVolume(side,Vacuum,"Air_side",0,0,0);
+	    G4VPhysicalVolume* side_phys = new G4PVPlacement(0,G4ThreeVector(0,0,0),side_log,"Air_side",expHall_log,false,0);
+	  }
 	}
 	  
 	if(CreateTree::Instance()->Hits())
@@ -107,9 +109,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	//
 	// Visualization attributes
 	//
-  	G4VisAttributes* VisAttCrystal = new G4VisAttributes(G4Colour(0/255., 0/255.,255/255.));
-
-  	//Crystal_log->SetVisAttributes(VisAttCrystal);
   	expHall_log->SetVisAttributes(G4VisAttributes::Invisible);
   
 	//always return the physical World
@@ -199,8 +198,8 @@ void DetectorConstruction::initializeMaterials(){
   	}
 }
 
-void DetectorConstruction::readConfigFile(string configFileName){
-	
+void DetectorConstruction::readConfigFile(string configFileName)
+{	
 	ConfigFile config(configFileName);
 	config.readInto(crystal_height,"height");
 	config.readInto(crystal_x,"crystalx");
@@ -223,8 +222,6 @@ void DetectorConstruction::readConfigFile(string configFileName){
 	config.readInto(crystal_material,"scmaterial");
 	config.readInto(crystal_risetime,"risetime");
 	config.readInto(crystal_lightyield,"lightyield");
-
-
 }
 
 

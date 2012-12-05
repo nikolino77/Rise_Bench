@@ -14,7 +14,7 @@ using namespace std;
 int createScintillationBenchHisto() 
 {
 	string pathName = "./";
-	string length = "test";
+	string length = "test_LuagCe";
 	string finish = "";
 	string rootInputFileName = "./" + length + "" + finish + ".root";
 	string rootOutputFileName = "./data_" + length + "" + finish + ".root";
@@ -29,76 +29,78 @@ int createScintillationBenchHisto()
 	Int_t            NumOptPhotonsExit;
 	Int_t            NumOptPhotonsInterface;
 	Int_t            NumOptPhotons;
-	Int_t            NumGammaEnter;
-	
+		
 	Int_t hits = 1;
-
-	vector<string> *depositionProcess 	= new vector<string>();
-	vector<float> *energyDeposited 	= new vector<float>();
-	vector<float> *depositionX 		= new vector<float>();
-	vector<float> *depositionY 		= new vector<float>();
-	vector<float> *depositionZ 		= new vector<float>();
-
-	vector<string> *opticProcess 		= new vector<string>();
-	vector<float> *firstPosX 		= new vector<float>();
-	vector<float> *firstPosY 		= new vector<float>();
-	vector<float> *firstPosZ 		= new vector<float>();
-	vector<double> *Prod_Time		= new vector<double>();
+	Int_t control = 0;
+	Int_t deposit = 0;
 	
-	vector<double> *Time 			= new vector<double>();	// Bool value (0 for rebounced, 1 for exit)
-	vector<double> *Wglth_ex 		= new vector<double>();	// Bool value (0 for rebounced, 1 for exit)
+	if (deposit == 1)
+	{
+	  vector<string> *depositionProcess 	= new vector<string>();
+	  vector<float> *energyDeposited 	= new vector<float>();
+	  vector<float> *depositionX 		= new vector<float>();
+	  vector<float> *depositionY 		= new vector<float>();
+	  vector<float> *depositionZ 		= new vector<float>();
+	  vector<float> *firstPosX 		= new vector<float>();
+	  vector<float> *firstPosY 		= new vector<float>();
+	  vector<float> *firstPosZ 		= new vector<float>();
+	  
+	  Singles->SetBranchAddress("depositionProcess",&depositionProcess);
+	  Singles->SetBranchAddress("energyDeposited",&energyDeposited);
+	  Singles->SetBranchAddress("depositionX",&depositionX);
+	  Singles->SetBranchAddress("depositionY",&depositionY);
+	  Singles->SetBranchAddress("depositionZ",&depositionZ);
+	  Singles->SetBranchAddress("firstPosX",&firstPosX);
+	  Singles->SetBranchAddress("firstPosY",&firstPosY);
+	  Singles->SetBranchAddress("firstPosZ",&firstPosZ);
+	} 
+
+	if (control == 1)
+	{
+	  vector<double> *Time 			= new vector<double>();	// Bool value (0 for rebounced, 1 for exit)
+	  vector<double> *Wglth_ex 		= new vector<double>();	// Bool value (0 for rebounced, 1 for exit)
+	  vector<int> *Parent 			= new vector<int>();	// Production process (1 for Cerenkov, 2 for Scintillation, 0 for unknown)
+	  
+	  Singles->SetBranchAddress("Time",&Time);
+	  Singles->SetBranchAddress("Wglth_ex",&Wglth_ex);
+	  Singles->SetBranchAddress("Parent",&Parent);
+	}
+
+	vector<int> *Extraction		= new vector<int>();	// Interface		
+	vector<int> *opticProcess 		= new vector<int>();
+	vector<double> *Prod_Time		= new vector<double>();
 	vector<double> *OptPhotonEnergy 	= new vector<double>();	
-	vector<int> *Extraction			= new vector<int>();	// Interface	
-	vector<int> *Parent 			= new vector<int>();	// Production process (1 for Cerenkov, 2 for Scintillation, 0 for unknown)
-	vector<int> *ID 			= new vector<int>();		// ID of the particle
+        Singles->SetBranchAddress("Extraction",&Extraction);
+	Singles->SetBranchAddress("opticProcess",&opticProcess);
+	Singles->SetBranchAddress("OptPhotonEnergy",&OptPhotonEnergy);
+	Singles->SetBranchAddress("Prod_Time",&Prod_Time);
 	
 	vector<int> *Volume			= new vector<int>();		
 	vector<double> *Wglth_ex_det		= new vector<double>();
 	vector<double> *Time_det		= new vector<double>();	
-	vector<int> *Parent_det			= new vector<int>();		
-	vector<int> *ID_det			= new vector<int>();		
-	
-	Singles->SetBranchAddress("NumGammaEnter",&NumGammaEnter);
-	
-	//Singles->SetBranchAddress("depositionProcess",&depositionProcess);
-	//Singles->SetBranchAddress("energyDeposited",&energyDeposited);
-	//Singles->SetBranchAddress("depositionX",&depositionX);
-	//Singles->SetBranchAddress("depositionY",&depositionY);
-	//Singles->SetBranchAddress("depositionZ",&depositionZ);
-	
-	Singles->SetBranchAddress("opticProcess",&opticProcess);
-	//Singles->SetBranchAddress("firstPosX",&firstPosX);
-	//Singles->SetBranchAddress("firstPosY",&firstPosY);
-	//Singles->SetBranchAddress("firstPosZ",&firstPosZ);
-	Singles->SetBranchAddress("Prod_Time",&Prod_Time);
-	
-	Singles->SetBranchAddress("Time",&Time);
-	Singles->SetBranchAddress("Wglth_ex",&Wglth_ex);
-	Singles->SetBranchAddress("OptPhotonEnergy",&OptPhotonEnergy);
-	Singles->SetBranchAddress("Extraction",&Extraction);
-	Singles->SetBranchAddress("Parent",&Parent);
-	Singles->SetBranchAddress("ID",&ID);
-	
+	vector<int> *Parent_det			= new vector<int>();			
 	Singles->SetBranchAddress("Time_det",&Time_det);
 	Singles->SetBranchAddress("Parent_det",&Parent_det);
-	Singles->SetBranchAddress("ID_det",&ID_det);
 	Singles->SetBranchAddress("Wglth_ex_det", &Wglth_ex_det);
 	Singles->SetBranchAddress("Volume",&Volume);
-		
+	
+	Int_t            NumGammaEnter;
+	Singles	-> SetBranchAddress("NumGammaEnter",&NumGammaEnter);
+	
+	Int_t nentries = Singles->GetEntries(); 
+	cout<<nentries<<endl;	
+	
 	// Production info
 	
-	TH1F* numCerenkov = new TH1F("numCerenkov","NumCerenkov",100,0,100);
-	TH1F* numScintillation = new TH1F("numScintillation","NumScintillation",1000,0,80000);
-	TH1F* numOptical = new TH1F("numOptical","NumOptical",100,0,100);
-
-	TH1F* wlgth_cer_prod = new TH1F("wlgth_cer_prod","wlgth_cer_prod",100,0,1e-05);
-	TH1F* wlgth_sc_prod = new TH1F("wlgth_sc_prod","wlgth_sc_prod",100,0,1e-05);
+	TH1F* numCerenkov	 	= new TH1F("numCerenkov","NumCerenkov",100,0,100);
+	TH1F* numScintillation 		= new TH1F("numScintillation","NumScintillation",1000,0,80000);
+	TH1F* numOptical 		= new TH1F("numOptical","NumOptical",100,0,100);
 	
-	TH1F* ScintTime_prod = new TH1F("ScintTime_prod","ScintTime_prod",80,0,4);
-	TH1F* CerTime_prod = new TH1F("CerTime_prod","CerTime_prod",300,0,0.3);
-	   
-	Int_t nentries = Singles->GetEntries(); 
-	cout<<nentries<<endl;
+	TH1F* wlgth_cer_prod 		= new TH1F("wlgth_cer_prod","wlgth_cer_prod",100,0,1e-05);
+	TH1F* wlgth_sc_prod 		= new TH1F("wlgth_sc_prod","wlgth_sc_prod",100,0,1e-05);
+	
+	TH1F* ScintTime_prod 		= new TH1F("ScintTime_prod","ScintTime_prod",80,0,4);
+	TH1F* CerTime_prod 		= new TH1F("CerTime_prod","CerTime_prod",300,0,0.3);
 
 	int NumOptPhotons 	= 0;
 	int NumCerenkovPhotons 	= 0;
@@ -116,13 +118,13 @@ int createScintillationBenchHisto()
 	    NumOptPhotons = NumOptPhotons + opticProcess->size();	  
 	    for(int j=0; j<OptPhotonEnergy->size(); j++)
 	    {
-	      if (opticProcess->at(j) == "Cerenkov")
+	      if (opticProcess->at(j) == 1)
 	      {
 	        wlgth_cer_prod	-> Fill(OptPhotonEnergy->at(j));
 		CerTime_prod	-> Fill(Prod_Time->at(j));
 		NumCerenkovPhotons++;
 	      }
-	      if (opticProcess->at(j) == "Scintillation")
+	      if (opticProcess->at(j) == 2)
 	      {
 	        wlgth_sc_prod  	-> Fill(OptPhotonEnergy->at(j));
 		ScintTime_prod 	-> Fill(Prod_Time->at(j));
@@ -137,43 +139,45 @@ int createScintillationBenchHisto()
 	  NumCerenkovPhotons 	= 0;
        	  NumScintPhotons 	= 0;
 	}
-	
-	cout << "Exit begins" << endl;
+
 	
 	// Info at exit
 	
-	TH1F* numextracted 		= new TH1F("numextracted","Numextracted",5000,0,5000);
-	TH1F* numextracted_side 	= new TH1F("numextracted_side","Numextracted_side",5000,0,5000);
-	TH1F* numextracted_source 	= new TH1F("numextracted_source","Numextracted_source",5000,0,5000);
-	TH1F* numextracted_opposite 	= new TH1F("numextracted_opposite","Numextracted_opposite",5000,0,5000);
-		
-	TH1F* numScint_ex = new TH1F("numScint_ex","NumScint_ex",1000,0,4000);
-	TH1F* numCer_ex = new TH1F("numCer_ex","NumCer_ex",100,0,100);
-	TH1F* numCer_ex_norm = new TH1F("numCer_ex_norm","NumCer_ex_norm",100,0,100);
-	TH1F* CerTime_ex = new TH1F("CerTime_ex","CerTime_ex",400,0,0.4);
-	TH1F* ScintTime_ex = new TH1F("ScintTime_ex","ScintTime_ex",4000,0,4);
-	TH1F* Time_ex = new TH1F("Time_ex","Time_ex",4000,0,4);
 
-	TH1F* wlgth_cer_exit = new TH1F("wlgth_cer_exit","wlgth_cer_exit",100,0,1e-05);
-	TH1F* wlgth_sc_exit = new TH1F("wlgth_sc_exit","wlgth_sc_exit",100,0,1e-05); 
-	
-	int NumExtracted_tot 		= 0;
-	int NumExtracted_Side_tot	= 0;
-	int NumExtracted_Source_tot   	= 0;
-	int NumExtracted_Opposite_tot 	= 0;
-	int numScint_tot 		= 0;
-	int numCer_tot 			= 0; 
-	int numCer_norm_tot 		= 0;
-	
-	if(hits == 0)
+	if(control == 1)
 	{
+	  cout << "Exit begins" << endl;
+	  
+	  TH1F* numextracted 		= new TH1F("numextracted","Numextracted",5000,0,5000);
+	  TH1F* numextracted_side 	= new TH1F("numextracted_side","Numextracted_side",5000,0,5000);
+	  TH1F* numextracted_source 	= new TH1F("numextracted_source","Numextracted_source",5000,0,5000);
+	  TH1F* numextracted_opposite 	= new TH1F("numextracted_opposite","Numextracted_opposite",5000,0,5000);
+		
+	  TH1F* numScint_ex 		= new TH1F("numScint_ex","NumScint_ex",1000,0,4000);
+	  TH1F* numCer_ex 		= new TH1F("numCer_ex","NumCer_ex",100,0,100);
+	  TH1F* numCer_ex_norm 		= new TH1F("numCer_ex_norm","NumCer_ex_norm",100,0,100);
+	  TH1F* CerTime_ex 		= new TH1F("CerTime_ex","CerTime_ex",400,0,0.4);
+	  TH1F* ScintTime_ex 		= new TH1F("ScintTime_ex","ScintTime_ex",4000,0,4);
+	  TH1F* Time_ex 		= new TH1F("Time_ex","Time_ex",4000,0,4);
+
+	  TH1F* wlgth_cer_exit 		= new TH1F("wlgth_cer_exit","wlgth_cer_exit",100,0,1e-05);
+	  TH1F* wlgth_sc_exit 		= new TH1F("wlgth_sc_exit","wlgth_sc_exit",100,0,1e-05); 
+	
+	  int NumExtracted_tot 			= 0;
+	  int NumExtracted_Side_tot		= 0;
+	  int NumExtracted_Source_tot   	= 0;
+ 	  int NumExtracted_Opposite_tot 	= 0;
+	  int numScint_tot 			= 0;
+	  int numCer_tot 			= 0; 
+	  int numCer_norm_tot 			= 0;	
+	
 	  for (int i=0; i<nentries; i++)
 	  {
 	    int NumExtracted 		= 0;
-	    int NumExtracted_Side		= 0;
+	    int NumExtracted_Side	= 0;
 	    int NumExtracted_Source   	= 0;
 	    int NumExtracted_Opposite 	= 0;
-	    int numScint 			= 0;
+	    int numScint 		= 0;
 	    int numCer 			= 0; 
 	    int numCer_norm 		= 0;
 	  
@@ -261,41 +265,35 @@ int createScintillationBenchHisto()
 	  cout << "numCer_norm_tot = " 		<< numCer_norm_tot 		<< endl;
         }
 	
-        TH1F* num_detector 		= new TH1F("num_detector","Num_detector",5000,0,5000);
-	TH1F* num_det_win 		= new TH1F("num_det_win","num_det_win",5000,0,5000);
-	TH1F* num_det_cry 		= new TH1F("num_det_cry","num_det_cry",5000,0,5000);
-	TH1F* time_det_win		= new TH1F("time_det_win","time_det_win",4000,0,4);
-	TH1F* time_det_cry 		= new TH1F("time_det_cry","time_det_cry",4000,0,4);
-	TH1F* time_det_tot 		= new TH1F("time_det_tot","time_det_tot",4000,0,4);
-	TH1F* wlgth_det			= new TH1F("wlgth_det","wlgth_det",100,0,1e-05);
-	TH1F* wlgth_det_norm		= new TH1F("wlgth_det_norm","wlgth_det_norm",100,0,1e-05);
-	
-	int NumExtracted_tot_2	= 0;
-	int NumDet_tot		= 0;
-	int NumDetWin_tot	= 0;
-	int NumDetCry_tot	= 0;
-	int Num_norm_tot	= 0;
 	
 	if(hits == 1)
 	{
+          TH1F* num_detector 		= new TH1F("num_detector","Num_detector",5000,0,5000);
+	  TH1F* num_det_win 		= new TH1F("num_det_win","num_det_win",5000,0,5000);
+	  TH1F* num_det_cry 		= new TH1F("num_det_cry","num_det_cry",5000,0,5000);
+	  TH1F* time_det_win		= new TH1F("time_det_win","time_det_win",4000,0,4);
+	  TH1F* time_det_cry 		= new TH1F("time_det_cry","time_det_cry",4000,0,4);
+	  TH1F* time_det_tot 		= new TH1F("time_det_tot","time_det_tot",4000,0,4);
+	  TH1F* wlgth_det		= new TH1F("wlgth_det","wlgth_det",100,0,1e-05);
+
+	  int NumDet_tot		= 0;
+	  int NumDetWin_tot		= 0;
+	  int NumDetCry_tot		= 0;
+	  int Num_norm_tot		= 0;
+	
 	  for (int i=0; i<nentries; i++)
 	  {
 	    if(i%10000000 == 0 && i!=0)
 	    {
 	      cout << "Events analyzed    " << i << endl;
 	    }
-	    int NumExtracted	= 0;
+	 
 	    int NumDet		= 0;
 	    int NumDetWin	= 0;
 	    int NumDetCry	= 0;
 	    int Num_norm	= 0;
 	  
 	    Singles->GetEntry(i);
-	  
-	    if(Extraction->size() != 0)
-	    {
-	      NumExtracted = Extraction -> size();
-	    }
 	  
 	    if(Volume -> size() != 0)
 	    {
@@ -333,7 +331,7 @@ int createScintillationBenchHisto()
 	          }
 	        }
 	      }
-	      numextracted ->Fill(NumExtracted);
+	 
 	      if(NumDet != 0)
 	      {
 	        num_detector -> Fill(NumDet);
@@ -346,19 +344,13 @@ int createScintillationBenchHisto()
 	      {
 	        num_det_win -> Fill(NumDetWin);
 	      }
-	      if(Num_norm != 0)
-	      {
-	        wlgth_det_norm -> Fill(Num_norm);
-	      }
 	    }
-	    NumExtracted_tot_2 	= NumExtracted_tot_2 + NumExtracted;
 	    NumDet_tot		= NumDet_tot + NumDet;
 	    NumDetWin_tot   	= NumDetWin_tot + NumDetWin;
 	    NumDetCry_tot 	= NumDetCry_tot + NumDetCry;
 	    Num_norm_tot 	= Num_norm_tot + Num_norm;
 	  }
 	
-	  cout << "NumExtracted_tot_2 = "	<< NumExtracted_tot_2	<< endl;
 	  cout << "NumDet_tot = "		<< NumDet_tot		<< endl;
 	  cout << "NumDetWin_tot = "		<< NumDetWin_tot 	<< endl;
 	  cout << "NumDetCry_tot = "		<< NumDetCry_tot 	<< endl;
@@ -367,7 +359,6 @@ int createScintillationBenchHisto()
 	
 	TFile * data 	= new TFile(rootOutputFileName.c_str(),"RECREATE");
 
-	numextracted 		-> Write();
         numCerenkov 		-> Write();
 	numScintillation 	-> Write();
 	numOptical		-> Write();
@@ -376,8 +367,9 @@ int createScintillationBenchHisto()
 	CerTime_prod 		-> Write();	
 	ScintTime_prod 		-> Write();
 	
-	if(hits == 0)
+	if(control == 1)
 	{
+	  numextracted		 -> Write();
 	  numScint_ex		 -> Write();
 	  numCer_ex		 -> Write();
 	  numCer_ex_norm	 -> Write();
@@ -401,7 +393,6 @@ int createScintillationBenchHisto()
 	  time_det_cry 		-> Write();
 	  time_det_tot 		-> Write();
 	  wlgth_det		-> Write();
-	  wlgth_det_norm	-> Write();
 	}
 	  
 	return 0;
