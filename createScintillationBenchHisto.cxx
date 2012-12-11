@@ -14,7 +14,7 @@ using namespace std;
 int createScintillationBenchHisto() 
 {
 	string pathName = "./";
-	string length = "test_LuagCe";
+	string length = "single_LuagCe_1";
 	string finish = "";
 	string rootInputFileName = "./" + length + "" + finish + ".root";
 	string rootOutputFileName = "./data_" + length + "" + finish + ".root";
@@ -295,8 +295,8 @@ int createScintillationBenchHisto()
 	  
 	    Singles->GetEntry(i);
 	  
-	    if(Volume -> size() != 0)
-	    {
+	    //if(Volume -> size() != 0)
+	    //{
 	      NumDet = Volume -> size();
 	      for(int j=0; j<Volume -> size(); j++)
 	      {
@@ -332,19 +332,19 @@ int createScintillationBenchHisto()
 	        }
 	      }
 	 
-	      if(NumDet != 0)
-	      {
+	      //if(NumDet != 0)
+	      //{
 	        num_detector -> Fill(NumDet);
-	      }
-	      if(NumDetCry != 0)
-	      {  
+	      //}
+	      //if(NumDetCry != 0)
+	      //{  
 	        num_det_cry -> Fill(NumDetCry);
-	      }
-	      if(NumDetWin != 0)
-	      {
+	      //}
+	      //if(NumDetWin != 0)
+	      //{
 	        num_det_win -> Fill(NumDetWin);
-	      }
-	    }
+	      //}
+	    //}
 	    NumDet_tot		= NumDet_tot + NumDet;
 	    NumDetWin_tot   	= NumDetWin_tot + NumDetWin;
 	    NumDetCry_tot 	= NumDetCry_tot + NumDetCry;
