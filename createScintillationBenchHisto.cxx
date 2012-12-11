@@ -95,6 +95,9 @@ int createScintillationBenchHisto()
 	TH1F* numCerenkov	 	= new TH1F("numCerenkov","NumCerenkov",100,0,100);
 	TH1F* numScintillation 		= new TH1F("numScintillation","NumScintillation",1000,0,80000);
 	TH1F* numOptical 		= new TH1F("numOptical","NumOptical",100,0,100);
+	TH1F* numopt	 		= new TH1F("numopt","numopt",1000,0,1000);
+	TH1F* numcer_pr 		= new TH1F("numcer_pr","numcer_pr",1000,0,1000);
+	TH1F* numsc_pr 			= new TH1F("numsc_pr","numsc_pr",1000,0,1000);
 	
 	TH1F* wlgth_cer_prod 		= new TH1F("wlgth_cer_prod","wlgth_cer_prod",100,0,1e-05);
 	TH1F* wlgth_sc_prod 		= new TH1F("wlgth_sc_prod","wlgth_sc_prod",100,0,1e-05);
@@ -106,6 +109,10 @@ int createScintillationBenchHisto()
 	int NumCerenkovPhotons 	= 0;
 	int NumScintPhotons 	= 0;
 	
+	int opt 	= 0;
+	int cer_pr 	= 0;
+	int sc_pr	= 0;
+	
 	for (Int_t i=0; i<nentries; i++)
         {   
 	  if(i%10000000 == 0 && i!=0)
@@ -115,17 +122,33 @@ int createScintillationBenchHisto()
 	  Singles->GetEntry(i);
 	  if(opticProcess->size() != 0)
 	  {
+	    opt++;
+	  }
+	  if(opticProcess->size() != 0)
+	  {
 	    NumOptPhotons = NumOptPhotons + opticProcess->size();	  
 	    for(int j=0; j<OptPhotonEnergy->size(); j++)
 	    {
+	      int contr1 = 0;
+	      int contr2 = 0;
 	      if (opticProcess->at(j) == 1)
 	      {
+		if (contr1 == 0)
+		{
+		  cer_pr++;
+		  contr1 = 1;
+		}
 	        wlgth_cer_prod	-> Fill(OptPhotonEnergy->at(j));
 		CerTime_prod	-> Fill(Prod_Time->at(j));
 		NumCerenkovPhotons++;
 	      }
 	      if (opticProcess->at(j) == 2)
 	      {
+		if (contr2 == 0)
+		{
+		  sc_pr++;
+		  contr2 = 1;
+		}
 	        wlgth_sc_prod  	-> Fill(OptPhotonEnergy->at(j));
 		ScintTime_prod 	-> Fill(Prod_Time->at(j));
 		NumScintPhotons++;
@@ -140,10 +163,16 @@ int createScintillationBenchHisto()
        	  NumScintPhotons 	= 0;
 	}
 
+	cout << "Processes = " << opt << endl;
+	cout << "Scintillation processes = " << cer_pr << endl;
+	cout << "Cerenkov processes = " << sc_pr << endl;
+	
+	numopt		-> Fill(opt);	
+	numcer_pr 	-> Fill(cer_pr);	
+	numsc_pr 	-> Fill(sc_pr);	
 	
 	// Info at exit
 	
-
 	if(control == 1)
 	{
 	  cout << "Exit begins" << endl;
@@ -366,6 +395,10 @@ int createScintillationBenchHisto()
 	wlgth_sc_prod		-> Write();
 	CerTime_prod 		-> Write();	
 	ScintTime_prod 		-> Write();
+	
+	numopt			-> Write();	
+	numcer_pr 		-> Write();	
+	numsc_pr 		-> Write();	
 	
 	if(control == 1)
 	{
