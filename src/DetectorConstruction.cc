@@ -97,7 +97,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	{
 	  G4Tubs* win_tub = new G4Tubs("Window",0.0,0.5*win_diam,0.5*win_depth,0,360);
 	  G4LogicalVolume* win_log  = new G4LogicalVolume(win_tub,WiMaterial,"Window",0,0,0);
-	  G4VPhysicalVolume* win_phys = new G4PVPlacement(0,G4ThreeVector(win_x,win_y,win_z),win_log,"Window",expHall_log,false,0);
+	  G4RotationMatrix* rot_win = new G4RotationMatrix();
+	  rot_win->rotateX(90*deg);
+	  G4VPhysicalVolume* win_phys = new G4PVPlacement(rot_win,G4ThreeVector(win_x,win_y,win_z),win_log,"Window",expHall_log,false,0);
 	}
 	
 	//if(mat_det == 0)
