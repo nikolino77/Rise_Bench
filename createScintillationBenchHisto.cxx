@@ -14,7 +14,7 @@ using namespace std;
 int createScintillationBenchHisto() 
 {
 	string pathName = "./";
-	string length = "single_LuagCe_1";
+	string length = "LuAG_10mm_7";
 	string finish = "";
 	string rootInputFileName = "./" + length + "" + finish + ".root";
 	string rootOutputFileName = "./data_" + length + "" + finish + ".root";
@@ -95,9 +95,9 @@ int createScintillationBenchHisto()
 	TH1F* numCerenkov	 	= new TH1F("numCerenkov","NumCerenkov",100,0,100);
 	TH1F* numScintillation 		= new TH1F("numScintillation","NumScintillation",1000,0,80000);
 	TH1F* numOptical 		= new TH1F("numOptical","NumOptical",100,0,100);
-	TH1F* numopt	 		= new TH1F("numopt","numopt",1000,0,1000);
-	TH1F* numcer_pr 		= new TH1F("numcer_pr","numcer_pr",1000,0,1000);
-	TH1F* numsc_pr 			= new TH1F("numsc_pr","numsc_pr",1000,0,1000);
+	TH1F* numopt	 		= new TH1F("numopt","numopt",1000,0,10000);
+	TH1F* numcer_pr 		= new TH1F("numcer_pr","numcer_pr",1000,0,10000);
+	TH1F* numsc_pr 			= new TH1F("numsc_pr","numsc_pr",1000,0,10000);
 	
 	TH1F* wlgth_cer_prod 		= new TH1F("wlgth_cer_prod","wlgth_cer_prod",100,0,1e-05);
 	TH1F* wlgth_sc_prod 		= new TH1F("wlgth_sc_prod","wlgth_sc_prod",100,0,1e-05);
@@ -122,15 +122,12 @@ int createScintillationBenchHisto()
 	  Singles->GetEntry(i);
 	  if(opticProcess->size() != 0)
 	  {
+	    NumOptPhotons = NumOptPhotons + opticProcess->size();	 
 	    opt++;
-	  }
-	  if(opticProcess->size() != 0)
-	  {
-	    NumOptPhotons = NumOptPhotons + opticProcess->size();	  
+	    int contr1 = 0;
+	    int contr2 = 0; 
 	    for(int j=0; j<OptPhotonEnergy->size(); j++)
 	    {
-	      int contr1 = 0;
-	      int contr2 = 0;
 	      if (opticProcess->at(j) == 1)
 	      {
 		if (contr1 == 0)
