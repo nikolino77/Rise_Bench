@@ -40,6 +40,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 		G4double det_x;
 		G4double det_y;
 		G4double det_z;
+		G4double rot_ang;
 		
 		G4double win_diam;
 		G4double win_depth;
