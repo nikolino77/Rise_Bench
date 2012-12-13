@@ -98,7 +98,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	  G4Tubs* win_tub = new G4Tubs("Window",0.0,0.5*win_diam,0.5*win_depth,0,360);
 	  G4LogicalVolume* win_log  = new G4LogicalVolume(win_tub,WiMaterial,"Window",0,0,0);
 	  G4RotationMatrix* rot_win = new G4RotationMatrix();
-	  rot_win->rotateX(90*deg);
+	  rot_win->rotateX(rot_ang*deg);
 	  G4VPhysicalVolume* win_phys = new G4PVPlacement(rot_win,G4ThreeVector(win_x,win_y,win_z),win_log,"Window",expHall_log,false,0);
 	}
 	
@@ -213,7 +213,8 @@ void DetectorConstruction::readConfigFile(string configFileName)
 	config.readInto(det_x,"det_x");
 	config.readInto(det_y,"det_y");
 	config.readInto(det_z,"det_z");
-  
+
+	config.readInto(rot_ang,"rot_ang");
 	config.readInto(win_diam, "win_diam");
 	config.readInto(win_depth, "win_depth");
 	config.readInto(win_x, "win_x");
