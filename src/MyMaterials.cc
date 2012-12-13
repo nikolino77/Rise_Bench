@@ -1988,18 +1988,20 @@ G4Material *MyMaterials::LSO()
 1.059409627e-28	
     };
 
-    /*
+    
     const G4int LSO_NUMENTRIES_2 = 5;
     G4double LSO_RIND_Energy[LSO_NUMENTRIES_2]      = { 1.91 * eV, 2.06 * eV, 2.27 * eV, 3.06 * eV, 3.54 * eV };
     G4double LSO_RIND_INDEX[LSO_NUMENTRIES_2]       = { 1.8, 1.8, 1.81, 1.83, 1.85 };
     G4double LSO_ABS_Energy[LSO_NUMENTRIES_2]       = { 1.91 * eV, 2.06 * eV, 2.27 * eV, 3.06 * eV, 3.54 * eV };
     G4double LSO_ABS_LENGTH[LSO_NUMENTRIES_2]       = { 138.*mm, 138.*mm, 138.*mm, 138.*mm, 138.*mm };
-    */
+    
+    /*
     const G4int LSO_NUMENTRIES_2 = 7;
     G4double LSO_RIND_Energy[LSO_NUMENTRIES_2]      = { 0.1 * eV, 1.91 * eV, 2.06 * eV, 2.27 * eV, 3.06 * eV, 3.54 * eV, 10 * eV };
     G4double LSO_RIND_INDEX[LSO_NUMENTRIES_2]       = { 1.82, 1.82, 1.82, 1.82, 1.82, 1.82, 1.82 };
     G4double LSO_ABS_Energy[LSO_NUMENTRIES_2]       = { 0.1 * eV, 1.91 * eV, 2.06 * eV, 2.27 * eV, 3.06 * eV, 3.54 * eV, 10 * eV };
     G4double LSO_ABS_LENGTH[LSO_NUMENTRIES_2]       = { 138.*mm, 138.*mm, 138.*mm, 138.*mm, 138.*mm, 138.*mm, 138.*mm };
+	*/
 
     G4MaterialPropertiesTable *LSO_mt = new G4MaterialPropertiesTable();
     LSO_mt->AddProperty ("FASTCOMPONENT", LSO_FAST_Energy, LSO_FAST_COMPONENT, LSO_NUMENTRIES_1);
@@ -2022,7 +2024,7 @@ G4Material *MyMaterials::LSO()
     for (int i = 0; i < LSO_SCY_NUMENTRIES; i++) {
         LSO_SCY[i] = 60000.0 * MeV * LSO_SCY[i] * LSO_SCY_Energy[i];
     }
-    LSO_mt->AddProperty ("ELECTRONSCINTILLATIONYIELD", LSO_SCY_Energy, LSO_SCY, LSO_SCY_NUMENTRIES);
+    //LSO_mt->AddProperty ("ELECTRONSCINTILLATIONYIELD", LSO_SCY_Energy, LSO_SCY, LSO_SCY_NUMENTRIES);
 
 
 
