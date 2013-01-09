@@ -933,16 +933,12 @@ G4Material *MyMaterials::LYSO()
         0.011691,
     };
 
-
-
-    const G4int NUMENTRIES_2 = 3;
-    G4double RIND_Energy[NUMENTRIES_2]    = { 1.0 * eV, 1.84 * eV, 4.08 * eV };
-    G4double RIND_INDEX[NUMENTRIES_2]     = { 1.82, 1.82, 1.82 };
-
-    const G4int NUMENTRIES_3 = 9;
-    G4double ABS_Energy[NUMENTRIES_3]     = { 1.00 * eV , 2.82 * eV , 2.88 * eV , 2.95 * eV , 3.02 * eV  , 3.10 * eV  , 3.18 * eV  , 3.26 * eV , 4.08 * eV };
-    G4double ABS_LENGTH[NUMENTRIES_3]     = { 438.*mm , 438.*mm , 413.*mm , 375.*mm , 263.*mm  , 87.5 * mm  , 11.5 * mm  , 1.0 * mm  , 1.0 * mm  };
-
+	const G4int NUMENTRIES_2 = 5;
+    G4double RIND_Energy[NUMENTRIES_2]      = { 1.91 * eV, 2.06 * eV, 2.27 * eV, 3.06 * eV, 3.54 * eV };
+    G4double RIND_INDEX[NUMENTRIES_2]       = { 1.8, 1.8, 1.81, 1.83, 1.85 };
+    G4double ABS_Energy[NUMENTRIES_2]       = { 1.91 * eV, 2.06 * eV, 2.27 * eV, 3.06 * eV, 3.54 * eV };
+    G4double ABS_LENGTH[NUMENTRIES_2]       = { 138.*mm, 138.*mm, 138.*mm, 138.*mm, 138.*mm };
+    
 //const G4int NUMENTRIES_3 = 3;
 //G4double ABS_Energy[NUMENTRIES_3]     = { 1.0*eV, 1.84*eV, 4.08*eV };
 //G4double ABS_LENGTH[NUMENTRIES_3]       = { 138000.*mm, 138000.*mm, 138000.*mm };
