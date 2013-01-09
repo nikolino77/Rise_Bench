@@ -951,7 +951,7 @@ G4Material *MyMaterials::LYSO()
     G4MaterialPropertiesTable *mt = new G4MaterialPropertiesTable();
     mt->AddProperty ("FASTCOMPONENT", FAST_Energy, FAST_COMPONENT, NUMENTRIES_1);
     mt->AddProperty ("RINDEX",        RIND_Energy, RIND_INDEX,     NUMENTRIES_2);
-    mt->AddProperty ("ABSLENGTH",     ABS_Energy,  ABS_LENGTH,     NUMENTRIES_3);
+    mt->AddProperty ("ABSLENGTH",     ABS_Energy,  ABS_LENGTH,     NUMENTRIES_2);
     //mt->AddProperty("RAYLEIGH",      ABS_Energy,  Rayleigh,     NUMENTRIES_2);
     mt->AddConstProperty ("SCINTILLATIONYIELD", 40000. / MeV);
     mt->AddConstProperty ("RESOLUTIONSCALE", 3.4);
