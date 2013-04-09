@@ -38,7 +38,6 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
 
   
   // ------------------------ STORING PARTICLE AND PROCESSES ------------------------- //
- 
   
   // Storing time, energy and position of optical photons absorbed
   if(particleType==G4OpticalPhoton::OpticalPhotonDefinition())
@@ -67,7 +66,8 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
   { 
     if(CreateTree::Instance() -> Crystal())
     {
-      if(thePrePV->GetName()=="Air_source" &&  thePostPV->GetName()=="Crystal")
+      	//cout << thePrePV->GetName() <<endl;
+      if(thePrePV->GetName()=="Air_opposite" &&  thePostPV->GetName()=="Crystal")
       {
         CreateTree::Instance()-> NumGammaEnter = 1;    
       }

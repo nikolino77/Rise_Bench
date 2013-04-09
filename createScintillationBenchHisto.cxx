@@ -14,7 +14,7 @@ using namespace std;
 int createScintillationBenchHisto() 
 {
 	string pathName = "./";
-	string length = "window";
+	string length = "test";
 	string finish = "";
 	string rootInputFileName = "./" + length + "" + finish + ".root";
 	string rootOutputFileName = "./data_" + length + "" + finish + ".root";
@@ -31,7 +31,7 @@ int createScintillationBenchHisto()
 	Int_t            NumOptPhotons;
 		
 	Int_t hits = 1;
-	Int_t control = 0;
+	Int_t control = 1;
 	Int_t deposit = 0;
 	
 	if (deposit == 1)
@@ -112,6 +112,13 @@ int createScintillationBenchHisto()
 	int opt 	= 0;
 	int cer_pr 	= 0;
 	int sc_pr	= 0;
+	int num_event_no = 0;
+	int num_gamma_enter = 0;
+	
+	ofstream myfile1;
+	ofstream myfile2;
+	myfile1.open ("LSO_number.txt");
+        myfile2.open ("LSO_wavelength.txt");
 	
 	for (Int_t i=0; i<nentries; i++)
         {   
@@ -120,6 +127,9 @@ int createScintillationBenchHisto()
 	    cout << "Events analyzed    " << i << endl;
 	  }			
 	  Singles->GetEntry(i);
+	  cout<<NumGammaEnter<<endl;
+	  if (NumGammaEnter == 1)
+	  {num_gamma_enter++;}
 	  if(opticProcess->size() != 0)
 	  {
 	    NumOptPhotons = NumOptPhotons + opticProcess->size();	 
@@ -136,6 +146,7 @@ int createScintillationBenchHisto()
 		  contr1 = 1;
 		}
 	        wlgth_cer_prod	-> Fill(OptPhotonEnergy->at(j));
+		myfile2 << OptPhotonEnergy->at(j) << endl;
 		CerTime_prod	-> Fill(Prod_Time->at(j));
 		NumCerenkovPhotons++;
 	      }
@@ -152,9 +163,12 @@ int createScintillationBenchHisto()
 	      }
 	    }	
 	    numCerenkov		-> Fill(NumCerenkovPhotons);
+	    myfile1 << NumCerenkovPhotons << endl;
+
 	    numScintillation 	-> Fill(NumScintPhotons);
 	    numOptical 		-> Fill(NumOptPhotons);
 	  }
+	  else {num_event_no++;}
 	  NumOptPhotons 	= 0;
 	  NumCerenkovPhotons 	= 0;
        	  NumScintPhotons 	= 0;
@@ -162,11 +176,16 @@ int createScintillationBenchHisto()
 
 	cout << "Processes = " << opt << endl;
 	cout << "Scintillation processes = " << cer_pr << endl;
-	cout << "Cerenkov processes = " << sc_pr << endl;
+	cout << "Gamma enter = " << num_gamma_enter << endl;
+	cout << "No processes = " << num_event_no << endl;
+
 	
 	numopt		-> Fill(opt);	
 	numcer_pr 	-> Fill(cer_pr);	
 	numsc_pr 	-> Fill(sc_pr);	
+
+	myfile1.close();
+	myfile2.close();
 	
 	// Info at exit
 	

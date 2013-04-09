@@ -174,8 +174,8 @@ void PhysicsList::ConstructOp()
 //  theScintillationProcess->DumpPhysicsTable();
 //  theRayleighScatteringProcess->DumpPhysicsTable();
 
-  theCerenkovProcess->SetMaxNumPhotonsPerStep(10000);
-  theCerenkovProcess->SetMaxBetaChangePerStep(10.0);
+  //theCerenkovProcess->SetMaxNumPhotonsPerStep(10000);
+  //theCerenkovProcess->SetMaxBetaChangePerStep(100.0);
   theCerenkovProcess->SetTrackSecondariesFirst(true);
   
   theScintillationProcess->SetScintillationYieldFactor(1.);
