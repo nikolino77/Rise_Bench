@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/resource.h>
+#include <vector>
 
 #include "G4RunManager.hh"
 #include "G4UImanager.hh"
@@ -64,11 +65,7 @@ int main(int argc,char** argv)
      		cout<<"Syntax: crystal <configuration file> <output file>"<<endl; 
      		exit(0);
   	}
-  	#pragma link off all classes;
-	#pragma link C++ class std::vector<float>;
-	gInterpreter->GenerateDictionary("vector<float>","vector");
-	//gInterpreter->GenerateDictionary("vector<string>","vector");
-
+  	gInterpreter->GenerateDictionary("vector<float>","vector");
 
   	cout<<"\n"<<endl;
   	cout<<"###########################################################"<<endl;  

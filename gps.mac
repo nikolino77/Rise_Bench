@@ -10,4 +10,4 @@
 /gps/ang/mintheta 0
 #/gps/ang/maxtheta 0.3
 /gps/ang/maxtheta 0.3
-/run/beamOn 1000000
+/run/beamOn 10000

@@ -20,17 +20,16 @@ using boost::mutex;
 using boost::thread;
 
 //TO COMPILE "from6to5Root" 
-//g++ -Wall -ansi launch_parallel_manyCrystals.cxx -o launchParallelManyCrystalsEXE `root-config --cflags --glibs` -lboost_thread
+//g++ -Wall -ansi rise_parallel.cxx -o rise_parallel `root-config --cflags --glibs` -I /usr/include/boost -lboost_thread-mt
 
-
-void myThread(int number, string name) 
+void myThread(int number, string conf, string name) 
 {	
 	ostringstream temp1;
 	temp1 << number;
 	string command;	
 	
 	string rootFile = name + temp1.str();
-	command = "$G4WORKDIR/bin/Linux-g++/H2_cer " + rootFile + " ";
+	command = "$G4WORKDIR/bin/Linux-g++/rise_bench " + conf + " " + rootFile + " ";
 	cout << command << endl;
 	system(command.c_str());
 };
@@ -42,12 +41,13 @@ int main(int argc, char** argv)
 
     int n_cpu          = atoi(argv[1]);
     int n_processi     = atoi(argv[2]);
-    string filename    = argv[3];
+    string conf	       = argv[3];
+    string filename    = argv[4];
     	
     boost::threadpool::thread_pool<> tpool(n_cpu);
     for(int j=0; j<n_processi; j++)
     {
-      tpool.schedule(boost::bind(myThread, j, filename));
+      tpool.schedule(boost::bind(myThread, j, conf, filename));
     }
     tpool.wait();
     cout << "Done" << endl;
