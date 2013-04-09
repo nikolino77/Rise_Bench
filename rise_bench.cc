@@ -60,12 +60,34 @@ int main(int argc,char** argv)
  	// -----------------------------------------
 	// -----------------------------------------
 
-  	if(argc<3) 
+	gInterpreter->GenerateDictionary("vector<float>","vector");
+	
+	if (argc != 3 && argc != 2)
 	{
-     		cout<<"Syntax: crystal <configuration file> <output file>"<<endl; 
-     		exit(0);
-  	}
-  	gInterpreter->GenerateDictionary("vector<float>","vector");
+	  cout<<"Syntax for exec: crystal <configuration file> <output file>"<<endl; 
+	  cout<<"Syntax for viz:  crystal <configuration file>"<<endl; 
+	  return 0;
+	  
+	}
+	  
+	string file;
+	string filename;
+	  
+  	if(argc == 3) 
+	{
+     	  cout<<"Syntax for exec: crystal <configuration file> <output file>"<<endl; 
+  	  file = argv[2];
+	  filename = file + ".root";
+  	  G4cout<<"Writing data to file '"<<filename<<"' ..."<<G4endl;
+	  
+	}
+  	
+  	if (argc == 2)
+	{
+	  cout<<"Starting viz mode..."<<endl; 
+	}
+	
+	
 
   	cout<<"\n"<<endl;
   	cout<<"###########################################################"<<endl;  
@@ -81,9 +103,7 @@ int main(int argc,char** argv)
 
   	G4cout<<"Configuration file: '"<<argv[1]<<"'"<<G4endl;
   	ConfigFile config(argv[1]);
-  	string file = argv[2];
-	string filename = file + ".root";
-  	G4cout<<"Writing data to file '"<<filename<<"' ..."<<G4endl;
+
   	string macro;
   	config.readInto(macro,"macro");
   	G4cout<<"Reading macro '"<<macro<<"' ..."<<G4endl;
@@ -215,12 +235,6 @@ int main(int argc,char** argv)
   	physics = new PhysicsList;
   	runManager->SetUserInitialization(physics);
 
-	// Visualization manager
-	#ifdef G4VIS_USE
-  	G4VisManager* visManager = new G4VisExecutive;
-  	visManager->Initialize();
-	#endif
-
   	// UserAction classes
   	G4UserRunAction* run_action = new RunAction;
   	runManager->SetUserAction(run_action);
@@ -242,57 +256,62 @@ int main(int argc,char** argv)
   	SteppingAction* stepping_action = new SteppingAction;
   	runManager->SetUserAction(stepping_action);
 
-  	// Initialize G4 kernel
-  	runManager->Initialize();
+  
+	// Initialize G4 kernel
+	//
+	//runManager->Initialize();
+  
+	// Get the pointer to the User Interface manager
+	//
+
+	if (argc==2)   // Define UI session for interactive mode
+	{    
+	  #ifdef G4VIS_USE
+	  G4VisManager* visManager = new G4VisExecutive;
+	  visManager->Initialize();
+	  #endif
+     
+	  // Initialize G4 kernel
+	  //
+	  runManager->Initialize();
     
-  	// Get the pointer to the User Interface manager
-  	G4UImanager* UI = G4UImanager::GetUIpointer(); 
+	  G4UImanager* UImanager = G4UImanager::GetUIpointer(); 
+	  #ifdef G4UI_USE
+	  G4UIExecutive * ui = new G4UIExecutive(argc,argv);
+	  #ifdef G4VIS_USE
+	  UImanager->ApplyCommand("/control/execute vis.mac");     
+	  #endif
+	  ui->SessionStart();
+	  delete ui;
+	  #endif 
    
-  	if (macro=="") 
-	{  
-		// Define UI session for interactive mode
-      		G4UIsession* session = 0;
-		#ifdef G4UI_USE_TCSH
-      			session = new G4UIterminal(new G4UItcsh);      
-		#else
-      			session = new G4UIterminal();
-		#endif    
-      		//UI->ApplyCommand("/control/execute vis.mac"); 
-      		session->SessionStart();
-      		delete session;
-   	} 
-	else 
-	{        
-		// Batch mode
-    		//UI->ApplyCommand("/control/execute physics.in");
-     		G4String command = "/control/execute ";
-     		G4String fileName = macro;
-     		UI->ApplyCommand(command+fileName);
-   	}
-   
-	//per fermare il terminale utente 
-	G4UIExecutive * ui = new G4UIExecutive(argc,argv);
-	ui->SessionStart();
-	delete ui;
+	  #ifdef G4VIS_USE
+	  delete visManager;
+	  #endif  
+	}
+	else
+	{
+	  G4UImanager* UImanager = G4UImanager::GetUIpointer(); 
+	  UImanager->ApplyCommand("/control/execute gps.mac");
+	} 
 
-	// Job termination
-  	// Free the store: user actions, physics_list and detector_description are
-  	//                 owned and deleted by the run manager, so they should not
-  	//                 be deleted in the main() program !
+  // Job termination
+  // Free the store: user actions, physics_list and detector_description are
+  //                 owned and deleted by the run manager, so they should not
+  //                 be deleted in the main() program !
+  
+  delete runManager;
+  delete verbosity;
 
-	#ifdef G4VIS_USE
-  		delete visManager;
-	#endif
-  		delete runManager;
-  		delete verbosity;
-
-
-  	G4cout<<"Writing tree to file "<<filename<<" ..."<<G4endl;
-  	mytree->GetTree()->Write();
-  	outfile->Write();
-  	outfile->Close();
-
-  	return 0;
+  if(argc == 3) 
+  {
+    G4cout<<"Writing tree to file "<<filename<<" ..."<<G4endl;
+    mytree->GetTree()->Write();
+    outfile->Write();
+    outfile->Close();
+  }
+    
+  return 0;
 }
 
 

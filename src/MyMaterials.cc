@@ -175,7 +175,7 @@ G4Material *MyMaterials::Vacuum()
     G4Element *N = new G4Element ("Nitrogen", "N", z = 7 , a = 14.01 * g / mole);
     G4Element *O = new G4Element ("Oxygen"  , "O", z = 8 , a = 16.00 * g / mole);
 
-    G4Material *Air = new G4Material ("Air", density = 0.0 * mg / cm3, nelements = 2);
+    G4Material *Air = new G4Material ("Air", density =  1e-25 * g / cm3, nelements = 2);
     Air->AddElement (N, 70.*perCent);
     Air->AddElement (O, 30.*perCent);
 

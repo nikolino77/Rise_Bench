@@ -2,8 +2,8 @@
 #
 # verbosity
 #
-/control/verbose 0
-/tracking/verbose 0
+#/control/verbose 0
+#/tracking/verbose 0
 
 
 #
@@ -19,12 +19,12 @@
 #
 # initialize
 #
-/run/initialize
+#/run/initialize
 
 #
 # set cuts
 #
-/run/setCut  0.001 mm
+#/run/setCut  0.001 mm
 
 #
 # processes
@@ -42,7 +42,7 @@
 #
 # visualisation
 #
-/control/execute vis.mac
+#/control/execute vis.mac
 
 
 #
@@ -52,7 +52,7 @@
 #/gun/energy 511 keV
 #/gun/direction 0 0 -1
 #/gun/position  0.0 0.0 0.76 cm
-/control/execute gps.mac
+#/control/execute gps.mac
 
 #
 # run start

@@ -3,6 +3,9 @@
 # to be used together with "task2b.c"
 #
 #
+
+/run/initialize
+
 /gps/energy 511 keV
 /gps/particle gamma
 /gps/position 0 0 10 mm
