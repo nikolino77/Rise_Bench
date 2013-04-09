@@ -59,9 +59,9 @@ int main(int argc,char** argv)
  	// -----------------------------------------
 	// -----------------------------------------
 
-  	if(argc<2) 
+  	if(argc<3) 
 	{
-     		cout<<"Syntax: crystal <configuration file>"<<endl; 
+     		cout<<"Syntax: crystal <configuration file> <output file>"<<endl; 
      		exit(0);
   	}
   	#pragma link off all classes;
@@ -84,8 +84,8 @@ int main(int argc,char** argv)
 
   	G4cout<<"Configuration file: '"<<argv[1]<<"'"<<G4endl;
   	ConfigFile config(argv[1]);
-  	string filename;
-  	config.readInto(filename,"output");
+  	string file = argv[2];
+	string filename = file + ".root";
   	G4cout<<"Writing data to file '"<<filename<<"' ..."<<G4endl;
   	string macro;
   	config.readInto(macro,"macro");
