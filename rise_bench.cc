@@ -72,14 +72,17 @@ int main(int argc,char** argv)
 	  
 	string file;
 	string filename;
+	TFile* outfile;
 	  
   	if(argc == 3) 
 	{
-     	  cout<<"Syntax for exec: crystal <configuration file> <output file>"<<endl; 
+     	  cout<<"Starting exec mode..."<<endl; 
   	  file = argv[2];
 	  filename = file + ".root";
   	  G4cout<<"Writing data to file '"<<filename<<"' ..."<<G4endl;
-	  
+	  	
+	  outfile = new TFile((TString)filename,"RECREATE");
+	  outfile->cd();	  
 	}
   	
   	if (argc == 2)
@@ -104,9 +107,6 @@ int main(int argc,char** argv)
   	G4cout<<"Configuration file: '"<<argv[1]<<"'"<<G4endl;
   	ConfigFile config(argv[1]);
 
-  	string macro;
-  	config.readInto(macro,"macro");
-  	G4cout<<"Reading macro '"<<macro<<"' ..."<<G4endl;
   	G4long myseed = config.read<long int>("seed");
   	if(myseed==-1) 
 	{
@@ -192,19 +192,12 @@ int main(int argc,char** argv)
   	
   
 
-
   	// -----------------------------------------
 	// -----------------------------------------
  	// SET DETECTOR PROPERTIES
  	// -----------------------------------------
 	// -----------------------------------------
 
-	if(argv[2]!=NULL) 
-	{ 
-		filename = argv[2];
-	}		
-  	TFile* outfile = new TFile((TString)filename,"RECREATE");
-  	outfile->cd();
 
 	CreateTree* mytree = new CreateTree("g4pet",HITS, WINDOW, CRYSTAL, CONTROL, DEPOSITION);
   	G4VUserDetectorConstruction* detector = new DetectorConstruction();
@@ -231,8 +224,7 @@ int main(int argc,char** argv)
   	runManager->SetUserInitialization(detector);
 
 	// UserInitialization classes - mandatory / Physics list
-  	G4VUserPhysicsList* physics = NULL;
-  	physics = new PhysicsList;
+  	G4VUserPhysicsList* physics = new PhysicsList;
   	runManager->SetUserInitialization(physics);
 
   	// UserAction classes
@@ -240,8 +232,7 @@ int main(int argc,char** argv)
   	runManager->SetUserAction(run_action);
   	
 	// Gen action
-	G4VUserPrimaryGeneratorAction* gen_action = NULL;
-  	gen_action = new PrimaryGeneratorAction;
+	G4VUserPrimaryGeneratorAction* gen_action = new PrimaryGeneratorAction;
  	runManager->SetUserAction(gen_action);
 
   	// Event action
@@ -265,15 +256,16 @@ int main(int argc,char** argv)
 	//
 
 	if (argc==2)   // Define UI session for interactive mode
-	{    
+	{   
+	  
+	  // Initialize G4 kernel
+	  //
+	  runManager->Initialize();
+	  
 	  #ifdef G4VIS_USE
 	  G4VisManager* visManager = new G4VisExecutive;
 	  visManager->Initialize();
 	  #endif
-     
-	  // Initialize G4 kernel
-	  //
-	  runManager->Initialize();
     
 	  G4UImanager* UImanager = G4UImanager::GetUIpointer(); 
 	  #ifdef G4UI_USE
