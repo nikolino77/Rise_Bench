@@ -72,12 +72,12 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	  {
             G4Box* opp_box = new G4Box("Air_opposite",0.5*crystal_x,0.5*crystal_y,0.5*depth);
 	    G4LogicalVolume* opp_log  = new G4LogicalVolume(opp_box,Vacuum,"Air_opposite",0,0,0);
-	    G4VPhysicalVolume* opp_phys = new G4PVPlacement(0,G4ThreeVector(0.,0.,0.5*crystal_height+0.5*depth),opp_log,"Air_opposite",expHall_log,false,0);
+	    G4VPhysicalVolume* opp_phys = new G4PVPlacement(0,G4ThreeVector(0.,0.,-0.5*crystal_height-0.5*depth),opp_log,"Air_opposite",expHall_log,false,0);
 	
 	    G4Box* source_box = new G4Box("Air_source",0.5*crystal_x,0.5*crystal_y,0.5*depth);
 	    G4LogicalVolume* source_log  = new G4LogicalVolume(source_box,Vacuum,"Air_source",0,0,0);
-	    G4VPhysicalVolume* source_phys = new G4PVPlacement(0,G4ThreeVector(0.,0.,-0.5*crystal_height-0.5*depth),source_log,"Air_source",expHall_log,false,0);
-	
+	    G4VPhysicalVolume* source_phys = new G4PVPlacement(0,G4ThreeVector(0.,0.,0.5*crystal_height+0.5*depth),opp_log,"Air_source",expHall_log,false,0);
+
 	    G4Box* side_box = new G4Box("side_box",0.5*crystal_x+0.5*depth,0.5*crystal_y+0.5*depth,0.5*crystal_height);
 	    G4Box* side_empty_box = new G4Box("side_empty_box",0.5*crystal_x,0.5*crystal_y,0.5*crystal_height);
 	    G4SubtractionSolid* side = new G4SubtractionSolid("side", side_box, side_empty_box);
@@ -102,12 +102,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	  G4VPhysicalVolume* win_phys = new G4PVPlacement(rot_win,G4ThreeVector(win_x,win_y,win_z),win_log,"Window",expHall_log,false,0);
 	}
 	
-	//if(mat_det == 0)
-	//{
-	//  TA_log -> SetMaterial(Silicon);
-	//}
-	
-
 	//
 	// Visualization attributes
 	//
@@ -147,11 +141,11 @@ void DetectorConstruction::initializeMaterials(){
 	//
   	// Materials
   	//
-  	Air       = MyMaterials::Air();
-  	Water     = MyMaterials::Water();  
-  	Vacuum    = MyMaterials::Vacuum();
-  	Silicon   = MyMaterials::Silicon();
-  	OptGrease = MyMaterials::OpticalGrease();
+  	Air        = MyMaterials::Air();
+  	Water      = MyMaterials::Water();  
+  	Vacuum     = MyMaterials::Vacuum();
+  	Silicon    = MyMaterials::Silicon();
+  	OptGrease  = MyMaterials::OpticalGrease();
   	ScMaterial = NULL;
 	WiMaterial = NULL;
 
@@ -164,39 +158,39 @@ void DetectorConstruction::initializeMaterials(){
 	else if(crystal_material==7)   ScMaterial = MyMaterials::Quartz();
   	else if(crystal_material>7 || crystal_material<=0) 
 	{
-    		G4cerr<<"<DetectorConstruction::Construct>: Invalid material specifier "<<crystal_material<<G4endl;
-   		exit(0);
+    	  G4cerr<<"<DetectorConstruction::Construct>: Invalid material specifier "<<crystal_material<<G4endl;
+   	  exit(0);
   	}
   	G4cout<<"Sc. material: "<<ScMaterial<<G4endl;
 	
-	if(win_material==7) WiMaterial = MyMaterials::Quartz();
-  	else if(win_material>7 || win_material<7) 
+	if(win_material == 7) WiMaterial = MyMaterials::Quartz();
+  	else if(win_material > 7 || win_material < 7) 
 	{
-    		G4cerr<<"<DetectorConstruction::Construct>: Invalid material specifier "<<win_material<<G4endl;
-   		exit(0);
+    	  G4cerr << "<DetectorConstruction::Construct>: Invalid material specifier " << win_material << G4endl;
+   	  exit(0);
   	}
-  	G4cout<<"Window material: "<<win_material<<G4endl;
+  	G4cout << "Window material: " << win_material << G4endl;
 	
 	//
   	// modify default properties of the scintillator
   	//
   	if(crystal_lightyield>=0) 
 	{
-    		ScMaterial->GetMaterialPropertiesTable()->RemoveConstProperty("SCINTILLATIONYIELD");
-    		ScMaterial->GetMaterialPropertiesTable()->AddConstProperty("SCINTILLATIONYIELD",crystal_lightyield/MeV);  
+    	  ScMaterial->GetMaterialPropertiesTable()->RemoveConstProperty("SCINTILLATIONYIELD");
+    	  ScMaterial->GetMaterialPropertiesTable()->AddConstProperty("SCINTILLATIONYIELD",crystal_lightyield/MeV);  
   	} 
 	else 
 	{
-    		CreateTree::Instance()->ScintillationYield = ScMaterial->GetMaterialPropertiesTable()->GetConstProperty("SCINTILLATIONYIELD");
+    	  CreateTree::Instance()->ScintillationYield = ScMaterial->GetMaterialPropertiesTable()->GetConstProperty("SCINTILLATIONYIELD");
   	}
   	if(crystal_risetime>=0) 
 	{
-    		ScMaterial->GetMaterialPropertiesTable()->RemoveConstProperty("FASTSCINTILLATIONRISETIME");
-    		ScMaterial->GetMaterialPropertiesTable()->AddConstProperty("FASTSCINTILLATIONRISETIME",crystal_risetime/ns);  
+    	  ScMaterial->GetMaterialPropertiesTable()->RemoveConstProperty("FASTSCINTILLATIONRISETIME");
+    	  ScMaterial->GetMaterialPropertiesTable()->AddConstProperty("FASTSCINTILLATIONRISETIME",crystal_risetime/ns);  
   	} 
 	else 
 	{
-    		CreateTree::Instance()->RiseTime = ScMaterial->GetMaterialPropertiesTable()->GetConstProperty("FASTSCINTILLATIONRISETIME");
+    	  CreateTree::Instance()->RiseTime = ScMaterial->GetMaterialPropertiesTable()->GetConstProperty("FASTSCINTILLATIONRISETIME");
   	}
 }
 

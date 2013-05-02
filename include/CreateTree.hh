@@ -19,13 +19,14 @@ class CreateTree
   Bool_t              CRYSTAL;
   Bool_t              CONTROL;
   Bool_t              DEPOSITION;
+  Bool_t              PRODUCTION;
   
   static const Int_t  MaxNum = 2000000;
   static const Int_t  MaxNumPro = 1000;
 
   public:
 
-  CreateTree(TString name,Bool_t hits, Bool_t window, Bool_t crystal, Bool_t control, Bool_t deposition);
+  CreateTree(TString name,Bool_t hits, Bool_t window, Bool_t crystal, Bool_t control, Bool_t deposition, Bool_t production);
   ~CreateTree();
 
   TTree*              	GetTree() const { return ftree; };
@@ -47,12 +48,7 @@ class CreateTree
   Float_t             	CrystalDiameter;
   Float_t             	CrystalY;
   Float_t             	CrystalX; 
-  Float_t             	Reflectivity;
   Float_t             	AbsLength;  
-  Float_t             	Gap;
-  Float_t             	GapMaterial;
-  Float_t             	GapRefIndex;
-  Float_t             	Shape; 
   Float_t             	ScMaterial; 
   
   Int_t			Run;

@@ -66,7 +66,6 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
   { 
     if(CreateTree::Instance() -> Crystal())
     {
-      	//cout << thePrePV->GetName() <<endl;
       if(thePrePV->GetName()=="Air_opposite" &&  thePostPV->GetName()=="Crystal")
       {
         CreateTree::Instance()-> NumGammaEnter = 1;    

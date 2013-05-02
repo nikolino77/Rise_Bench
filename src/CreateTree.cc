@@ -5,12 +5,12 @@ CreateTree* CreateTree::fInstance = NULL;
 
 using namespace std;
 
-CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window, Bool_t crystal, Bool_t control, Bool_t deposition)
+CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window, Bool_t crystal, Bool_t control, Bool_t deposition, Bool_t production)
 {
 	
 	if(fInstance) 
 	{
-    		return;
+    	  return;
   	}
 
 	this->HITS=hits;
@@ -18,6 +18,7 @@ CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window, Bool_t crystal,
 	this->CRYSTAL=crystal;
 	this->CONTROL=control;
 	this->DEPOSITION=deposition;
+	this->PRODUCTION=production;
 
   	this->fInstance = this;
   	this->fname = name;
@@ -31,42 +32,43 @@ CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window, Bool_t crystal,
   
   	this->GetTree()->Branch("ScintillationYield",&this->ScintillationYield,"ScintillationYield/F");
   	this->GetTree()->Branch("RiseTime",&this->RiseTime,"RiseTime/F"); 
-  	this->GetTree()->Branch("Reflectivity",&this->Reflectivity,"Reflectivity/F");
   	this->GetTree()->Branch("CrystalHeight",&this->CrystalHeight,"CrystalHeight/F");
   	this->GetTree()->Branch("CrystalDiameter",&this->CrystalDiameter,"CrystalDiameter/F");
   	this->GetTree()->Branch("CrystalX",&this->CrystalX,"CrystalX/F");
   	this->GetTree()->Branch("CrystalY",&this->CrystalY,"CrystalY/F");   
-  	this->GetTree()->Branch("Gap",&this->Gap,"Gap/F");
-  	this->GetTree()->Branch("GapMaterial",&this->GapMaterial,"GapMaterial/F");
-  	this->GetTree()->Branch("GapRefIndex",&this->GapRefIndex,"GapRefIndex/F");
   	this->GetTree()->Branch("AbsLength",&this->AbsLength,"AbsLength/F");
-  
-  	this->GetTree()->Branch("Shape",&this->Shape,"Shape/F");
-	
+  	
   	this->GetTree()->Branch("ScMaterial",&this->ScMaterial,"ScMaterial/F");
 
 	/*--------------------MY STUFF-----------------*/
-
-	this->GetTree()->Branch("depositionProcess",&depositionProcess);
-	this->GetTree()->Branch("energyDeposited",&energyDeposited);
-	this->GetTree()->Branch("depositionX",&depositionX);
-	this->GetTree()->Branch("depositionY",&depositionY);
-	this->GetTree()->Branch("depositionZ",&depositionZ);
-
-	this->GetTree()->Branch("opticProcess",&opticProcess);
-	this->GetTree()->Branch("firstPosX",&firstPosX);
-	this->GetTree()->Branch("firstPosY",&firstPosY);
-	this->GetTree()->Branch("firstPosZ",&firstPosZ);
-	
-	this->GetTree()->Branch("Prod_Time",&Prod_Time);
-	this->GetTree()->Branch("OptPhotonEnergy",&OptPhotonEnergy);
-
+	if(this->DEPOSITION)
+	{
+	  this->GetTree()->Branch("depositionProcess",&depositionProcess);
+	  this->GetTree()->Branch("energyDeposited",&energyDeposited);
+	  this->GetTree()->Branch("depositionX",&depositionX);
+	  this->GetTree()->Branch("depositionY",&depositionY);
+	  this->GetTree()->Branch("depositionZ",&depositionZ);
+	  this->GetTree()->Branch("firstPosX",&firstPosX);
+	  this->GetTree()->Branch("firstPosY",&firstPosY);
+	  this->GetTree()->Branch("firstPosZ",&firstPosZ);
+	}
+	  
+	if(this->PRODUCTION)
+	{
+ 	  this->GetTree()->Branch("opticProcess",&opticProcess);
+	  this->GetTree()->Branch("Prod_Time",&Prod_Time);
+	  this->GetTree()->Branch("OptPhotonEnergy",&OptPhotonEnergy);
+	}
+	  
   	// Photons at exit interface
 
-        this->GetTree()->Branch("Extraction",&Extraction);		
-        this->GetTree()->Branch("Time",&Time);	
-        this->GetTree()->Branch("Parent",&Parent);
-	this->GetTree()->Branch("Wglth_ex", &Wglth_ex);
+	if(this->CONTROL)
+	{
+          this->GetTree()->Branch("Extraction",&Extraction);		
+          this->GetTree()->Branch("Time",&Time);	
+          this->GetTree()->Branch("Parent",&Parent);
+	  this->GetTree()->Branch("Wglth_ex", &Wglth_ex);
+	}
 	
 	// Photons at detector
 	if(this->HITS)
@@ -90,12 +92,12 @@ CreateTree::~CreateTree()
 
 Bool_t CreateTree::Write()
 {
-  	TString filename = this->GetName();
-  	filename+=".root";
+  	TString filename = this -> GetName();
+  	filename += ".root";
   	TFile* file = new TFile(filename,"RECREATE");
-  	this->GetTree()->Write();
-  	file->Write();
-  	file->Close();
+  	this -> GetTree() -> Write();
+  	file -> Write();
+  	file -> Close();
   	return true;
 }
 
@@ -106,26 +108,43 @@ void CreateTree::Clear()
   	NumOptPhotonsAbsorbed	= 0;
   	NumGammaEnter 		= 0;
   	
-	opticProcess.clear();
-	firstPosX.clear();
-	firstPosY.clear();
-	firstPosZ.clear();
+	if(this->DEPOSITION)
+	{
+	  firstPosX.clear();
+	  firstPosY.clear();
+	  firstPosZ.clear();
+	  depositionProcess.clear();
+	  energyDeposited.clear();
+	  depositionX.clear();		
+	  depositionY.clear();		
+	  depositionZ.clear();	
+	}
 	
-	depositionProcess.clear();
-	energyDeposited.clear();
-	depositionX.clear();		
-	depositionY.clear();		
-	depositionZ.clear();	
-	Extraction.clear();
-	Parent.clear();
-	Wglth_ex.clear();
-	OptPhotonEnergy.clear();
-	Prod_Time.clear();
-	Time.clear();
+	if(this->PRODUCTION)
+	{
+	  opticProcess.clear();
+	  OptPhotonEnergy.clear();
+	  Prod_Time.clear();
+	}
 	
-	Volume.clear();
-
-	Time_det.clear();
-	Parent_det.clear();
-	Wglth_ex_det.clear();
+	if(this->CONTROL)
+	{
+	  Extraction.clear();
+	  Parent.clear();
+	  Wglth_ex.clear();
+	  Time.clear();
+	}
+	
+	if(this->HITS)
+	{
+	  Time_det.clear();
+	  Parent_det.clear();
+	  Wglth_ex_det.clear();
+	  
+	  if(this->WINDOW)
+	  {
+	    Volume.clear();
+	  }
+	}
+	
 }

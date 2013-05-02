@@ -54,42 +54,6 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     		int      crystal_lightyield;
     		G4double crystal_risetime;
     		G4double crystal_abslength;
-		G4double airgap;
-
-		int surConfig;
-
-		TString wReffile;
-		G4double wReflectivity;
-		G4double wSurrefind;
-		int wSurtype;
-		G4double wSpecularspike;
-		G4double wSpecularlobe;
-		G4double wSigmaalpha;
-		G4double wLambertian;
-		G4double wBackscatter;
-		int wrappingSurfinish;
-		TString cReffile;
-		G4double cReflectivity;
-		G4double cSurrefind;
-		int cSurtype;
-		G4double cSpecularspike;
-		G4double cSpecularlobe;
-		G4double cSigmaalpha;
-		G4double cLambertian;
-		G4double cBackscatter;
-		int crystalSurfinish;
-		TString RefFile;
-		G4double reflectivity;
-		G4double surrefind;
-		int surtype;
-		G4double specularspike;
-		G4double specularlobe;
-		G4double sigmaalpha;
-		G4double lambertian;
-		G4double backscatter;
-		G4double crystal_reflectivity;
-		int surfinish;	
-  		G4double Ephoton[3];
 
 		//Materials
 		G4Material* Air;
@@ -109,7 +73,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 		// 
     		void     UpdateGeometry();
     		G4bool   GetUpdated() const;
-    		G4bool updated;
+    		G4bool 	 updated;
 
     		//DetectorMessenger* detectorMessenger;
 		void readConfigFile(string configFileName);
