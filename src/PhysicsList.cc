@@ -54,6 +54,9 @@
 #include "G4Geantino.hh"
 #include "G4Gamma.hh"
 
+// Optical Photons
+#include "G4OpticalPhoton.hh"
+
 // leptons
 #include "G4Electron.hh"
 #include "G4Positron.hh"
@@ -334,7 +337,7 @@ void PhysicsList::ConstructOp()
   //theScintillationProcess->DumpPhysicsTable();
   //  theRayleighScatteringProcess->DumpPhysicsTable();
 
-  SetVerbose(1);
+  //SetVerbose(1);
   
   theCerenkovProcess->SetMaxNumPhotonsPerStep(200);
   theCerenkovProcess->SetMaxBetaChangePerStep(50.0);
