@@ -13,12 +13,12 @@ CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window, Bool_t crystal,
     	  return;
   	}
 
-	this->HITS=hits;
-	this->WINDOW=window;
-	this->CRYSTAL=crystal;
-	this->CONTROL=control;
-	this->DEPOSITION=deposition;
-	this->PRODUCTION=production;
+	this->HITS	  = hits;
+	this->WINDOW	  = window;
+	this->CRYSTAL	  = crystal;
+	this->CONTROL	  = control;
+	this->DEPOSITION  = deposition;
+	this->PRODUCTION  = production;
 
   	this->fInstance = this;
   	this->fname = name;

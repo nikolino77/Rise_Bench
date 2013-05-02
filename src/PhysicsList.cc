@@ -151,6 +151,9 @@ void PhysicsList::ConstructParticle()
   
   // gamma
   G4Gamma::GammaDefinition();
+
+  // optical photon
+  G4OpticalPhoton::OpticalPhotonDefinition();
   
   // leptons
   G4Electron::ElectronDefinition();
@@ -327,9 +330,9 @@ void PhysicsList::ConstructOp()
   theMieHGScatteringProcess    = new G4OpMieHG();
   theBoundaryProcess           = new G4OpBoundaryProcess();
 
-//  theCerenkovProcess->DumpPhysicsTable();
-//  theScintillationProcess->DumpPhysicsTable();
-//  theRayleighScatteringProcess->DumpPhysicsTable();
+  //theCerenkovProcess->DumpPhysicsTable();
+  //theScintillationProcess->DumpPhysicsTable();
+  //  theRayleighScatteringProcess->DumpPhysicsTable();
 
   SetVerbose(1);
   
