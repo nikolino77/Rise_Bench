@@ -62,8 +62,8 @@ int main(int argc,char** argv)
 	
 	if (argc != 3 && argc != 2)
 	{
-	  cout << "Syntax for exec: crystal <configuration file> <output file>" << endl; 
-	  cout << "Syntax for viz:  crystal <configuration file>" << endl; 
+	  cout << "Syntax for exec: rise_bench <configuration file> <output file>" << endl; 
+	  cout << "Syntax for viz:  rise_bench <configuration file>" << endl; 
 	  return 0;
 	  
 	}
