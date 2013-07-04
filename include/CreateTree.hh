@@ -20,13 +20,14 @@ class CreateTree
   Bool_t              CONTROL;
   Bool_t              DEPOSITION;
   Bool_t              PRODUCTION;
-  
+  Bool_t              ELECTRONS;
+
   static const Int_t  MaxNum = 2000000;
   static const Int_t  MaxNumPro = 1000;
 
   public:
 
-  CreateTree(TString name,Bool_t hits, Bool_t window, Bool_t crystal, Bool_t control, Bool_t deposition, Bool_t production);
+  CreateTree(TString name,Bool_t hits, Bool_t window, Bool_t crystal, Bool_t control, Bool_t deposition, Bool_t production, Bool_t electrons);
   ~CreateTree();
 
   TTree*              	GetTree() const { return ftree; };
@@ -41,6 +42,7 @@ class CreateTree
   Bool_t              	Crystal() const { return this->CRYSTAL; };
   Bool_t              	Control() const { return this->CONTROL; };
   Bool_t              	Deposition() const { return this->DEPOSITION; };
+  Bool_t              	Electrons() const { return this->ELECTRONS; };
 
   Float_t             	ScintillationYield;
   Float_t             	RiseTime;
@@ -56,6 +58,8 @@ class CreateTree
   
   Int_t			NumOptPhotonsAbsorbed;
   Int_t			NumGammaEnter;
+  vector<double>	E_End_Time;
+  vector<float>		E_End_Energy;
 
   vector<float>		energyDeposited;
   vector<string>	depositionProcess;

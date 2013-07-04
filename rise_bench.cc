@@ -130,6 +130,9 @@ int main(int argc,char** argv)
 	Bool_t PRODUCTION = (Bool_t) config.read<int>("production");
         G4cout << "Production data : " << PRODUCTION << G4endl;
 	
+	Bool_t ELECTRONS = (Bool_t) config.read<int>("electrons");
+        G4cout << "Electron data : " << ELECTRONS << G4endl;
+	
   	// Crystal parameters
   	G4double len = config.read<double>("height");
   	G4cout << "Crystal length [mm]: " << len << G4endl;
@@ -187,7 +190,7 @@ int main(int argc,char** argv)
     		G4cout << "Scintillation rise time [ns]: material default" << G4endl;
   	}
 
-	CreateTree* mytree = new CreateTree("g4pet",HITS, WINDOW, CRYSTAL, CONTROL, DEPOSITION, PRODUCTION);
+	CreateTree* mytree = new CreateTree("g4pet",HITS, WINDOW, CRYSTAL, CONTROL, DEPOSITION, PRODUCTION, ELECTRONS);
 
 	
 	// -----------------------------------------

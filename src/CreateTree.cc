@@ -5,7 +5,7 @@ CreateTree* CreateTree::fInstance = NULL;
 
 using namespace std;
 
-CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window, Bool_t crystal, Bool_t control, Bool_t deposition, Bool_t production)
+CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window, Bool_t crystal, Bool_t control, Bool_t deposition, Bool_t production, Bool_t electrons)
 {
 	
 	if(fInstance) 
@@ -19,6 +19,7 @@ CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window, Bool_t crystal,
 	this->CONTROL	  = control;
 	this->DEPOSITION  = deposition;
 	this->PRODUCTION  = production;
+	this->ELECTRONS  = electrons;
 
   	this->fInstance = this;
   	this->fname = name;
@@ -29,7 +30,7 @@ CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window, Bool_t crystal,
 	
   	this->GetTree()->Branch("NumOptPhotonsAbsorbed",&this->NumOptPhotonsAbsorbed,"NumOptPhotonsAbsorbed/I");
   	this->GetTree()->Branch("NumGammaEnter",&this->NumGammaEnter,"NumGammaEnter/I");  
-  
+
   	this->GetTree()->Branch("ScintillationYield",&this->ScintillationYield,"ScintillationYield/F");
   	this->GetTree()->Branch("RiseTime",&this->RiseTime,"RiseTime/F"); 
   	this->GetTree()->Branch("CrystalHeight",&this->CrystalHeight,"CrystalHeight/F");
@@ -41,6 +42,12 @@ CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window, Bool_t crystal,
   	this->GetTree()->Branch("ScMaterial",&this->ScMaterial,"ScMaterial/F");
 
 	/*--------------------MY STUFF-----------------*/
+	if(this->ELECTRONS)
+	{
+	  this->GetTree()->Branch("E_End_Time",&E_End_Time);
+	  this->GetTree()->Branch("E_End_Energy",&E_End_Energy);
+	}
+	
 	if(this->DEPOSITION)
 	{
 	  this->GetTree()->Branch("depositionProcess",&depositionProcess);
@@ -107,7 +114,13 @@ void CreateTree::Clear()
   	Event			= 0;
   	NumOptPhotonsAbsorbed	= 0;
   	NumGammaEnter 		= 0;
-  	
+	
+	if(this->ELECTRONS)
+	{
+	  E_End_Time.clear();
+	  E_End_Energy.clear();
+	}
+	
 	if(this->DEPOSITION)
 	{
 	  firstPosX.clear();
