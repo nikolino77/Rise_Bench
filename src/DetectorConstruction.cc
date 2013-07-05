@@ -169,7 +169,6 @@ void DetectorConstruction::initializeMaterials(){
     	  G4cerr << "<DetectorConstruction::Construct>: Invalid material specifier " << win_material << G4endl;
    	  exit(0);
   	}
-  	G4cout << "Window material: " << win_material << G4endl;
 	
 	//
   	// modify default properties of the scintillator
@@ -187,7 +186,7 @@ void DetectorConstruction::initializeMaterials(){
 	{
     	  ScMaterial->GetMaterialPropertiesTable()->RemoveConstProperty("FASTSCINTILLATIONRISETIME");
     	  ScMaterial->GetMaterialPropertiesTable()->AddConstProperty("FASTSCINTILLATIONRISETIME",crystal_risetime/ns);  
-  	} 
+	} 
 	else 
 	{
     	  CreateTree::Instance()->RiseTime = ScMaterial->GetMaterialPropertiesTable()->GetConstProperty("FASTSCINTILLATIONRISETIME");

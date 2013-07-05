@@ -30,7 +30,8 @@ CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window, Bool_t crystal,
 	
   	this->GetTree()->Branch("NumOptPhotonsAbsorbed",&this->NumOptPhotonsAbsorbed,"NumOptPhotonsAbsorbed/I");
   	this->GetTree()->Branch("NumGammaEnter",&this->NumGammaEnter,"NumGammaEnter/I");  
-
+  	this->GetTree()->Branch("NumPhotons",&this->NumPhotons,"NumPhotons/I");
+	
   	this->GetTree()->Branch("ScintillationYield",&this->ScintillationYield,"ScintillationYield/F");
   	this->GetTree()->Branch("RiseTime",&this->RiseTime,"RiseTime/F"); 
   	this->GetTree()->Branch("CrystalHeight",&this->CrystalHeight,"CrystalHeight/F");
@@ -114,6 +115,7 @@ void CreateTree::Clear()
   	Event			= 0;
   	NumOptPhotonsAbsorbed	= 0;
   	NumGammaEnter 		= 0;
+	NumPhotons		= 0;
 	
 	if(this->ELECTRONS)
 	{

@@ -58,6 +58,7 @@ class CreateTree
   
   Int_t			NumOptPhotonsAbsorbed;
   Int_t			NumGammaEnter;
+  Int_t			NumPhotons;
   vector<double>	E_End_Time;
   vector<float>		E_End_Energy;
 

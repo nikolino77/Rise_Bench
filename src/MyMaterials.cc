@@ -2006,7 +2006,7 @@ G4Material *MyMaterials::LSO()
 
     LSO_mt->AddConstProperty ("SCINTILLATIONYIELD", 60000. / MeV);
     LSO_mt->AddConstProperty ("RESOLUTIONSCALE", 3.2);
-    LSO_mt->AddConstProperty ("FASTTIMECONSTANT", 42.*ns);
+    LSO_mt->AddConstProperty ("FASTTIMECONSTANT", 39.*ns);
     LSO_mt->AddConstProperty ("YIELDRATIO", 1.0);
     LSO_mt->AddConstProperty ("FASTSCINTILLATIONRISETIME", 0.1 * ns);
 

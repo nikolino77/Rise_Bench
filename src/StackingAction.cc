@@ -23,6 +23,7 @@ G4ClassificationOfNewTrack StackingAction::ClassifyNewTrack(const G4Track * aTra
 
   if(aTrack->GetDefinition() == G4OpticalPhoton::OpticalPhotonDefinition()) 
   {    
+    CreateTree::Instance() -> NumPhotons++;
     if(CreateTree::Instance() -> Deposition())
     {
       G4ThreeVector pos = aTrack-> GetPosition();
@@ -52,5 +53,3 @@ G4ClassificationOfNewTrack StackingAction::ClassifyNewTrack(const G4Track * aTra
   return fUrgent;
 
 }
-
-
