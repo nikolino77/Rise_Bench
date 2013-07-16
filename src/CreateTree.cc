@@ -13,13 +13,13 @@ CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window, Bool_t crystal,
     	  return;
   	}
 
-	this->HITS	  = hits;
-	this->WINDOW	  = window;
-	this->CRYSTAL	  = crystal;
-	this->CONTROL	  = control;
-	this->DEPOSITION  = deposition;
-	this->PRODUCTION  = production;
-	this->ELECTRONS  = electrons;
+	this->HITS		= hits;
+	this->WINDOW		= window;
+	this->CRYSTAL		= crystal;
+	this->CONTROL		= control;
+	this->DEPOSITION	= deposition;
+	this->PRODUCTION	= production;
+	this->ELECTRONS		= electrons;
 
   	this->fInstance = this;
   	this->fname = name;
@@ -32,17 +32,6 @@ CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window, Bool_t crystal,
   	this->GetTree()->Branch("NumGammaEnter",&this->NumGammaEnter,"NumGammaEnter/I");  
   	this->GetTree()->Branch("NumPhotons",&this->NumPhotons,"NumPhotons/I");
 	
-  	this->GetTree()->Branch("ScintillationYield",&this->ScintillationYield,"ScintillationYield/F");
-  	this->GetTree()->Branch("RiseTime",&this->RiseTime,"RiseTime/F"); 
-  	this->GetTree()->Branch("CrystalHeight",&this->CrystalHeight,"CrystalHeight/F");
-  	this->GetTree()->Branch("CrystalDiameter",&this->CrystalDiameter,"CrystalDiameter/F");
-  	this->GetTree()->Branch("CrystalX",&this->CrystalX,"CrystalX/F");
-  	this->GetTree()->Branch("CrystalY",&this->CrystalY,"CrystalY/F");   
-  	this->GetTree()->Branch("AbsLength",&this->AbsLength,"AbsLength/F");
-  	
-  	this->GetTree()->Branch("ScMaterial",&this->ScMaterial,"ScMaterial/F");
-
-	/*--------------------MY STUFF-----------------*/
 	if(this->ELECTRONS)
 	{
 	  this->GetTree()->Branch("E_End_Time",&E_End_Time);

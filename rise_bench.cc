@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <sys/resource.h>
 #include <vector>
+#include <iostream>
+#include <fstream>
 
 #include "G4RunManager.hh"
 #include "G4UImanager.hh"
@@ -30,6 +32,7 @@
 #include "ConfigFile.hh"
 
 #include "TRandom1.h"
+#include "TVectorT.h"
 
 #ifdef G4VIS_USE
 #include "G4VisExecutive.hh"
@@ -191,7 +194,6 @@ int main(int argc,char** argv)
   	}
 
 	CreateTree* mytree = new CreateTree("g4pet",HITS, WINDOW, CRYSTAL, CONTROL, DEPOSITION, PRODUCTION, ELECTRONS);
-
 	
 	// -----------------------------------------
 	// -----------------------------------------
@@ -294,6 +296,28 @@ int main(int argc,char** argv)
 	  mytree -> GetTree() -> Write();
 	  outfile -> Write();
 	  outfile -> Close();
+	    
+	  string text = file + ".txt";
+  	  G4cout << "Writing run info to file '" << text << "' ..." << G4endl;
+	  ofstream textfile;
+	  textfile.open(text.c_str());
+	  ifstream gps("gps.mac");
+	  ifstream conf("crystal.cfg");
+	  string line;
+	  string line2;
+	  textfile << "-------------- CONFIG FILE --------------" << endl;
+	  while ( getline ( conf, line, '\n' ) )
+	  {
+	    textfile << line << endl;
+	  }
+	  textfile << "-------------- GPS --------------" << endl;
+	  while ( getline ( gps, line2, '\n' ) )
+	  {
+	    textfile << line2 << endl;
+	  }
+	  gps.close();
+	  conf.close();
+	  textfile.close();	  
 	}
     
 	return 0;

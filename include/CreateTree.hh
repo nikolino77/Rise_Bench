@@ -43,15 +43,6 @@ class CreateTree
   Bool_t              	Control() const { return this->CONTROL; };
   Bool_t              	Deposition() const { return this->DEPOSITION; };
   Bool_t              	Electrons() const { return this->ELECTRONS; };
-
-  Float_t             	ScintillationYield;
-  Float_t             	RiseTime;
-  Float_t             	CrystalHeight;
-  Float_t             	CrystalDiameter;
-  Float_t             	CrystalY;
-  Float_t             	CrystalX; 
-  Float_t             	AbsLength;  
-  Float_t             	ScMaterial; 
   
   Int_t			Run;
   Int_t			Event;

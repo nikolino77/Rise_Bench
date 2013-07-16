@@ -129,7 +129,6 @@ void DetectorConstruction::UpdateGeometry()
   	G4RunManager::GetRunManager()->DefineWorldVolume(this->Construct());
   	G4RunManager::GetRunManager()->GeometryHasBeenModified();
 
-  	CreateTree::Instance()->CrystalHeight = crystal_height;
   	updated=false;
 }
 
@@ -173,24 +172,13 @@ void DetectorConstruction::initializeMaterials(){
 	//
   	// modify default properties of the scintillator
   	//
-  	if(crystal_lightyield>=0) 
-	{
-    	  ScMaterial->GetMaterialPropertiesTable()->RemoveConstProperty("SCINTILLATIONYIELD");
-    	  ScMaterial->GetMaterialPropertiesTable()->AddConstProperty("SCINTILLATIONYIELD",crystal_lightyield/MeV);  
-  	} 
-	else 
-	{
-    	  CreateTree::Instance()->ScintillationYield = ScMaterial->GetMaterialPropertiesTable()->GetConstProperty("SCINTILLATIONYIELD");
-  	}
-  	if(crystal_risetime>=0) 
-	{
-    	  ScMaterial->GetMaterialPropertiesTable()->RemoveConstProperty("FASTSCINTILLATIONRISETIME");
-    	  ScMaterial->GetMaterialPropertiesTable()->AddConstProperty("FASTSCINTILLATIONRISETIME",crystal_risetime/ns);  
-	} 
-	else 
-	{
-    	  CreateTree::Instance()->RiseTime = ScMaterial->GetMaterialPropertiesTable()->GetConstProperty("FASTSCINTILLATIONRISETIME");
-  	}
+  
+    	ScMaterial->GetMaterialPropertiesTable()->RemoveConstProperty("SCINTILLATIONYIELD");
+    	ScMaterial->GetMaterialPropertiesTable()->AddConstProperty("SCINTILLATIONYIELD",crystal_lightyield/MeV);  
+
+    	ScMaterial->GetMaterialPropertiesTable()->RemoveConstProperty("FASTSCINTILLATIONRISETIME");
+    	ScMaterial->GetMaterialPropertiesTable()->AddConstProperty("FASTSCINTILLATIONRISETIME",crystal_risetime/ns);  
+
 }
 
 void DetectorConstruction::readConfigFile(string configFileName)
