@@ -168,9 +168,9 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
    {
      if (!theStep-> GetTrack() ->IsBelowThreshold() && particleType==G4Electron::ElectronDefinition())
      {    
-       cout << particleType->GetParticleName() << endl;
-       cout << theStep-> GetTrack() -> GetKineticEnergy() << endl;
-       cout << theStep-> GetTrack() -> GetTotalEnergy() << endl;
+       //cout << particleType->GetParticleName() << endl;
+       //cout << theStep-> GetTrack() -> GetKineticEnergy() << endl;
+       //cout << theStep-> GetTrack() -> GetTotalEnergy() << endl;
        CreateTree::Instance()-> E_End_Time.push_back(theStep-> GetTrack()  -> GetGlobalTime());
        CreateTree::Instance()-> E_End_Energy.push_back(theStep-> GetTrack()-> GetKineticEnergy());
      }
