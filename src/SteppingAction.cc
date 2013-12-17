@@ -64,11 +64,12 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
   
   if(thePostPV && particleType==G4Gamma::GammaDefinition())
   { 
-    if(CreateTree::Instance() -> Crystal())
+    if(CreateTree::Instance() -> Crystal() && CreateTree::Instance() -> Control())
     {
       if(thePrePV->GetName()=="Air_source" &&  thePostPV->GetName()=="Crystal")
       {
-        CreateTree::Instance()-> NumGammaEnter = 1;    
+        CreateTree::Instance()-> NumGammaEnter = 1;
+	CreateTree::Instance()-> Enter_Time = theStep-> GetTrack()-> GetGlobalTime();
       }
     }
   }
@@ -109,9 +110,14 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
         { 
           CreateTree::Instance()-> Parent.push_back(2);
         }
-        else
+        else if(theStep-> GetTrack()-> GetCreatorProcess() 
+           && theStep-> GetTrack()-> GetCreatorProcess()-> GetProcessName()=="OpWLS")
         { 
           CreateTree::Instance()-> Parent.push_back(3);
+        }
+        else
+        { 
+          CreateTree::Instance()-> Parent.push_back(4);
 	  cout << "boh" <<endl;
         }
       }
@@ -153,27 +159,40 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
         { 
           CreateTree::Instance()-> Parent_det.push_back(2);
         }
-        else
+        else if(theStep-> GetTrack()-> GetCreatorProcess() 
+           && theStep-> GetTrack()-> GetCreatorProcess()-> GetProcessName()=="OpWLS")
         { 
           CreateTree::Instance()-> Parent_det.push_back(3);
+        }
+        else
+        { 
+          CreateTree::Instance()-> Parent_det.push_back(4);
 	  cout << "Anomaly (production process)" <<endl;
         }
       }
     }  
   }
   
-  
   // ---------- PARTICLE DYING ----------
    if(CreateTree::Instance() -> Electrons())
    {
-     if (!theStep-> GetTrack() ->IsBelowThreshold() && particleType==G4Electron::ElectronDefinition())
-     {    
-       //cout << particleType->GetParticleName() << endl;
-       //cout << theStep-> GetTrack() -> GetKineticEnergy() << endl;
-       //cout << theStep-> GetTrack() -> GetTotalEnergy() << endl;
-       CreateTree::Instance()-> E_End_Time.push_back(theStep-> GetTrack()  -> GetGlobalTime());
-       CreateTree::Instance()-> E_End_Energy.push_back(theStep-> GetTrack()-> GetKineticEnergy());
+     if (theStep-> GetTrack() -> GetTrackStatus() == 2 && particleType==G4Electron::ElectronDefinition())
+     {
+       /*
+       cout << "--------------step ----------" <<endl;
+       cout << theStep-> GetTrack() -> GetTrackID() <<endl;
+       cout << particleType->GetParticleName() << endl;
+       cout << thePostPoint-> GetProcessDefinedStep()-> GetProcessName() << endl; 
+       cout << "traccia parente" << theStep-> GetTrack() -> GetParentID() << endl; 
+       cout << "processo parente " << theStep-> GetTrack()-> GetCreatorProcess()-> GetProcessName() << endl;
+       cout << theStep-> GetTrack() -> GetKineticEnergy() << endl;
+       cout << theStep-> GetTrack() -> GetTotalEnergy() << endl;
+       cout << theStep-> GetTrack() -> GetTrackStatus() << endl;
+       */
+       CreateTree::Instance()-> E_End_Time.push_back(theStep-> GetTrack() -> GetGlobalTime());
      }
    }
+
+  
 }
 

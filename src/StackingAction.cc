@@ -32,24 +32,33 @@ G4ClassificationOfNewTrack StackingAction::ClassifyNewTrack(const G4Track * aTra
       CreateTree::Instance()-> firstPosZ.push_back(pos[2]); 
     }
 	
-    if(aTrack->GetCreatorProcess()->GetProcessName() == "Scintillation")
+    if(CreateTree::Instance() -> Production())
     {
-      CreateTree::Instance() -> opticProcess.push_back(2);
-      CreateTree::Instance() -> Prod_Time.push_back(aTrack->GetGlobalTime());
-      CreateTree::Instance() -> OptPhotonEnergy.push_back(aTrack->GetTotalEnergy());
-    }
-    else if (aTrack->GetCreatorProcess()->GetProcessName() == "Cerenkov")
-    {
-      CreateTree::Instance() -> opticProcess.push_back(1);
-      CreateTree::Instance() -> Prod_Time.push_back(aTrack->GetGlobalTime());
-      CreateTree::Instance() -> OptPhotonEnergy.push_back(aTrack->GetTotalEnergy());   
-    }
-    else
-    {
-      cout << "Anomalus creation process" << endl;
+     
+      if(aTrack->GetCreatorProcess()->GetProcessName() == "Scintillation")
+      {
+        CreateTree::Instance() -> opticProcess.push_back(2);
+        CreateTree::Instance() -> Prod_Time.push_back(aTrack->GetGlobalTime());
+        CreateTree::Instance() -> OptPhotonEnergy.push_back(aTrack->GetTotalEnergy());
+      }
+      else if (aTrack->GetCreatorProcess()->GetProcessName() == "Cerenkov")
+      {
+        CreateTree::Instance() -> opticProcess.push_back(1);
+        CreateTree::Instance() -> Prod_Time.push_back(aTrack->GetGlobalTime());
+        CreateTree::Instance() -> OptPhotonEnergy.push_back(aTrack->GetTotalEnergy());   
+      }
+      else if(aTrack->GetCreatorProcess()->GetProcessName() == "OpWLS")
+      {
+        CreateTree::Instance() -> opticProcess.push_back(3);
+        CreateTree::Instance() -> Prod_Time.push_back(aTrack->GetGlobalTime());
+        CreateTree::Instance() -> OptPhotonEnergy.push_back(aTrack->GetTotalEnergy());   
+      }
+      else
+      {
+        cout << "Anomalus creation process" << endl;
+      }
     }
   }
-  
   return fUrgent;
 
 }

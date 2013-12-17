@@ -104,6 +104,8 @@
 #include "G4OpRayleigh.hh"
 #include "G4OpMieHG.hh"
 #include "G4OpBoundaryProcess.hh"
+#include "G4OpWLS.hh"
+
 
 #include "G4LossTableManager.hh"
 #include "G4EmSaturation.hh"
@@ -113,7 +115,7 @@
 PhysicsList::PhysicsList() : G4VModularPhysicsList()
 {
   G4LossTableManager::Instance();
-  defaultCutValue = 0.001*mm;
+  defaultCutValue = 0.000001*mm;
   cutForGamma     = defaultCutValue;
   cutForElectron  = defaultCutValue;
   cutForPositron  = defaultCutValue;
@@ -124,6 +126,7 @@ PhysicsList::PhysicsList() : G4VModularPhysicsList()
   theRayleighScatteringProcess = NULL;
   theMieHGScatteringProcess    = NULL;
   theBoundaryProcess           = NULL;
+  theWLSProcess			= NULL;
   
   pMessenger = new PhysicsListMessenger(this);
 
@@ -332,10 +335,12 @@ void PhysicsList::ConstructOp()
   theRayleighScatteringProcess = new G4OpRayleigh();
   theMieHGScatteringProcess    = new G4OpMieHG();
   theBoundaryProcess           = new G4OpBoundaryProcess();
+  theWLSProcess          	= new G4OpWLS();
+
 
   //theCerenkovProcess->DumpPhysicsTable();
   //theScintillationProcess->DumpPhysicsTable();
-  //  theRayleighScatteringProcess->DumpPhysicsTable();
+  //theRayleighScatteringProcess->DumpPhysicsTable();
 
   //SetVerbose(1);
   
@@ -345,12 +350,14 @@ void PhysicsList::ConstructOp()
   
   theScintillationProcess->SetScintillationYieldFactor(1.);
   theScintillationProcess->SetTrackSecondariesFirst(true);
-
+  theScintillationProcess->SetFiniteRiseTime(true);
   // Use Birks Correction in the Scintillation process
-
-  G4EmSaturation* emSaturation = G4LossTableManager::Instance()->EmSaturation();
-  theScintillationProcess->AddSaturation(emSaturation);
-
+  //G4EmSaturation* emSaturation = G4LossTableManager::Instance()->EmSaturation();
+  //theScintillationProcess->AddSaturation(emSaturation);
+  
+  theWLSProcess->UseTimeProfile("exponential");
+  //theWLSProcess->UseTimeProfile("delta");
+  
   G4OpticalSurfaceModel themodel = unified;
   theBoundaryProcess->SetModel(themodel);
 
@@ -359,10 +366,10 @@ void PhysicsList::ConstructOp()
     G4ParticleDefinition* particle = theParticleIterator->value();
     G4ProcessManager* pmanager = particle->GetProcessManager();
     G4String particleName = particle->GetParticleName();
-    if (theCerenkovProcess->IsApplicable(*particle)) {
-      pmanager->AddProcess(theCerenkovProcess);
-      pmanager->SetProcessOrdering(theCerenkovProcess,idxPostStep);
-    }
+    //if (theCerenkovProcess->IsApplicable(*particle)) {
+    //  pmanager->AddProcess(theCerenkovProcess);
+    //  pmanager->SetProcessOrdering(theCerenkovProcess,idxPostStep);
+    //}
     if (theScintillationProcess->IsApplicable(*particle)) {
       pmanager->AddProcess(theScintillationProcess);
       pmanager->SetProcessOrderingToLast(theScintillationProcess, idxAtRest);
@@ -374,6 +381,7 @@ void PhysicsList::ConstructOp()
       pmanager->AddDiscreteProcess(theRayleighScatteringProcess);
       pmanager->AddDiscreteProcess(theMieHGScatteringProcess);
       pmanager->AddDiscreteProcess(theBoundaryProcess);
+      //pmanager->AddDiscreteProcess(theWLSProcess);
     }
   }
 }
@@ -392,7 +400,9 @@ void PhysicsList::SetCuts()
   SetCutValue(cutForGamma, "gamma");
   SetCutValue(cutForElectron, "e-");
   SetCutValue(cutForPositron, "e+");
-
+  
+  G4ProductionCutsTable::GetProductionCutsTable()->SetEnergyRange(250*eV, 1*GeV);
+  
   if (verboseLevel>0) DumpCutValuesTable();
 }
 

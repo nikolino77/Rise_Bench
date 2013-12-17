@@ -101,7 +101,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	  rot_win->rotateX(rot_ang*deg);
 	  G4VPhysicalVolume* win_phys = new G4PVPlacement(rot_win,G4ThreeVector(win_x,win_y,win_z),win_log,"Window",expHall_log,false,0);
 	}
-	
+		
 	//
 	// Visualization attributes
 	//
@@ -175,10 +175,15 @@ void DetectorConstruction::initializeMaterials(){
   
     	ScMaterial->GetMaterialPropertiesTable()->RemoveConstProperty("SCINTILLATIONYIELD");
     	ScMaterial->GetMaterialPropertiesTable()->AddConstProperty("SCINTILLATIONYIELD",crystal_lightyield/MeV);  
-
-    	ScMaterial->GetMaterialPropertiesTable()->RemoveConstProperty("FASTSCINTILLATIONRISETIME");
-    	ScMaterial->GetMaterialPropertiesTable()->AddConstProperty("FASTSCINTILLATIONRISETIME",crystal_risetime/ns);  
-
+	
+	ScMaterial->GetMaterialPropertiesTable()->RemoveConstProperty("FASTSCINTILLATIONRISETIME");
+    	ScMaterial->GetMaterialPropertiesTable()->AddConstProperty("FASTSCINTILLATIONRISETIME",crystal_risetime*ns); 
+	
+	ScMaterial->GetMaterialPropertiesTable()->RemoveConstProperty("FASTTIMECONSTANT");
+    	ScMaterial->GetMaterialPropertiesTable()->AddConstProperty("FASTTIMECONSTANT",crystal_decaytime*ns); 
+	
+	ScMaterial->GetMaterialPropertiesTable()->RemoveConstProperty("WLSTIMECONSTANT");
+    	ScMaterial->GetMaterialPropertiesTable()->AddConstProperty("WLSTIMECONSTANT",crystal_decaytime*ns); 
 }
 
 void DetectorConstruction::readConfigFile(string configFileName)
@@ -205,6 +210,7 @@ void DetectorConstruction::readConfigFile(string configFileName)
 		
 	config.readInto(crystal_material,"scmaterial");
 	config.readInto(crystal_risetime,"risetime");
+	config.readInto(crystal_decaytime,"decaytime");
 	config.readInto(crystal_lightyield,"lightyield");
 }
 

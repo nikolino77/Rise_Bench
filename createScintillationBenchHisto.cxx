@@ -13,16 +13,17 @@ using namespace std;
 #define PI 3.14159265
 int createScintillationBenchHisto() 
 {
-	string pathName = "./";
-	string length = "test";
-	string finish = "";
-	string rootInputFileName = "./" + length + "" + finish + ".root";
-	string rootOutputFileName = "./data_" + length + "" + finish + ".root";
-	cout << "Opening file " << rootInputFileName << endl;
-	cout << "Writing file " << rootOutputFileName << endl;
-	TFile * f 	= new TFile(rootInputFileName.c_str(),"OPEN");
-	TTree *Singles 	= (TTree*)f->Get("tree");
-	cout << "Tree " << Singles -> GetName() << endl;
+
+  cout << "File to open " << endl;
+  std::string rootInputFileName;
+  getline( std::cin, rootInputFileName);
+
+  string rootOutputFileName = "./data_" + rootInputFileName;	
+  
+  cout << "Writing file " << rootOutputFileName << endl;
+  TFile * f 	= new TFile(rootInputFileName.c_str(),"OPEN");
+  TTree *Singles 	= (TTree*)f->Get("tree");
+  cout << "Tree " << Singles -> GetName() << endl;
 
 	Int_t            NumCerenkovPhotons;
 	Int_t            NumScintPhotons;

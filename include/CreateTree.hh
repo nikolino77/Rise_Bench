@@ -42,6 +42,7 @@ class CreateTree
   Bool_t              	Crystal() const { return this->CRYSTAL; };
   Bool_t              	Control() const { return this->CONTROL; };
   Bool_t              	Deposition() const { return this->DEPOSITION; };
+  Bool_t              	Production() const { return this->PRODUCTION; };
   Bool_t              	Electrons() const { return this->ELECTRONS; };
   
   Int_t			Run;
@@ -50,8 +51,8 @@ class CreateTree
   Int_t			NumOptPhotonsAbsorbed;
   Int_t			NumGammaEnter;
   Int_t			NumPhotons;
+  Double_t		Enter_Time;
   vector<double>	E_End_Time;
-  vector<float>		E_End_Energy;
 
   vector<float>		energyDeposited;
   vector<string>	depositionProcess;

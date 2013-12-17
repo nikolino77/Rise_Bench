@@ -32,10 +32,11 @@ CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window, Bool_t crystal,
   	this->GetTree()->Branch("NumGammaEnter",&this->NumGammaEnter,"NumGammaEnter/I");  
   	this->GetTree()->Branch("NumPhotons",&this->NumPhotons,"NumPhotons/I");
 	
+	this->GetTree()->Branch("Enter_Time",&this->Enter_Time,"Enter_Time/D");
+
 	if(this->ELECTRONS)
 	{
 	  this->GetTree()->Branch("E_End_Time",&E_End_Time);
-	  this->GetTree()->Branch("E_End_Energy",&E_End_Energy);
 	}
 	
 	if(this->DEPOSITION)
@@ -106,10 +107,11 @@ void CreateTree::Clear()
   	NumGammaEnter 		= 0;
 	NumPhotons		= 0;
 	
+	Enter_Time		= 0;
+	
 	if(this->ELECTRONS)
 	{
 	  E_End_Time.clear();
-	  E_End_Energy.clear();
 	}
 	
 	if(this->DEPOSITION)

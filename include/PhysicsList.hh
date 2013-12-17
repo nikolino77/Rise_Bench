@@ -46,6 +46,7 @@ class G4OpAbsorption;
 class G4OpRayleigh;
 class G4OpMieHG;
 class G4OpBoundaryProcess;
+class G4OpWLS;
 class PhysicsListMessenger;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -82,6 +83,7 @@ class PhysicsList: public G4VModularPhysicsList
     G4OpRayleigh*        theRayleighScatteringProcess;
     G4OpMieHG*           theMieHGScatteringProcess;
     G4OpBoundaryProcess* theBoundaryProcess;
+    G4OpWLS*		  theWLSProcess;
 
     G4double cutForGamma;
     G4double cutForElectron;

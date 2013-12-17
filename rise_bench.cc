@@ -192,6 +192,15 @@ int main(int argc,char** argv)
 	{
     		G4cout << "Scintillation rise time [ns]: material default" << G4endl;
   	}
+  	G4double decaytime = config.read<double>("decaytime");
+  	if(decaytime >= 0) 
+	{
+    		G4cout << "Scintillation decay time [ns]: " << decaytime << G4endl;
+  	} 
+	else 
+	{
+    		G4cout << "Scintillation decay time [ns]: material default" << G4endl;
+  	}
 
 	CreateTree* mytree = new CreateTree("g4pet",HITS, WINDOW, CRYSTAL, CONTROL, DEPOSITION, PRODUCTION, ELECTRONS);
 	

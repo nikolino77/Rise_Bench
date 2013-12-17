@@ -1,12 +1,13 @@
 #
-# Remember that air source is on the negative side of z!
+# Remember that a positive value for z means beam coming from air_source
+# (so try to keep it positive)
 #
 
 # choose ref physics list
 /Rise_Bench/phys/addPhysics  emlivermore
 
 # set cuts for particles
-#/Rise_Bench/phys/setCuts 1.0
+/run/setCut 0.0001 mm
 
 # set verbose physics for the run
 #/Rise_Bench/phys/verbose 1
@@ -27,4 +28,4 @@
 /gps/ang/mintheta 0
 #/gps/ang/maxtheta 0.3
 /gps/ang/maxtheta 0.03
-/run/beamOn 20000
+/run/beamOn 500
