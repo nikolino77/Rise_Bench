@@ -9,9 +9,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sstream>
-#include <bind.hpp>
-#include <thread.hpp>
-#include <thread/mutex.hpp>
+#include <boost/bind.hpp>
+#include <boost/thread.hpp>
+#include <boost/thread/mutex.hpp>
 #include <threadpool.hpp>
 
 
@@ -21,7 +21,7 @@ using boost::thread;
 
 //TO COMPILE "from6to5Root" 
 //g++ -Wall -ansi rise_parallel.cxx -o rise_parallel `root-config --cflags --glibs` -I /usr/include/boost -lboost_thread-mt
-
+//g++ -Wall -ansi rise_parallel.cxx -o rise_parallel `root-config --cflags --glibs` -lboost_thread-mt
 void myThread(int number, string conf, string name) 
 {	
 	ostringstream temp1;
