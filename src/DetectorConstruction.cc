@@ -182,6 +182,17 @@ void DetectorConstruction::initializeMaterials(){
 	ScMaterial->GetMaterialPropertiesTable()->RemoveConstProperty("FASTTIMECONSTANT");
     	ScMaterial->GetMaterialPropertiesTable()->AddConstProperty("FASTTIMECONSTANT",crystal_decaytime*ns); 
 	
+	if(crystal_abslength != -1)
+	{
+	  const G4int sc_entries = 7;
+	  G4double v = crystal_abslength;
+	  G4double sc_energy[sc_entries]       = { 1.5 * eV,1.91 * eV, 2.06 * eV, 2.27 * eV, 3.06 * eV, 3.54 * eV , 4.13 * eV};
+	  G4double sc_abslength[sc_entries]    = { v*mm, v*mm, v*mm, v*mm, v*mm , v*mm , v*mm };
+    
+	  ScMaterial->GetMaterialPropertiesTable()->RemoveProperty("ABSLENGTH");
+    	  ScMaterial->GetMaterialPropertiesTable()->AddProperty("ABSLENGTH",sc_energy,sc_abslength,sc_entries); 
+	}
+	  
 	ScMaterial->GetMaterialPropertiesTable()->RemoveConstProperty("WLSTIMECONSTANT");
     	ScMaterial->GetMaterialPropertiesTable()->AddConstProperty("WLSTIMECONSTANT",crystal_decaytime*ns); 
 }
@@ -211,6 +222,7 @@ void DetectorConstruction::readConfigFile(string configFileName)
 	config.readInto(crystal_material,"scmaterial");
 	config.readInto(crystal_risetime,"risetime");
 	config.readInto(crystal_decaytime,"decaytime");
+	config.readInto(crystal_abslength,"abslength");
 	config.readInto(crystal_lightyield,"lightyield");
 }
 

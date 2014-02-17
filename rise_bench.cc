@@ -201,6 +201,15 @@ int main(int argc,char** argv)
 	{
     		G4cout << "Scintillation decay time [ns]: material default" << G4endl;
   	}
+  	G4double abslength = config.read<double>("abslength");
+  	if(abslength >= 0) 
+	{
+    		G4cout << "Abslength [mm]: " << abslength << G4endl;
+  	} 
+	else 
+	{
+    		G4cout << "Abslength [mm]: material default" << G4endl;
+  	}
 
 	CreateTree* mytree = new CreateTree("g4pet",HITS, WINDOW, CRYSTAL, CONTROL, DEPOSITION, PRODUCTION, ELECTRONS);
 	

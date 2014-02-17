@@ -22,7 +22,7 @@
 /run/initialize
 
 /gps/energy 130 eV
-/gps/particle geantino
+/gps/particle gamma
 /gps/position 0 -2 5 mm
 /gps/ang/type beam1d
 /gps/direction 0. 0.37 -0.92
