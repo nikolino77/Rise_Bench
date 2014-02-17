@@ -1,5 +1,4 @@
 #include "SteppingAction.hh"
-
 #include "G4SteppingManager.hh"
 #include "G4SDManager.hh"
 #include "G4EventManager.hh"
