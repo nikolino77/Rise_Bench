@@ -74,10 +74,7 @@ CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window, Bool_t crystal,
           this->GetTree()->Branch("Time_det",&Time_det);	
           this->GetTree()->Branch("Parent_det",&Parent_det);
 	  this->GetTree()->Branch("Wglth_ex_det", &Wglth_ex_det);
-	  if(this->WINDOW)
-	  {
-	    this->GetTree()->Branch("Volume",&Volume);		
-	  }
+	  this->GetTree()->Branch("Volume",&Volume);		
 	}
 	
   	this->Clear();
@@ -146,11 +143,7 @@ void CreateTree::Clear()
 	  Time_det.clear();
 	  Parent_det.clear();
 	  Wglth_ex_det.clear();
-	  
-	  if(this->WINDOW)
-	  {
-	    Volume.clear();
-	  }
+	  Volume.clear();
 	}
 	
 }

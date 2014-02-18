@@ -171,27 +171,33 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
       }
     }  
   }
-  
-  // ---------- PARTICLE DYING ----------
-   if(CreateTree::Instance() -> Electrons())
-   {
-     if (theStep-> GetTrack() -> GetTrackStatus() == 2 && particleType==G4Electron::ElectronDefinition())
-     {
-       /*
-       cout << "--------------step ----------" <<endl;
-       cout << theStep-> GetTrack() -> GetTrackID() <<endl;
-       cout << particleType->GetParticleName() << endl;
-       cout << thePostPoint-> GetProcessDefinedStep()-> GetProcessName() << endl; 
-       cout << "traccia parente" << theStep-> GetTrack() -> GetParentID() << endl; 
-       cout << "processo parente " << theStep-> GetTrack()-> GetCreatorProcess()-> GetProcessName() << endl;
-       cout << theStep-> GetTrack() -> GetKineticEnergy() << endl;
-       cout << theStep-> GetTrack() -> GetTotalEnergy() << endl;
-       cout << theStep-> GetTrack() -> GetTrackStatus() << endl;
-       */
-       CreateTree::Instance()-> E_End_Time.push_back(theStep-> GetTrack() -> GetGlobalTime());
-     }
-   }
 
+  // ---------- PARTICLE DYING ----------
+  if(CreateTree::Instance() -> Electrons())
+  {
+    if (theStep-> GetTrack() -> GetTrackStatus() == 2)
+    { 
+      if(particleType!=G4OpticalPhoton::OpticalPhotonDefinition())
+      {
+        /*
+        cout << "--------------step ----------" <<endl;
+        cout << theStep-> GetTrack() -> GetTrackID() <<endl;
+        cout << particleType->GetParticleName() << endl;
+        cout << thePostPoint-> GetProcessDefinedStep()-> GetProcessName() << endl; 
+        cout << "traccia parente " << theStep-> GetTrack() -> GetParentID() << endl; 
+        if(theStep-> GetTrack() -> GetParentID() != 0)
+	{
+	  cout << "processo parente " << theStep-> GetTrack()-> GetCreatorProcess()-> GetProcessName() << endl;
+	}
+        cout << theStep-> GetTrack() -> GetKineticEnergy() << endl;
+        cout << theStep-> GetTrack() -> GetTotalEnergy() << endl;
+        cout << theStep-> GetTrack() -> GetTrackStatus() << endl;
+	G4cout << theStep-> GetTrack() -> GetGlobalTime() << endl;
+        */
+        CreateTree::Instance()-> E_End_Time.push_back(theStep-> GetTrack() -> GetGlobalTime());
+      }
+    }
+  }
   
 }
 
