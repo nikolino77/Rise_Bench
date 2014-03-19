@@ -36,7 +36,9 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     		G4double crystal_y;
     		G4double crystal_height;
     		G4double depth;
-		G4double det_d;
+		G4double det_dx;
+		G4double det_dy;
+		G4double det_dz;
 		G4double det_x;
 		G4double det_y;
 		G4double det_z;

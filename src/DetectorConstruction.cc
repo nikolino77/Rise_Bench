@@ -88,7 +88,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	  
 	if(CreateTree::Instance()->Hits())
 	{
-	  G4Box* det_box = new G4Box("Detector",0.5*det_d,0.5*det_d,0.5*det_d);
+	  G4Box* det_box = new G4Box("Detector",0.5*det_dx,0.5*det_dy,0.5*det_dz);
 	  G4LogicalVolume* det_log  = new G4LogicalVolume(det_box,Vacuum,"Detector",0,0,0);
 	  G4VPhysicalVolume* det_phys = new G4PVPlacement(0,G4ThreeVector(det_x,det_y,det_z),det_log,"Detector",expHall_log,false,0);
 	}
@@ -206,7 +206,9 @@ void DetectorConstruction::readConfigFile(string configFileName)
 
 	config.readInto(depth,"depth");
 	config.readInto(det_mat,"det_mat");
-        config.readInto(det_d,"det_d");
+	config.readInto(det_dx,"det_dx");
+	config.readInto(det_dy,"det_dy");
+	config.readInto(det_dz,"det_dz");
 	config.readInto(det_x,"det_x");
 	config.readInto(det_y,"det_y");
 	config.readInto(det_z,"det_z");

@@ -149,8 +149,12 @@ int main(int argc,char** argv)
   	G4cout << "Depth control volume [mm]: " << depth << G4endl;
   	G4double det_mat = config.read<double>("det_mat");
   	G4cout << "Detector material: " << det_mat << G4endl; 
-  	G4double det_d = config.read<double>("det_d");
-  	G4cout << "Detector thickness [mm]: " << det_d << G4endl;
+  	G4double det_dx = config.read<double>("det_dx");
+  	G4cout << "Detector thickness x [mm]: " << det_dx << G4endl;
+	G4double det_dy = config.read<double>("det_dy");
+  	G4cout << "Detector thickness y [mm]: " << det_dy << G4endl;
+	G4double det_dz = config.read<double>("det_dz");
+  	G4cout << "Detector thickness z [mm]: " << det_dz << G4endl;
 	G4double det_x = config.read<double>("det_x");
   	G4cout << "Detector x position [mm]: " << det_x << G4endl;
 	G4double det_y = config.read<double>("det_y");
