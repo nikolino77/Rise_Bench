@@ -90,7 +90,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	{
 	  G4Box* det_box = new G4Box("Detector",0.5*det_dx,0.5*det_dy,0.5*det_dz);
 	  G4LogicalVolume* det_log  = new G4LogicalVolume(det_box,Vacuum,"Detector",0,0,0);
-	  G4VPhysicalVolume* det_phys = new G4PVPlacement(0,G4ThreeVector(det_x,det_y,det_z),det_log,"Detector",expHall_log,false,0);
+	  G4RotationMatrix* rot_det = new G4RotationMatrix();
+	  rot_det->rotateX(rot_ang*deg);
+	  G4VPhysicalVolume* det_phys = new G4PVPlacement(rot_det,G4ThreeVector(det_x,det_y,det_z),det_log,"Detector",expHall_log,false,0);
 	}
 	
 	if(CreateTree::Instance()->Window())

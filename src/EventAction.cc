@@ -16,7 +16,6 @@
 
 EventAction::EventAction()
 {
-	mppcCollID = -1;
 }
  
 EventAction::~EventAction()

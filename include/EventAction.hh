@@ -14,8 +14,6 @@ class EventAction : public G4UserEventAction
 {
   private:
 
-  G4int mppcCollID;
-
   public:
     EventAction();
    ~EventAction();

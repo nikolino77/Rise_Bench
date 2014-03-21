@@ -21,7 +21,7 @@ G4Material *MyMaterials::Air()
     Air->AddElement (N, 70.*perCent);
     Air->AddElement (O, 30.*perCent);
 
-    const G4int nEntries = 34;
+    const G4int nEntries = 35;
 
     G4double PhotonEnergy[nEntries] = {
         0.0001 * eV, 1.00 * eV,  2.034 * eV, 2.068 * eV, 2.103 * eV, 2.139 * eV,
@@ -31,7 +31,7 @@ G4Material *MyMaterials::Air()
         2.757 * eV, 2.820 * eV, 2.885 * eV, 2.954 * eV,
         3.026 * eV, 3.102 * eV, 3.181 * eV, 3.265 * eV,
         3.353 * eV, 3.446 * eV, 3.545 * eV, 3.649 * eV,
-        3.760 * eV, 3.877 * eV, 4.002 * eV, 4.136 * eV
+        3.760 * eV, 3.877 * eV, 4.002 * eV, 4.136 * eV, 6.1742 * eV
     };
 
     G4double RefractiveIndex[nEntries] = {
@@ -39,7 +39,7 @@ G4Material *MyMaterials::Air()
         1.0003, 1.0003, 1.0003, 1.0003, 1.0003, 1.0003, 1.0003,
         1.0003, 1.0003, 1.0003, 1.0003, 1.0003, 1.0003, 1.0003,
         1.0003, 1.0003, 1.0003, 1.0003, 1.0003, 1.0003, 1.0003,
-        1.0003, 1.0003, 1.0003, 1.0003, 1.0003
+        1.0003, 1.0003, 1.0003, 1.0003, 1.0003, 1.0003
     };
 
     G4MaterialPropertiesTable *myMPT = new G4MaterialPropertiesTable();
@@ -62,7 +62,7 @@ G4Material *MyMaterials::SensorAir()
     SensorAir->AddElement (N, 70.*perCent);
     SensorAir->AddElement (O, 30.*perCent);
 
-    const G4int nEntries = 34;
+    const G4int nEntries = 35;
 
     G4double PhotonEnergy[nEntries] = {
         0.0001 * eV, 1.00 * eV,  2.034 * eV, 2.068 * eV, 2.103 * eV, 2.139 * eV,
@@ -72,15 +72,15 @@ G4Material *MyMaterials::SensorAir()
         2.757 * eV, 2.820 * eV, 2.885 * eV, 2.954 * eV,
         3.026 * eV, 3.102 * eV, 3.181 * eV, 3.265 * eV,
         3.353 * eV, 3.446 * eV, 3.545 * eV, 3.649 * eV,
-        3.760 * eV, 3.877 * eV, 4.002 * eV, 4.136 * eV
+        3.760 * eV, 3.877 * eV, 4.002 * eV, 4.136 * eV, 6.1742 * eV
     };
 
     G4double RefractiveIndex[nEntries] = {
-        1.48, 1.48, 1.48, 1.48, 1.48, 1.48, 1.48, 1.48,
-        1.48, 1.48, 1.48, 1.48, 1.48, 1.48, 1.48,
-        1.48, 1.48, 1.48, 1.48, 1.48, 1.48, 1.48,
-        1.48, 1.48, 1.48, 1.48, 1.48, 1.48, 1.48,
-        1.48, 1.48, 1.48, 1.48, 1.48
+        1.0003, 1.0003, 1.0003, 1.0003, 1.0003, 1.0003, 1.0003, 1.0003,
+        1.0003, 1.0003, 1.0003, 1.0003, 1.0003, 1.0003, 1.0003,
+        1.0003, 1.0003, 1.0003, 1.0003, 1.0003, 1.0003, 1.0003,
+        1.0003, 1.0003, 1.0003, 1.0003, 1.0003, 1.0003, 1.0003,
+        1.0003, 1.0003, 1.0003, 1.0003, 1.0003, 1.0003
     };
 
     G4MaterialPropertiesTable *myMPT = new G4MaterialPropertiesTable();
@@ -153,14 +153,14 @@ G4Material *MyMaterials::Water()
     G4MaterialPropertiesTable *myMPT = new G4MaterialPropertiesTable();
     myMPT->AddProperty ("RINDEX",       PhotonEnergy, RefractiveIndex, nEntries);
     myMPT->AddProperty ("ABSLENGTH",    PhotonEnergy, Absorption,      nEntries);
-    myMPT->AddProperty ("FASTCOMPONENT", PhotonEnergy, ScintilFast,     nEntries);
-    myMPT->AddProperty ("SLOWCOMPONENT", PhotonEnergy, ScintilSlow,     nEntries);
+    //myMPT->AddProperty ("FASTCOMPONENT", PhotonEnergy, ScintilFast,     nEntries);
+    //myMPT->AddProperty ("SLOWCOMPONENT", PhotonEnergy, ScintilSlow,     nEntries);
 
-    myMPT->AddConstProperty ("SCINTILLATIONYIELD", 50. / MeV);
-    myMPT->AddConstProperty ("RESOLUTIONSCALE", 1.0);
-    myMPT->AddConstProperty ("FASTTIMECONSTANT", 1.*ns);
-    myMPT->AddConstProperty ("SLOWTIMECONSTANT", 10.*ns);
-    myMPT->AddConstProperty ("YIELDRATIO", 0.8);
+    //myMPT->AddConstProperty ("SCINTILLATIONYIELD", 50. / MeV);
+    //myMPT->AddConstProperty ("RESOLUTIONSCALE", 1.0);
+    //myMPT->AddConstProperty ("FASTTIMECONSTANT", 1.*ns);
+    //myMPT->AddConstProperty ("SLOWTIMECONSTANT", 10.*ns);
+    //myMPT->AddConstProperty ("YIELDRATIO", 0.8);
 
     Water->SetMaterialPropertiesTable (myMPT);
 
@@ -179,7 +179,7 @@ G4Material *MyMaterials::Vacuum()
     Air->AddElement (N, 70.*perCent);
     Air->AddElement (O, 30.*perCent);
 
-    const G4int nEntries = 34;
+    const G4int nEntries = 35;
 
     G4double PhotonEnergy[nEntries] = {
         0.0001 * eV, 1.00 * eV,  2.034 * eV, 2.068 * eV, 2.103 * eV, 2.139 * eV,
@@ -189,7 +189,7 @@ G4Material *MyMaterials::Vacuum()
         2.757 * eV, 2.820 * eV, 2.885 * eV, 2.954 * eV,
         3.026 * eV, 3.102 * eV, 3.181 * eV, 3.265 * eV,
         3.353 * eV, 3.446 * eV, 3.545 * eV, 3.649 * eV,
-        3.760 * eV, 3.877 * eV, 4.002 * eV, 4.136 * eV
+        3.760 * eV, 3.877 * eV, 4.002 * eV, 4.136 * eV, 6.1742 * eV
     };
 
     G4double RefractiveIndex[nEntries] = {
@@ -197,7 +197,7 @@ G4Material *MyMaterials::Vacuum()
         1.0003, 1.0003, 1.0003, 1.0003, 1.0003, 1.0003, 1.0003,
         1.0003, 1.0003, 1.0003, 1.0003, 1.0003, 1.0003, 1.0003,
         1.0003, 1.0003, 1.0003, 1.0003, 1.0003, 1.0003, 1.0003,
-        1.0003, 1.0003, 1.0003, 1.0003, 1.0003
+        1.0003, 1.0003, 1.0003, 1.0003, 1.0003, 1.0003
     };
 
     G4MaterialPropertiesTable *myMPT = new G4MaterialPropertiesTable();
@@ -531,15 +531,15 @@ G4Material *MyMaterials::LSO()
 					      0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,
 					      0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,
 					      0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0};
-    const G4int LSO_NUMENTRIES_2 = 7;
-    G4double LSO_RIND_Energy[LSO_NUMENTRIES_2]      = { 1.5 * eV, 1.91 * eV, 2.06 * eV, 2.27 * eV, 3.06 * eV, 3.54 * eV , 4.13 * eV };
-    G4double LSO_RIND_INDEX[LSO_NUMENTRIES_2]       = { 1.8, 1.8,  1.8, 1.81, 1.83, 1.85, 1.85 };
-    G4double LSO_ABS_Energy[LSO_NUMENTRIES_2]       = { 1.5 * eV,1.91 * eV, 2.06 * eV, 2.27 * eV, 3.06 * eV, 3.54 * eV , 4.13 * eV };
-    G4double LSO_ABS_LENGTH[LSO_NUMENTRIES_2]       = { 138.*mm, 138.*mm, 138.*mm, 138.*mm, 138.*mm , 138.*mm , 138.*mm };
+    const G4int LSO_NUMENTRIES_2 = 8;
+    G4double LSO_RIND_Energy[LSO_NUMENTRIES_2]      = { 1.5 * eV, 1.91 * eV, 2.06 * eV, 2.27 * eV, 3.06 * eV, 3.54 * eV , 4.13 * eV, 6.1742 * eV};
+    G4double LSO_RIND_INDEX[LSO_NUMENTRIES_2]       = { 1.8, 1.8,  1.8, 1.81, 1.83, 1.85, 1.85, 2.10 };
+    G4double LSO_ABS_Energy[LSO_NUMENTRIES_2]       = { 1.5 * eV,1.91 * eV, 2.06 * eV, 2.27 * eV, 3.06 * eV, 3.54 * eV , 4.13 * eV, 6.1742 *eV};
+    G4double LSO_ABS_LENGTH[LSO_NUMENTRIES_2]       = { 138.*mm, 138.*mm, 138.*mm, 138.*mm, 138.*mm , 138.*mm , 138.*mm, 138.*mm };
     
-    const G4int LSO_NUMENTRIES_3 = 7;
-    G4double LSO_ABS_WLS[LSO_NUMENTRIES_3]     = {138.*mm, 138.*mm, 138.*mm, 138.*mm, 138.*mm , 138.*mm , 138.*mm };
-    G4double LSO_WLS_Energy[LSO_NUMENTRIES_3]  = {  1.5 * eV,1.91 * eV, 2.06 * eV, 2.27 * eV, 3.06 * eV, 3.54 * eV , 4.13 * eV};
+    const G4int LSO_NUMENTRIES_3 = 8;
+    G4double LSO_ABS_WLS[LSO_NUMENTRIES_3]     = {138.*mm, 138.*mm, 138.*mm, 138.*mm, 138.*mm , 138.*mm , 138.*mm, 138.*mm };
+    G4double LSO_WLS_Energy[LSO_NUMENTRIES_3]  = {  1.5 * eV,1.91 * eV, 2.06 * eV, 2.27 * eV, 3.06 * eV, 3.54 * eV , 4.13 * eV, 6.1742 * eV};
 
     
     /*
@@ -557,13 +557,13 @@ G4Material *MyMaterials::LSO()
 
     LSO_mt->AddProperty("WLSABSLENGTH",LSO_WLS_Energy,LSO_ABS_WLS,LSO_NUMENTRIES_3);
     LSO_mt->AddProperty("WLSCOMPONENT",LSO_FAST_Energy,LSO_FAST_COMPONENT, LSO_NUMENTRIES_1);
-    LSO_mt->AddConstProperty ("WLSTIMECONSTANT", 39*ns);
+    LSO_mt->AddConstProperty ("WLSTIMECONSTANT", 40*ns);
     
-    LSO_mt->AddConstProperty ("SCINTILLATIONYIELD", 60000. / MeV);
+    LSO_mt->AddConstProperty ("SCINTILLATIONYIELD", 50000. / MeV);
     LSO_mt->AddConstProperty ("RESOLUTIONSCALE", 3.2);
-    LSO_mt->AddConstProperty ("FASTTIMECONSTANT", 39.*ns);
+    LSO_mt->AddConstProperty ("FASTTIMECONSTANT", 40.*ns);
     LSO_mt->AddConstProperty ("YIELDRATIO", 1.0);
-    LSO_mt->AddConstProperty ("FASTSCINTILLATIONRISETIME", 0.7 * ns);
+    LSO_mt->AddConstProperty ("FASTSCINTILLATIONRISETIME", 0.1 * ns);
 
     LSO->SetMaterialPropertiesTable (LSO_mt);
 
