@@ -10,7 +10,7 @@
 /run/setCut 0.00001 mm
 
 # set verbose physics for the run
-/tracking/verbose 2
+#/tracking/verbose 2
 
 # set max number of Cerenkov photons per step
 #/Rise_Bench/phys/cerenkovMaxPhotons 10000
