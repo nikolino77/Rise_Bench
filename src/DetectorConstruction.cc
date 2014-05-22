@@ -88,7 +88,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	  
 	if(CreateTree::Instance()->Hits())
 	{
-	  G4Box* det_box = new G4Box("Detector",0.5*det_dx,0.5*det_dy,0.5*det_dz);
+	  G4Tubs* det_box = new G4Tubs("Detector",0.0,0.5*win_diam,0.5*det_dx,0,360);
 	  G4LogicalVolume* det_log  = new G4LogicalVolume(det_box,Vacuum,"Detector",0,0,0);
 	  G4RotationMatrix* rot_det = new G4RotationMatrix();
 	  rot_det->rotateX(rot_ang*deg);
@@ -174,29 +174,38 @@ void DetectorConstruction::initializeMaterials(){
 	//
   	// modify default properties of the scintillator
   	//
-  
-    	ScMaterial->GetMaterialPropertiesTable()->RemoveConstProperty("SCINTILLATIONYIELD");
-    	ScMaterial->GetMaterialPropertiesTable()->AddConstProperty("SCINTILLATIONYIELD",crystal_lightyield/MeV);  
-	
-	ScMaterial->GetMaterialPropertiesTable()->RemoveConstProperty("FASTSCINTILLATIONRISETIME");
-    	ScMaterial->GetMaterialPropertiesTable()->AddConstProperty("FASTSCINTILLATIONRISETIME",crystal_risetime*ns); 
-	
-	ScMaterial->GetMaterialPropertiesTable()->RemoveConstProperty("FASTTIMECONSTANT");
-    	ScMaterial->GetMaterialPropertiesTable()->AddConstProperty("FASTTIMECONSTANT",crystal_decaytime*ns); 
-	
+	if(crystal_lightyield != -1)
+	{
+    	  ScMaterial->GetMaterialPropertiesTable()->RemoveConstProperty("SCINTILLATIONYIELD");
+    	  ScMaterial->GetMaterialPropertiesTable()->AddConstProperty("SCINTILLATIONYIELD",crystal_lightyield/MeV);  
+	}
+	if(crystal_risetime != -1)
+	{	
+	  ScMaterial->GetMaterialPropertiesTable()->RemoveConstProperty("FASTSCINTILLATIONRISETIME");
+    	  ScMaterial->GetMaterialPropertiesTable()->AddConstProperty("FASTSCINTILLATIONRISETIME",crystal_risetime*ns); 
+	}
+	if(crystal_decaytime != -1)
+	{	
+	  ScMaterial->GetMaterialPropertiesTable()->RemoveConstProperty("FASTTIMECONSTANT");
+    	  ScMaterial->GetMaterialPropertiesTable()->AddConstProperty("FASTTIMECONSTANT",crystal_decaytime*ns); 
+	}
 	if(crystal_abslength != -1)
 	{
-	  const G4int sc_entries = 7;
+	  const G4int sc_entries = 8;
 	  G4double v = crystal_abslength;
-	  G4double sc_energy[sc_entries]       = { 1.5 * eV,1.91 * eV, 2.06 * eV, 2.27 * eV, 3.06 * eV, 3.54 * eV , 4.13 * eV};
-	  G4double sc_abslength[sc_entries]    = { v*mm, v*mm, v*mm, v*mm, v*mm , v*mm , v*mm };
+	  G4double sc_energy[sc_entries]       = { 1.5 * eV,1.91 * eV, 2.06 * eV, 2.27 * eV, 3.06 * eV, 3.54 * eV , 4.13 * eV, 6.1742 *eV};
+	  G4double sc_abslength[sc_entries]    = { v*mm, v*mm, v*mm, v*mm, v*mm , v*mm , v*mm, v*mm };
     
 	  ScMaterial->GetMaterialPropertiesTable()->RemoveProperty("ABSLENGTH");
     	  ScMaterial->GetMaterialPropertiesTable()->AddProperty("ABSLENGTH",sc_energy,sc_abslength,sc_entries); 
 	}
+	 
+	if(crystal_decaytime != -1)
+	{ 
+	  ScMaterial->GetMaterialPropertiesTable()->RemoveConstProperty("WLSTIMECONSTANT");
+    	  ScMaterial->GetMaterialPropertiesTable()->AddConstProperty("WLSTIMECONSTANT",crystal_decaytime*ns); 
+	}
 	  
-	ScMaterial->GetMaterialPropertiesTable()->RemoveConstProperty("WLSTIMECONSTANT");
-    	ScMaterial->GetMaterialPropertiesTable()->AddConstProperty("WLSTIMECONSTANT",crystal_decaytime*ns); 
 }
 
 void DetectorConstruction::readConfigFile(string configFileName)

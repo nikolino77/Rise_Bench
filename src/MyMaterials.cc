@@ -534,7 +534,7 @@ G4Material *MyMaterials::LSO()
     const G4int LSO_NUMENTRIES_2 = 8;
     G4double LSO_RIND_Energy[LSO_NUMENTRIES_2]      = { 1.5 * eV, 1.91 * eV, 2.06 * eV, 2.27 * eV, 3.06 * eV, 3.54 * eV , 4.13 * eV, 6.1742 * eV};
     G4double LSO_RIND_INDEX[LSO_NUMENTRIES_2]       = { 1.8, 1.8,  1.8, 1.81, 1.83, 1.85, 1.85, 2.10 };
-    G4double LSO_ABS_Energy[LSO_NUMENTRIES_2]       = { 1.5 * eV,1.91 * eV, 2.06 * eV, 2.27 * eV, 3.06 * eV, 3.54 * eV , 4.13 * eV, 6.1742 *eV};
+    G4double LSO_ABS_Energy[LSO_NUMENTRIES_2]       = { 1.5 * eV, 1.91 * eV, 2.06 * eV, 2.27 * eV, 3.06 * eV, 3.54 * eV , 4.13 * eV, 6.1742 * eV};
     G4double LSO_ABS_LENGTH[LSO_NUMENTRIES_2]       = { 138.*mm, 138.*mm, 138.*mm, 138.*mm, 138.*mm , 138.*mm , 138.*mm, 138.*mm };
     
     const G4int LSO_NUMENTRIES_3 = 8;

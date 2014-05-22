@@ -54,9 +54,9 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 		int      crystal_material;
 		int      win_material;
     		int      crystal_lightyield;
-    		G4double crystal_risetime;
-		G4double crystal_decaytime;
-    		G4double crystal_abslength;
+    		int 	 crystal_risetime;
+		int 	 crystal_decaytime;
+    		int	 crystal_abslength;
 
 		//Materials
 		G4Material* Air;

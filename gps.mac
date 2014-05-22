@@ -10,7 +10,7 @@
 /run/setCut 0.00001 mm
 
 # set verbose physics for the run
-#/Rise_Bench/phys/verbose 1
+/tracking/verbose 2
 
 # set max number of Cerenkov photons per step
 #/Rise_Bench/phys/cerenkovMaxPhotons 10000
@@ -18,18 +18,30 @@
 # set max number of beta change for Cerenkov
 #/Rise_Bench/phys/SetMaxBetaChangePerStep 10.0
 
-
 /run/initialize
 
-# Cerenkov & rise type
+# Rise type
 /gps/energy 511 keV
 /gps/particle gamma
-/gps/position 0 0 20 mm
+/gps/pos/type Plane
+/gps/pos/shape Circle
+/gps/pos/centre 0 10 4 mm
+/gps/pos/radius 0.5 mm
 /gps/ang/type iso
-/gps/ang/mintheta 0
-/gps/ang/maxtheta -0.25
-/run/beamOn 1000
+/gps/ang/mintheta 0 deg
+/gps/ang/maxtheta 14 deg
+/gps/pos/rot1 1. 0. 0.
+/gps/pos/rot2 0. 0. 1.
+/run/beamOn 100
 
+# Cerenkov type
+#/gps/energy 511 keV
+#/gps/particle gamma
+#/gps/position 0 0 20 mm
+#/gps/ang/type iso
+#/gps/ang/mintheta 0
+#/gps/ang/maxtheta -0.01
+#/run/beamOn 10000
 
 # Bordeaux type
 #/gps/energy 200 eV

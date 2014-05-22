@@ -73,14 +73,18 @@
 # For file-based drivers, use this to create an empty detector view:
 #/vis/viewer/flush
 
-# Cerenkov & rise type
+#Rise type
 /gps/energy 511 keV
 /gps/particle geantino
-/gps/position 0 0 20 mm
+/gps/pos/type Plane
+/gps/pos/shape Circle
+/gps/pos/centre 0 10 4 mm
+/gps/pos/radius 0.5 mm
 /gps/ang/type iso
-#/gps/direction 0. 0. 1.
-/gps/ang/mintheta 0
-/gps/ang/maxtheta -0.1
+/gps/ang/mintheta 0 deg
+/gps/ang/maxtheta 14 deg
+/gps/pos/rot1 1. 0. 0.
+/gps/pos/rot2 0. 0. 1.
 /run/beamOn 100
 
 #Bordeaux type
@@ -89,4 +93,13 @@
 #/gps/position 0 -2 5 mm
 #/gps/ang/type beam1d
 #/gps/direction 0. 0.37 -0.92
-#/run/beamOn 1000
+#/run/beamOn 100
+
+# Cerenkov
+#/gps/energy 511 keV
+#/gps/particle gamma
+#/gps/position 0 0 20 mm
+#/gps/ang/type iso
+#/gps/ang/mintheta 0
+#/gps/ang/maxtheta -0.01
+#/run/beamOn 100
