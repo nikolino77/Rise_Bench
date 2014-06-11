@@ -5,7 +5,7 @@ CreateTree* CreateTree::fInstance = NULL;
 
 using namespace std;
 
-CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window, Bool_t crystal, Bool_t control, Bool_t deposition, Bool_t production, Bool_t electrons)
+CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window, Bool_t crystal, Bool_t control, Bool_t deposition, Bool_t production, Bool_t electrons, Bool_t grease)
 {
 	
 	if(fInstance) 
@@ -20,6 +20,7 @@ CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window, Bool_t crystal,
 	this->DEPOSITION	= deposition;
 	this->PRODUCTION	= production;
 	this->ELECTRONS		= electrons;
+	this->GREASE		= grease;
 
   	this->fInstance = this;
   	this->fname = name;

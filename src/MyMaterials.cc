@@ -211,24 +211,41 @@ G4Material *MyMaterials::Vacuum()
 G4Material *MyMaterials::Silicon()
 {
     G4double a, z, density;
+    G4Element *H = new G4Element ("Hydrogen", "H", z = 1 , a = 1.01 * g / mole);
+    G4Element *C = new G4Element ("Carbon"  , "C", z = 6 , a = 12.01 * g / mole);
+    G4Element *O = new G4Element ("Oxygen"  , "O", z = 8 , a = 16.00 * g / mole);
+    
+    G4Material *Grease = new G4Material ("Grease", density = 1.0 * g / cm3, 3);
+    Grease->AddElement (C, 1);
+    Grease->AddElement (H, 1);
+    Grease->AddElement (O, 1);
 
-    G4Element *Si = new G4Element ("Silicon",    "Si", z = 14., a = 28.09 * g / mole);
-    G4Material *Silicon = new G4Material ("Silicon", density = 2.33 * g / cm3, 1);
-    Silicon->AddElement (Si, 1);
+    const G4int nEntries = 35;
 
-    const G4int NUM = 5;
+    G4double PhotonEnergy[nEntries] = {
+        0.0001 * eV, 1.00 * eV,  2.034 * eV, 2.068 * eV, 2.103 * eV, 2.139 * eV,
+        2.177 * eV, 2.216 * eV, 2.256 * eV, 2.298 * eV,
+        2.341 * eV, 2.386 * eV, 2.433 * eV, 2.481 * eV,
+        2.532 * eV, 2.585 * eV, 2.640 * eV, 2.697 * eV,
+        2.757 * eV, 2.820 * eV, 2.885 * eV, 2.954 * eV,
+        3.026 * eV, 3.102 * eV, 3.181 * eV, 3.265 * eV,
+        3.353 * eV, 3.446 * eV, 3.545 * eV, 3.649 * eV,
+        3.760 * eV, 3.877 * eV, 4.002 * eV, 4.136 * eV, 6.1742 * eV
+    };
 
-    G4double Energy[NUM]         = { 0.0001 * eV, 1.0 * eV, 1.84 * eV, 4.08 * eV,  6.26 * eV};
-    G4double RIND_INDEX[NUM]     = { 4.0, 4.0, 4.0, 4.0, 4.0 };
-    G4double ABS_LENGTH[NUM]     = { 0.1 * mm, 0.1 * mm, 0.1 * mm, 0.1 * mm, 0.1 * mm};
+    G4double RefractiveIndex[nEntries] = {
+        1.41, 1.41, 1.41, 1.41, 1.41, 1.41, 1.41, 1.41,
+        1.41, 1.41, 1.41, 1.41, 1.41, 1.41, 1.41,
+        1.41, 1.41, 1.41, 1.41, 1.41, 1.41, 1.41,
+        1.41, 1.41, 1.41, 1.41, 1.41, 1.41, 1.41,
+        1.41, 1.41, 1.41, 1.41, 1.41, 1.41
+    };
 
     G4MaterialPropertiesTable *Si_mt = new G4MaterialPropertiesTable();
-    Si_mt->AddProperty ("RINDEX",        Energy,  RIND_INDEX,     NUM);
-    Si_mt->AddProperty ("ABSLENGTH",     Energy,  ABS_LENGTH,     NUM);
+    Si_mt->AddProperty ("RINDEX", PhotonEnergy, RefractiveIndex, nEntries);
+    Grease->SetMaterialPropertiesTable (Si_mt);
 
-    Silicon->SetMaterialPropertiesTable (Si_mt);
-
-    return Silicon;
+    return Grease;
 
 }
 

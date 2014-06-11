@@ -127,6 +127,9 @@ int main(int argc,char** argv)
 	Bool_t CONTROL = (Bool_t) config.read<int>("control");
         G4cout << "Control volumes : " << CONTROL << G4endl;
 	
+	Bool_t GREASE = (Bool_t) config.read<int>("grease");
+        G4cout << "Grease : " << GREASE << G4endl;
+	
 	Bool_t DEPOSITION = (Bool_t) config.read<int>("deposition");
         G4cout << "Deposition data : " << DEPOSITION << G4endl;
 	
@@ -215,7 +218,7 @@ int main(int argc,char** argv)
     		G4cout << "Abslength [mm]: material default" << G4endl;
   	}
 
-	CreateTree* mytree = new CreateTree("g4pet",HITS, WINDOW, CRYSTAL, CONTROL, DEPOSITION, PRODUCTION, ELECTRONS);
+	CreateTree* mytree = new CreateTree("g4pet",HITS, WINDOW, CRYSTAL, CONTROL, DEPOSITION, PRODUCTION, ELECTRONS, GREASE);
 	
 	// -----------------------------------------
 	// -----------------------------------------

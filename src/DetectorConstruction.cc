@@ -84,6 +84,13 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	    G4LogicalVolume* side_log  = new G4LogicalVolume(side,Vacuum,"Air_side",0,0,0);
 	    G4VPhysicalVolume* side_phys = new G4PVPlacement(0,G4ThreeVector(0,0,0),side_log,"Air_side",expHall_log,false,0);
 	  }
+	  /*-------TOP AIR LAYERS/DETECTOR-------*/
+	  else if(CreateTree::Instance()->Grease())
+	  {
+            G4Box* opp_box = new G4Box("Grease",0.5*crystal_x,0.5*crystal_y,0.5*depth);
+	    G4LogicalVolume* opp_log  = new G4LogicalVolume(opp_box,Silicon,"Grease",0,0,0);
+	    G4VPhysicalVolume* opp_phys = new G4PVPlacement(0,G4ThreeVector(0.,0.,-0.5*crystal_height-0.5*depth),opp_log,"Grease",expHall_log,false,0);
+	  }
 	}
 	  
 	if(CreateTree::Instance()->Hits())
