@@ -51,8 +51,8 @@
 /vis/scene/add/hits
 #
 # To draw only gammas:
-#/vis/filtering/trajectories/create/particleFilter
-#/vis/filtering/trajectories/particleFilter-0/add gamma
+/vis/filtering/trajectories/create/particleFilter
+/vis/filtering/trajectories/particleFilter-0/add gamma
 #
 # To invert the above, drawing all particles except gammas,
 # keep the above two lines but also add:
@@ -89,7 +89,7 @@
 
 #PbF2
 /gps/energy 511 keV
-/gps/particle geantino
+/gps/particle gamma
 /gps/pos/type Plane
 /gps/pos/shape Circle
 /gps/pos/centre 0 10 0 mm

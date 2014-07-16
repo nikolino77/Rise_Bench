@@ -4,10 +4,11 @@
 #
 
 # choose ref physics list
-/Rise_Bench/phys/addPhysics  emlivermore
+/Rise_Bench/phys/addPhysics emstandard_opt0
+#/Rise_Bench/phys/addPhysics  empenelope
 
 # set cuts for particles
-/run/setCut 0.00001 mm
+#/run/setCut 0.00001 mm
 
 # set verbose physics for the run
 #/tracking/verbose 2
@@ -21,18 +22,18 @@
 /run/initialize
 
 # Rise type
-#/gps/energy 511 keV
-#/gps/particle gamma
-#/gps/pos/type Plane
-#/gps/pos/shape Circle
-#/gps/pos/centre 0 10 0 mm
-#/gps/pos/radius 0.5 mm
-#/gps/ang/type iso
-#/gps/ang/mintheta 0 deg
-#/gps/ang/maxtheta 14 deg
-#/gps/pos/rot1 1. 0. 0.
-#/gps/pos/rot2 0. 0. 1.
-#/run/beamOn 420000
+/gps/energy 511 keV
+/gps/particle gamma
+/gps/pos/type Plane
+/gps/pos/shape Circle
+/gps/pos/centre 0 10 0 mm
+/gps/pos/radius 0.5 mm
+/gps/ang/type iso
+/gps/ang/mintheta 0 deg
+/gps/ang/maxtheta 0.1 deg
+/gps/pos/rot1 1. 0. 0.
+/gps/pos/rot2 0. 0. 1.
+/run/beamOn 10000
 
 # Cerenkov type
 #/gps/energy 511 keV
@@ -44,18 +45,18 @@
 #/run/beamOn 10000
 
 #PbF2
-/gps/energy 511 keV
-/gps/particle gamma
-/gps/pos/type Plane
-/gps/pos/shape Circle
-/gps/pos/centre 0 10 0 mm
-/gps/pos/radius 0.5 mm
-/gps/ang/type iso
-/gps/ang/mintheta 0 deg
-/gps/ang/maxtheta 10 deg
-/gps/pos/rot1 1. 0. 0.
-/gps/pos/rot2 0. 0. 1.
-/run/beamOn 10000
+#/gps/energy 511 keV
+#/gps/particle gamma
+#/gps/pos/type Plane
+#/gps/pos/shape Circle
+#/gps/pos/centre 0 10 0 mm
+#/gps/pos/radius 0.5 mm
+#/gps/ang/type iso
+#/gps/ang/mintheta 0 deg
+#/gps/ang/maxtheta 10 deg
+#/gps/pos/rot1 1. 0. 0.
+#/gps/pos/rot2 0. 0. 1.
+#/run/beamOn 10000
 
 # Bordeaux type
 #/gps/energy 200 eV
@@ -64,3 +65,18 @@
 #/gps/ang/type beam1d
 #/gps/direction 0. 0.37 -0.92
 #/run/beamOn 1000000
+
+# Test type
+#/gps/energy 511 keV
+#/gps/particle gamma
+#/gps/pos/type Plane
+#/gps/pos/shape Circle
+#/gps/pos/centre 0 0 0 mm
+#/gps/pos/radius 0.5 mm
+#/gps/ang/type iso
+#/gps/ang/mintheta 0 deg
+#/gps/ang/maxtheta 14 deg
+#/gps/pos/rot1 1. 0. 0.
+#/gps/pos/rot2 0. 0. 1.
+#/run/beamOn 5000
+

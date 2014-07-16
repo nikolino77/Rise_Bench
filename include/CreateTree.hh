@@ -54,6 +54,7 @@ class CreateTree
   Int_t			NumGammaEnter;
   Int_t			NumPhotons;
   Double_t		Enter_Time;
+  Double_t		Energy_Sum;
   vector<double>	E_End_Time;
 
   vector<float>		energyDeposited;

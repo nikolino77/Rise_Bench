@@ -361,11 +361,11 @@ G4Material *MyMaterials::LUAGCE()  // Lutetium Aluminum Garnet
     mt->AddProperty ("RINDEX",        RIND_Energy, RIND_INDEX,     NUMENTRIES_2);
     mt->AddProperty ("ABSLENGTH",     ABS_Energy,  ABS_LENGTH,     NUMENTRIES_2);
     //mt->AddProperty("RAYLEIGH",      ABS_Energy,  Rayleigh,     NUMENTRIES_2);
-    mt->AddConstProperty ("SCINTILLATIONYIELD", 15000 / MeV);
+    mt->AddConstProperty ("SCINTILLATIONYIELD", 50000 / MeV);
     mt->AddConstProperty ("RESOLUTIONSCALE", 8.5);
-    mt->AddConstProperty ("FASTTIMECONSTANT", 60.*ns);
+    mt->AddConstProperty ("FASTTIMECONSTANT", 40.*ns);
     mt->AddConstProperty ("YIELDRATIO", 1.0);
-    mt->AddConstProperty ("FASTSCINTILLATIONRISETIME", 0.5 * ns);
+    mt->AddConstProperty ("FASTSCINTILLATIONRISETIME", 1. * ns);
     mat->SetMaterialPropertiesTable (mt);
 
 
@@ -400,11 +400,11 @@ G4Material *MyMaterials::LUAGPR()
     mt->AddProperty ("RINDEX",        RIND_Energy, RIND_INDEX,     NUMENTRIES_2);
     mt->AddProperty ("ABSLENGTH",     ABS_Energy,  ABS_LENGTH,     NUMENTRIES_2);
     //mt->AddProperty("RAYLEIGH",      ABS_Energy,  Rayleigh,     NUMENTRIES_2);
-    mt->AddConstProperty ("SCINTILLATIONYIELD", 7000 / MeV);
+    mt->AddConstProperty ("SCINTILLATIONYIELD", 50000 / MeV);
     mt->AddConstProperty ("RESOLUTIONSCALE", 6.4);
-    mt->AddConstProperty ("FASTTIMECONSTANT", 20.*ns);
+    mt->AddConstProperty ("FASTTIMECONSTANT", 50.*ns);
     mt->AddConstProperty ("YIELDRATIO", 1.0);
-    mt->AddConstProperty ("FASTSCINTILLATIONRISETIME", 0.5 * ns);
+    mt->AddConstProperty ("FASTSCINTILLATIONRISETIME", 0.1 * ns);
     mat->SetMaterialPropertiesTable (mt);
 
 
@@ -484,7 +484,7 @@ G4Material *MyMaterials::LYSO()
     mt->AddProperty ("RINDEX",        RIND_Energy, RIND_INDEX,     NUMENTRIES_2);
     mt->AddProperty ("ABSLENGTH",     ABS_Energy,  ABS_LENGTH,     NUMENTRIES_2);
     //mt->AddProperty("RAYLEIGH",      ABS_Energy,  Rayleigh,     NUMENTRIES_2);
-    mt->AddConstProperty ("SCINTILLATIONYIELD", 40000. / MeV);
+    mt->AddConstProperty ("SCINTILLATIONYIELD", 50000. / MeV);
     mt->AddConstProperty ("RESOLUTIONSCALE", 3.4);
     mt->AddConstProperty ("FASTTIMECONSTANT", 40.*ns);
     mt->AddConstProperty ("YIELDRATIO", 1.0);
@@ -1662,7 +1662,7 @@ G4Material *MyMaterials::PbWO()
     PbWO_mt->AddProperty ("RINDEX",        PbWO_RIND_Energy, PbWO_RIND_INDEX,     PbWO_NUMENTRIES_2);
     PbWO_mt->AddProperty ("ABSLENGTH",      PbWO_ABS_Energy,  PbWO_ABS_LENGTH,  PbWO_ABS_entries);
 
-    PbWO_mt->AddConstProperty ("SCINTILLATIONYIELD", 60000. / MeV);
+    PbWO_mt->AddConstProperty ("SCINTILLATIONYIELD", 50000. / MeV);
     PbWO_mt->AddConstProperty ("RESOLUTIONSCALE", 3.2);
     PbWO_mt->AddConstProperty ("FASTTIMECONSTANT", 40.*ns);
     PbWO_mt->AddConstProperty ("YIELDRATIO", 1.0);
