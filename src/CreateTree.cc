@@ -39,6 +39,7 @@ CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window, Bool_t crystal,
 	if(this->ELECTRONS)
 	{
 	  this->GetTree()->Branch("E_End_Time",&E_End_Time);
+	  this->GetTree()->Branch("E_End_Energy",&E_End_Energy);
 	}
 	
 	if(this->DEPOSITION)
@@ -112,6 +113,7 @@ void CreateTree::Clear()
 	if(this->ELECTRONS)
 	{
 	  E_End_Time.clear();
+	  E_End_Energy.clear();
 	}
 	
 	if(this->DEPOSITION)

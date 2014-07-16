@@ -56,6 +56,7 @@ class CreateTree
   Double_t		Enter_Time;
   Double_t		Energy_Sum;
   vector<double>	E_End_Time;
+  vector<double>	E_End_Energy;
 
   vector<float>		energyDeposited;
   vector<string>	depositionProcess;

@@ -175,7 +175,7 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
   // ---------- PARTICLE DYING ----------
   if(CreateTree::Instance() -> Electrons())
   {
-    if (theStep-> GetTrack() -> GetTrackStatus() != 0)
+    if (theStep-> GetTrack() -> GetTrackStatus() != 2)
     { 
       if(particleType!=G4OpticalPhoton::OpticalPhotonDefinition())
       {
@@ -189,22 +189,22 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
   CreateTree::Instance() -> Energy_Sum += theStep-> GetTotalEnergyDeposit();
 
   // -------- TEMP--------
-  if (thePrePV->GetName()=="Crystal" && thePostPV->GetName()=="World" && particleType==G4Gamma::GammaDefinition())
-  {
-    if(theStep-> GetTrack() -> GetTotalEnergy() < 0.07 && theStep-> GetTrack() -> GetTotalEnergy() > 0){
-        //  theStep-> GetTrack() -> SetTrackStatus(fStopAndKill);
-//CreateTree::Instance() -> Energy_Sum +=  theStep->GetTrack() -> GetTotalEnergy();
-if(theStep->GetTrack()->GetTrackID() > 1)
-{
-cout << theStep->GetTrack()->GetCreatorProcess()->GetProcessName() << endl;
-}
-else{cout << "ciao" << endl;}
-//       cout << theStep-> GetTrack() -> GetTrackID() <<endl;
-//     cout << particleType->GetParticleName() << endl;
-//     cout << thePostPoint-> GetProcessDefinedStep()-> GetProcessName() << endl;     
-//     cout << theStep-> GetTrack() -> GetTotalEnergy() << endl;
-    }
-  }
+//   if (thePrePV->GetName()=="Crystal" && thePostPV->GetName()=="World" && particleType==G4Gamma::GammaDefinition())
+//   {
+//     if(theStep-> GetTrack() -> GetTotalEnergy() < 0.07 && theStep-> GetTrack() -> GetTotalEnergy() > 0){
+//         //  theStep-> GetTrack() -> SetTrackStatus(fStopAndKill);
+// //CreateTree::Instance() -> Energy_Sum +=  theStep->GetTrack() -> GetTotalEnergy();
+// if(theStep->GetTrack()->GetTrackID() > 1)
+// {
+// cout << theStep->GetTrack()->GetCreatorProcess()->GetProcessName() << endl;
+// }
+// else{cout << "ciao" << endl;}
+// //       cout << theStep-> GetTrack() -> GetTrackID() <<endl;
+// //     cout << particleType->GetParticleName() << endl;
+// //     cout << thePostPoint-> GetProcessDefinedStep()-> GetProcessName() << endl;     
+// //     cout << theStep-> GetTrack() -> GetTotalEnergy() << endl;
+//     }
+//   }
   
   //---------- PRINT STEP INFO -----------
   int r = 0;
