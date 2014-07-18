@@ -4,7 +4,7 @@
 #
 
 # choose ref physics list
-/Rise_Bench/phys/addPhysics emstandard_opt0
+/Rise_Bench/phys/addPhysics emstandard_opt3
 #/Rise_Bench/phys/addPhysics  empenelope
 
 # set cuts for particles

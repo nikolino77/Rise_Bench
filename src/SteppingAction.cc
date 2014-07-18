@@ -40,7 +40,7 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
   
   // Storing time, energy and position of optical photons absorbed
   if(particleType==G4OpticalPhoton::OpticalPhotonDefinition())
-  {    theStep-> GetTrack() -> SetTrackStatus(fStopAndKill);    
+  {   // theStep-> GetTrack() -> SetTrackStatus(fStopAndKill);    
     if(thePostPoint->GetProcessDefinedStep()->GetProcessName()=="OpAbsorption")
     {
       CreateTree::Instance()->NumOptPhotonsAbsorbed++;
