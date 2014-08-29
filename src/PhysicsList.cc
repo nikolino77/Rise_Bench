@@ -351,6 +351,7 @@ void PhysicsList::ConstructOp()
   //theScintillationProcess->SetScintillationYieldFactor(1.);
   theScintillationProcess->SetTrackSecondariesFirst(true);
   theScintillationProcess->SetFiniteRiseTime(true);
+  G4cout << "Finite rise time: " << theScintillationProcess -> GetFiniteRiseTime() << G4endl;
   // Use Birks Correction in the Scintillation process
   //G4EmSaturation* emSaturation = G4LossTableManager::Instance()->EmSaturation();
   //theScintillationProcess->AddSaturation(emSaturation);
@@ -368,7 +369,7 @@ void PhysicsList::ConstructOp()
     G4String particleName = particle->GetParticleName();
     if (theCerenkovProcess->IsApplicable(*particle)) {
       //pmanager->AddProcess(theCerenkovProcess);
-      pmanager->SetProcessOrdering(theCerenkovProcess,idxPostStep);
+      //pmanager->SetProcessOrdering(theCerenkovProcess,idxPostStep);
     }
     if (theScintillationProcess->IsApplicable(*particle)) {
       pmanager->AddProcess(theScintillationProcess);

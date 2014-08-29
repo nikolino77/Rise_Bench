@@ -4,8 +4,8 @@
 #
 
 # choose ref physics list
-#/Rise_Bench/phys/addPhysics emstandard_opt3
-/Rise_Bench/phys/addPhysics  emlivermore
+/Rise_Bench/phys/addPhysics emstandard_opt3
+#/Rise_Bench/phys/addPhysics  emlivermore
 
 # set cuts for particles
 #/run/setCut 0.00001 mm
@@ -42,7 +42,7 @@
 #/gps/ang/type iso
 #/gps/ang/mintheta 0
 #/gps/ang/maxtheta -0.01
-#/run/beamOn 10000
+#/run/beamOn 100000
 
 #PbF2
 #/gps/energy 511 keV

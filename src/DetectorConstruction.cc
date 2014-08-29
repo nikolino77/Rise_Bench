@@ -188,6 +188,8 @@ void DetectorConstruction::initializeMaterials(){
 	}
 	if(crystal_risetime != -1)
 	{	
+        cout << "Set rise time: "<< ScMaterial->GetMaterialPropertiesTable()->GetConstProperty("FASTSCINTILLATIONRISETIME") << endl;
+
 	  ScMaterial->GetMaterialPropertiesTable()->RemoveConstProperty("FASTSCINTILLATIONRISETIME");
     	  ScMaterial->GetMaterialPropertiesTable()->AddConstProperty("FASTSCINTILLATIONRISETIME",crystal_risetime*ns); 
 	}
@@ -212,6 +214,9 @@ void DetectorConstruction::initializeMaterials(){
 	  ScMaterial->GetMaterialPropertiesTable()->RemoveConstProperty("WLSTIMECONSTANT");
     	  ScMaterial->GetMaterialPropertiesTable()->AddConstProperty("WLSTIMECONSTANT",crystal_decaytime*ns); 
 	}
+
+	ScMaterial->GetMaterialPropertiesTable()->GetProperty("ABSLENGTH")->DumpValues();
+	cout << "Set rise time: "<< ScMaterial->GetMaterialPropertiesTable()->GetConstProperty("FASTSCINTILLATIONRISETIME") << endl;
 	  
 }
 
