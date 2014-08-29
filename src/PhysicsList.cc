@@ -367,13 +367,10 @@ void PhysicsList::ConstructOp()
     G4ProcessManager* pmanager = particle->GetProcessManager();
     G4String particleName = particle->GetParticleName();
     if (theCerenkovProcess->IsApplicable(*particle)) {
-<<<<<<< HEAD
-      //pmanager->AddProcess(theCerenkovProcess);
-      //pmanager->SetProcessOrdering(theCerenkovProcess,idxPostStep);
-=======
       pmanager->AddProcess(theCerenkovProcess);
       pmanager->SetProcessOrdering(theCerenkovProcess,idxPostStep);
->>>>>>> e9132c7e12d5bcd8240ab39fbc0a1bef6b912109
+      pmanager->AddProcess(theCerenkovProcess);
+      pmanager->SetProcessOrdering(theCerenkovProcess,idxPostStep);
     }
     if (theScintillationProcess->IsApplicable(*particle)) {
       pmanager->AddProcess(theScintillationProcess);

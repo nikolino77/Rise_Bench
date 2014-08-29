@@ -74,21 +74,6 @@
 #/vis/viewer/flush
 
 # Rise type
-/gps/energy 511 keV
-/gps/particle geantino
-/gps/pos/type Plane
-/gps/pos/shape Circle
-/gps/pos/centre 0 10 0 mm
-/gps/pos/radius 0.5 mm
-/gps/ang/type iso
-/gps/ang/mintheta 0 deg
-/gps/ang/maxtheta 0.1 deg
-/gps/pos/rot1 1. 0. 0.
-/gps/pos/rot2 0. 0. 1.
-/run/beamOn 100
-
-
-#Rise type
 #/gps/energy 511 keV
 #/gps/particle geantino
 #/gps/pos/type Plane
@@ -97,10 +82,24 @@
 #/gps/pos/radius 0.5 mm
 #/gps/ang/type iso
 #/gps/ang/mintheta 0 deg
-#/gps/ang/maxtheta 14 deg
+#/gps/ang/maxtheta 0.1 deg
 #/gps/pos/rot1 1. 0. 0.
 #/gps/pos/rot2 0. 0. 1.
 #/run/beamOn 100
+
+
+# Rise type control
+/gps/energy 511 keV
+/gps/particle geantino
+/gps/pos/type Plane
+/gps/pos/shape Circle
+/gps/pos/centre 0 10 0 mm
+/gps/pos/radius 0.5 mm
+/gps/ang/type iso
+/gps/ang/mintheta 0 deg
+/gps/ang/maxtheta 20 deg
+/gps/pos/rot2 0. 0. 1.
+/run/beamOn 100
 
 #PbF2
 #/gps/energy 511 keV
