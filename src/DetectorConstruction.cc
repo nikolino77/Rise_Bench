@@ -97,8 +97,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	    G4VSolid* temp_g = new G4Box("temp_g",0.5*crystal_x,0.5*crystal_y,0.5*depth);
 	    
 	    G4VSolid* subtract = new G4SubtractionSolid("help_g-temp_g", help_g, temp_g, 0, G4ThreeVector(0, 0, 0.5*help_l - 0.5*depth));
-	    G4LogicalVolume* help_log  = new G4LogicalVolume(subtract,OptGrease,"help_g",0,0,0);
-	    G4VPhysicalVolume* help_phys = new G4PVPlacement(0,G4ThreeVector(0.,0.,-0.5*crystal_height-0.5*help_l),help_log,"help_g",expHall_log,false,0);
+	    G4LogicalVolume* help_log  = new G4LogicalVolume(subtract,OptGrease,"help_g-temp_g",0,0,0);
+	    G4VPhysicalVolume* help_phys = new G4PVPlacement(0,G4ThreeVector(0.,0.,-0.5*crystal_height-0.5*help_l),help_log,"help_g-temp_g",expHall_log,false,0);
 	    
 	    G4Box* source_box = new G4Box("Air_source",0.5*crystal_x,0.5*crystal_y,0.5*depth);
 	    G4LogicalVolume* source_log  = new G4LogicalVolume(source_box,Vacuum,"Air_source",0,0,0);
