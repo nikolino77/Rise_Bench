@@ -17,6 +17,7 @@
 #include "G4ThreeVector.hh"
 #include "G4Transform3D.hh"
 #include "G4PVPlacement.hh"
+#include "G4SubtractionSolid.hh"
 
 #include "G4OpBoundaryProcess.hh"
 #include "G4SDManager.hh"
@@ -87,9 +88,27 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	  /*-------TOP AIR LAYERS/DETECTOR-------*/
 	  else if(CreateTree::Instance()->Grease())
 	  {
-            G4Box* opp_box = new G4Box("Grease",0.5*crystal_x,0.5*crystal_y,0.5*depth);
-	    G4LogicalVolume* opp_log  = new G4LogicalVolume(opp_box,Silicon,"Grease",0,0,0);
-	    G4VPhysicalVolume* opp_phys = new G4PVPlacement(0,G4ThreeVector(0.,0.,-0.5*crystal_height-0.5*depth),opp_log,"Grease",expHall_log,false,0);
+	    G4Box* opp_box = new G4Box("Air_opposite",0.5*crystal_x,0.5*crystal_y,0.5*depth);
+	    G4LogicalVolume* opp_log  = new G4LogicalVolume(opp_box,OptGrease,"Air_opposite",0,0,0);
+	    G4VPhysicalVolume* opp_phys = new G4PVPlacement(0,G4ThreeVector(0.,0.,-0.5*crystal_height-0.5*depth),opp_log,"Air_opposite",expHall_log,false,0);
+	
+	    double help_l = 10*mm;
+	    G4VSolid* help_g = new G4Box("help_g",0.5*crystal_x+0.5*depth,0.5*crystal_y+0.5*depth,0.5*help_l);
+	    G4VSolid* temp_g = new G4Box("temp_g",0.5*crystal_x,0.5*crystal_y,0.5*depth);
+	    
+	    G4VSolid* subtract = new G4SubtractionSolid("help_g-temp_g", help_g, temp_g, 0, G4ThreeVector(0, 0, 0.5*help_l - 0.5*depth));
+	    G4LogicalVolume* help_log  = new G4LogicalVolume(subtract,OptGrease,"help_g",0,0,0);
+	    G4VPhysicalVolume* help_phys = new G4PVPlacement(0,G4ThreeVector(0.,0.,-0.5*crystal_height-0.5*help_l),help_log,"help_g",expHall_log,false,0);
+	    
+	    G4Box* source_box = new G4Box("Air_source",0.5*crystal_x,0.5*crystal_y,0.5*depth);
+	    G4LogicalVolume* source_log  = new G4LogicalVolume(source_box,Vacuum,"Air_source",0,0,0);
+	    G4VPhysicalVolume* source_phys = new G4PVPlacement(0,G4ThreeVector(0.,0.,0.5*crystal_height+0.5*depth),opp_log,"Air_source",expHall_log,false,0);
+
+	    G4Box* side_box = new G4Box("side_box",0.5*crystal_x+0.5*depth,0.5*crystal_y+0.5*depth,0.5*crystal_height);
+	    G4Box* side_empty_box = new G4Box("side_empty_box",0.5*crystal_x,0.5*crystal_y,0.5*crystal_height);
+	    G4SubtractionSolid* side = new G4SubtractionSolid("side", side_box, side_empty_box);
+	    G4LogicalVolume* side_log  = new G4LogicalVolume(side,Vacuum,"Air_side",0,0,0);
+	    G4VPhysicalVolume* side_phys = new G4PVPlacement(0,G4ThreeVector(0,0,0),side_log,"Air_side",expHall_log,false,0);
 	  }
 	}
 	  

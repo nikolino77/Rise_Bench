@@ -76,7 +76,7 @@
 # Moving source
 /gps/energy 3 eV
 /gps/particle geantino
-/gps/position 0 0 0 mm
+/gps/position 0 0 -1 mm
 /gps/ang/type iso
 /run/beamOn 10
 

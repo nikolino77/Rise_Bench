@@ -271,7 +271,7 @@ G4Material *MyMaterials::Quartz()
 
     const G4int nEntries_ABS = 4;
     G4double ABS_Energy[nEntries_ABS]       = { 1.0 * eV, 1.84 * eV, 4.08 * eV, 6.26 * eV };
-    G4double ABS_LENGTH[nEntries_ABS]       = { 138.*mm, 138.*mm, 138.*mm, 138. *mm };
+    G4double ABS_LENGTH[nEntries_ABS]       = { 1000.*mm, 1000.*mm, 1000.*mm, 1000. *mm };
 
     G4MaterialPropertiesTable *myMPT = new G4MaterialPropertiesTable();
     myMPT->AddProperty ("RINDEX", PhotonEnergy, RefractiveIndex, nEntries_RI);

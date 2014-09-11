@@ -127,6 +127,57 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
     }
   }
   
+  if(CreateTree::Instance() -> Crystal() && CreateTree::Instance() -> Grease())
+  {
+    if(particleType==G4OpticalPhoton::OpticalPhotonDefinition())
+    {
+      if ((thePrePV->GetName()=="Air_opposite" &&  thePostPV->GetName()=="help_g")
+	  || (thePrePV->GetName()=="Air_source" &&  thePostPV->GetName()=="World")
+	  || (thePrePV->GetName()=="Air_side" &&  thePostPV->GetName()=="World"))
+      { 	
+        CreateTree::Instance()-> Time.push_back(theStep-> GetTrack()-> GetGlobalTime());
+        CreateTree::Instance()-> Wglth_ex.push_back(theStep -> GetTrack() ->GetTotalEnergy());
+	
+        if (thePrePV->GetName()=="Air_opposite" &&  thePostPV->GetName()=="help_g")
+        {
+          CreateTree::Instance()-> Extraction.push_back(1);
+        }
+        else if(thePrePV->GetName()=="Air_source" &&  thePostPV->GetName()=="World")
+        {
+	  CreateTree::Instance()-> Extraction.push_back(2);
+        }
+        else if(thePrePV->GetName()=="Air_side" &&  thePostPV->GetName()=="World")
+        {
+	  CreateTree::Instance()-> Extraction.push_back(3);
+        }
+	
+	if(CreateTree::Instance() -> Production())
+        {
+	  if(theStep-> GetTrack()-> GetCreatorProcess() 
+             && theStep-> GetTrack()-> GetCreatorProcess()-> GetProcessName()=="Cerenkov") 
+          {
+            CreateTree::Instance()->Parent.push_back(1);
+          }     
+          else if(theStep-> GetTrack()-> GetCreatorProcess() 
+             && theStep-> GetTrack()-> GetCreatorProcess()-> GetProcessName()=="Scintillation")
+          { 
+            CreateTree::Instance()-> Parent.push_back(2);
+          }
+          else if(theStep-> GetTrack()-> GetCreatorProcess() 
+             && theStep-> GetTrack()-> GetCreatorProcess()-> GetProcessName()=="OpWLS")
+          { 
+            CreateTree::Instance()-> Parent.push_back(3);
+          }
+          else
+          { 
+            CreateTree::Instance()-> Parent.push_back(4);
+	    cout << "boh" <<endl;
+          }
+	}
+      }
+    }
+  }
+  
   // ---------- INFO AT DETECTOR ---------- //
   if(CreateTree::Instance() -> Hits())
   {
