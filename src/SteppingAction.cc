@@ -99,26 +99,29 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
 	  CreateTree::Instance()-> Extraction.push_back(3);
         }
 	
-        if(theStep-> GetTrack()-> GetCreatorProcess() 
-           && theStep-> GetTrack()-> GetCreatorProcess()-> GetProcessName()=="Cerenkov") 
+	if(CreateTree::Instance() -> Production())
         {
-          CreateTree::Instance()->Parent.push_back(1);
-        }     
-        else if(theStep-> GetTrack()-> GetCreatorProcess() 
-           && theStep-> GetTrack()-> GetCreatorProcess()-> GetProcessName()=="Scintillation")
-        { 
-          CreateTree::Instance()-> Parent.push_back(2);
-        }
-        else if(theStep-> GetTrack()-> GetCreatorProcess() 
-           && theStep-> GetTrack()-> GetCreatorProcess()-> GetProcessName()=="OpWLS")
-        { 
-          CreateTree::Instance()-> Parent.push_back(3);
-        }
-        else
-        { 
-          CreateTree::Instance()-> Parent.push_back(4);
-	  cout << "boh" <<endl;
-        }
+	  if(theStep-> GetTrack()-> GetCreatorProcess() 
+             && theStep-> GetTrack()-> GetCreatorProcess()-> GetProcessName()=="Cerenkov") 
+          {
+            CreateTree::Instance()->Parent.push_back(1);
+          }     
+          else if(theStep-> GetTrack()-> GetCreatorProcess() 
+             && theStep-> GetTrack()-> GetCreatorProcess()-> GetProcessName()=="Scintillation")
+          { 
+            CreateTree::Instance()-> Parent.push_back(2);
+          }
+          else if(theStep-> GetTrack()-> GetCreatorProcess() 
+             && theStep-> GetTrack()-> GetCreatorProcess()-> GetProcessName()=="OpWLS")
+          { 
+            CreateTree::Instance()-> Parent.push_back(3);
+          }
+          else
+          { 
+            CreateTree::Instance()-> Parent.push_back(4);
+	    cout << "boh" <<endl;
+          }
+	}
       }
     }
   }
