@@ -71,6 +71,14 @@ CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window, Bool_t crystal,
 	  this->GetTree()->Branch("Wglth_ex", &Wglth_ex);
 	}
 	
+	if(this->GREASE)
+	{
+          this->GetTree()->Branch("Extraction",&Extraction);		
+          this->GetTree()->Branch("Time",&Time);	
+          this->GetTree()->Branch("Parent",&Parent);
+	  this->GetTree()->Branch("Wglth_ex", &Wglth_ex);
+	}
+	
 	// Photons at detector
 	if(this->HITS)
 	{	
@@ -133,6 +141,14 @@ void CreateTree::Clear()
 	  opticProcess.clear();
 	  OptPhotonEnergy.clear();
 	  Prod_Time.clear();
+	}
+
+	if(this->GREASE)
+	{
+	  Extraction.clear();
+	  Parent.clear();
+	  Wglth_ex.clear();
+	  Time.clear();
 	}
 	
 	if(this->CONTROL)

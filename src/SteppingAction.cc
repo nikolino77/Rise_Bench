@@ -131,14 +131,14 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
   {
     if(particleType==G4OpticalPhoton::OpticalPhotonDefinition())
     {
-      if ((thePrePV->GetName()=="Air_opposite" &&  thePostPV->GetName()=="help_g-temp_g")
+      if ((thePrePV->GetName()=="Air_opposite" &&  thePostPV->GetName()=="help_g_temp_g")
 	  || (thePrePV->GetName()=="Air_source" &&  thePostPV->GetName()=="World")
 	  || (thePrePV->GetName()=="Air_side" &&  thePostPV->GetName()=="World"))
       { 	
         CreateTree::Instance()-> Time.push_back(theStep-> GetTrack()-> GetGlobalTime());
         CreateTree::Instance()-> Wglth_ex.push_back(theStep -> GetTrack() ->GetTotalEnergy());
 	
-        if (thePrePV->GetName()=="Air_opposite" &&  thePostPV->GetName()=="help_g-temp_g")
+        if (thePrePV->GetName()=="Air_opposite" &&  thePostPV->GetName()=="help_g_temp_g")
         {
           CreateTree::Instance()-> Extraction.push_back(1);
         }
