@@ -67,6 +67,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 		G4Material* ScMaterial;
 		G4Material* WiMaterial;
 		G4Material* Quartz;
+		G4Material* Teflon;
 
 
     		G4VPhysicalVolume* Construct();

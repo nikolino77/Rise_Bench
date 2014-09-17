@@ -22,13 +22,14 @@ class CreateTree
   Bool_t              PRODUCTION;
   Bool_t              GREASE;
   Bool_t              ELECTRONS;
+  Bool_t              WRAPPING;
 
   static const Int_t  MaxNum = 2000000;
   static const Int_t  MaxNumPro = 1000;
 
   public:
 
-  CreateTree(TString name,Bool_t hits, Bool_t window, Bool_t crystal, Bool_t control, Bool_t deposition, Bool_t production, Bool_t electrons, Bool_t grease);
+  CreateTree(TString name,Bool_t hits, Bool_t window, Bool_t crystal, Bool_t control, Bool_t deposition, Bool_t production, Bool_t electrons, Bool_t grease, Bool_t wrapping);
   ~CreateTree();
 
   TTree*              	GetTree() const { return ftree; };
@@ -46,6 +47,7 @@ class CreateTree
   Bool_t              	Production() const { return this->PRODUCTION; };
   Bool_t              	Electrons() const { return this->ELECTRONS; };
   Bool_t              	Grease() const { return this->GREASE; };
+  Bool_t              	Wrapping() const { return this->WRAPPING; };
   
   Int_t			Run;
   Int_t			Event;

@@ -5,7 +5,7 @@ CreateTree* CreateTree::fInstance = NULL;
 
 using namespace std;
 
-CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window, Bool_t crystal, Bool_t control, Bool_t deposition, Bool_t production, Bool_t electrons, Bool_t grease)
+CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window, Bool_t crystal, Bool_t control, Bool_t deposition, Bool_t production, Bool_t electrons, Bool_t grease, Bool_t wrapping)
 {
 	
 	if(fInstance) 
@@ -21,6 +21,7 @@ CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window, Bool_t crystal,
 	this->PRODUCTION	= production;
 	this->ELECTRONS		= electrons;
 	this->GREASE		= grease;
+	this->WRAPPING		= wrapping;
 
   	this->fInstance = this;
   	this->fname = name;
@@ -72,6 +73,14 @@ CreateTree::CreateTree(TString name, Bool_t hits, Bool_t window, Bool_t crystal,
 	}
 	
 	if(this->GREASE)
+	{
+          this->GetTree()->Branch("Extraction",&Extraction);		
+          this->GetTree()->Branch("Time",&Time);	
+          this->GetTree()->Branch("Parent",&Parent);
+	  this->GetTree()->Branch("Wglth_ex", &Wglth_ex);
+	}
+	
+	if(this->WRAPPING)
 	{
           this->GetTree()->Branch("Extraction",&Extraction);		
           this->GetTree()->Branch("Time",&Time);	
@@ -144,6 +153,14 @@ void CreateTree::Clear()
 	}
 
 	if(this->GREASE)
+	{
+	  Extraction.clear();
+	  Parent.clear();
+	  Wglth_ex.clear();
+	  Time.clear();
+	}
+	
+	if(this->WRAPPING)
 	{
 	  Extraction.clear();
 	  Parent.clear();

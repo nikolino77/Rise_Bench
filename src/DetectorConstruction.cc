@@ -67,13 +67,52 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	  G4Box* Crystal_box = new G4Box("Crystal",0.5*crystal_x,0.5*crystal_y,0.5*crystal_height);
           Crystal_log = new G4LogicalVolume(Crystal_box,ScMaterial,"Crystal",0,0,0);
           Crystal_phys = new G4PVPlacement(0,G4ThreeVector(0,0,0),Crystal_log,"Crystal",expHall_log,false,0);
+	  Crystal_log->SetVisAttributes(G4Colour(0, 0, 255));
+	  
+	  if(CreateTree::Instance()->Wrapping())
+	  {
+            G4Box* opp_box = new G4Box("Air_opposite",0.5*crystal_x,0.5*crystal_y,0.5*depth);	    
+	    G4LogicalVolume* opp_log  = new G4LogicalVolume(opp_box,Vacuum,"Air_opposite",0,0,0);
+	    G4VPhysicalVolume* opp_phys = new G4PVPlacement(0,G4ThreeVector(0.,0.,-0.5*crystal_height-0.5*depth),opp_log,"Air_opposite",expHall_log,false,0);
+	    opp_log->SetVisAttributes(G4Colour(150,150,150));
+	    
+	    G4OpticalSurface* WrapSurface = new G4OpticalSurface("WrapSurface");
+	    WrapSurface -> SetModel(unified);
+	    //WrapSurface -> SetType(dielectric_dielectric);
+	    WrapSurface -> SetType(dielectric_metal);
+	    WrapSurface -> SetFinish(groundbackpainted);
+	    //WrapSurface -> SetFinish(polishedbackpainted);
+	    
+	    G4MaterialPropertiesTable *myST = new G4MaterialPropertiesTable();
+	    
+	    const G4int NUM1 = 3;
+	    G4double GapEnergy[NUM1] = {0.0001 * eV, 1.00 * eV, 6.1742 * eV};
+	    G4double GapRealIndex[NUM1] = {1.0003, 1.0003, 1.0003};
+	    myST->AddProperty("RINDEX", GapEnergy, GapRealIndex, NUM1);
+	    
+	    const G4int NUM2 = 10;
+	    G4double WrapRealEnergy[NUM2] 	= { 0.0001 * eV, 1.2398 *eV, 1.3776 *eV, 1.5498 *eV, 1.7712 *eV, 2.0664 *eV, 2.4796 *eV, 3.0996 *eV, 4.1328 *eV, 6.1742 * eV};
+	    G4double WrapRealIndex[NUM2] 	= {1.339, 1.339, 1.341, 1.343, 1.345, 1.348, 1.351, 1.355, 1.36, 1.36};
+	    myST->AddProperty("REALRINDEX", WrapRealEnergy, WrapRealIndex, NUM2);
 
+	    const G4int NUM3 = 13;
+	    G4double WrapComplexEnergy[NUM3] = { 0.0001 * eV,1.2398*eV, 1.5498*eV, 2.0664*eV, 2.4796*eV, 2.6953*eV, 2.9520*eV,3.0996*eV, 3.1790*eV, 3.2627*eV, 3.4440*eV, 3.6465*eV, 6.1742 * eV};
+	    G4double WrapComplexIndex[NUM3] = { 23.75/1.0003, 23.75/1.0003, 23.50/1.0003, 23.00/1.0003, 22.00/1.0003,21.00/1.0003,17.50/1.0003,15.00/1.0003, 13.75/1.0003, 12.00/1.0003, 8.50/1.0003, 5.00/1.0003, 3.00/1.0003};
+	    myST->AddProperty("IMAGINARYRINDEX", WrapComplexEnergy, WrapComplexIndex, NUM3);
+
+	    WrapSurface->SetMaterialPropertiesTable(myST);
+	     
+	    G4LogicalBorderSurface *CrystalWrap  = new G4LogicalBorderSurface("CrystalWrap", expHall_phys, Crystal_phys, WrapSurface);
+	  }
+	  
 	  /*-------TOP AIR LAYERS/DETECTOR-------*/
 	  if(CreateTree::Instance()->Control())
 	  {
             G4Box* opp_box = new G4Box("Air_opposite",0.5*crystal_x,0.5*crystal_y,0.5*depth);
 	    G4LogicalVolume* opp_log  = new G4LogicalVolume(opp_box,Vacuum,"Air_opposite",0,0,0);
 	    G4VPhysicalVolume* opp_phys = new G4PVPlacement(0,G4ThreeVector(0.,0.,-0.5*crystal_height-0.5*depth),opp_log,"Air_opposite",expHall_log,false,0);
+	    opp_log->SetVisAttributes(G4Colour(150,150,150));
+
 	
 	    G4Box* source_box = new G4Box("Air_source",0.5*crystal_x,0.5*crystal_y,0.5*depth);
 	    G4LogicalVolume* source_log  = new G4LogicalVolume(source_box,Vacuum,"Air_source",0,0,0);
@@ -133,7 +172,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	//
 	// Visualization attributes
 	//
-  	expHall_log->SetVisAttributes(G4VisAttributes::Invisible);
+	expHall_log->SetVisAttributes(G4VisAttributes::Invisible);
   
 	//always return the physical World
   	return expHall_phys;
@@ -172,6 +211,7 @@ void DetectorConstruction::initializeMaterials(){
   	Water      = MyMaterials::Water();  
   	Vacuum     = MyMaterials::Vacuum();
   	Silicon    = MyMaterials::Silicon();
+	Teflon     = MyMaterials::Teflon();
   	OptGrease  = MyMaterials::OpticalGrease();
   	ScMaterial = NULL;
 	WiMaterial = NULL;

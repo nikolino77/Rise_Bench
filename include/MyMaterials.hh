@@ -18,7 +18,8 @@ public:
     static G4Material *Water();
     static G4Material *LSO();
     static G4Material *LYSO();
-     static G4Material *Quartz();
+    static G4Material *Quartz();
+    static G4Material *Teflon();
     static G4Material *LUAGCE();
     static G4Material *LUAGPR();
     static G4Material *Vacuum();

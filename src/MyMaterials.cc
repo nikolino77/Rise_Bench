@@ -92,6 +92,31 @@ G4Material *MyMaterials::SensorAir()
 }
 
 
+G4Material *MyMaterials::Teflon()
+{
+    G4double a, z, density;
+    G4Element *C = new G4Element ("Carbon", "C", z = 6 , a = 12.01 * g / mole);
+    G4Element *F = new G4Element ("Fluorine"  , "F", z = 9 , a = 19.00 * g / mole);
+    G4Material *Teflon = new G4Material ("Teflon", density = 2.2 * g / cm3, 2);
+    Teflon->AddElement (C, 1);
+    Teflon->AddElement (F, 2);
+
+    const G4int NUM = 10;
+    G4double Energy[NUM] 	=  { 0.0001 * eV, 1.2398 *eV, 1.3776 *eV, 1.5498 *eV, 1.7712 *eV, 2.0664 *eV, 2.4796 *eV, 3.0996 *eV, 4.1328 *eV, 6.1742 * eV};
+    G4double RIND_INDEX[NUM] 	= {1.339, 1.339, 1.341, 1.343, 1.345, 1.348, 1.351, 1.355, 1.36, 1.36};
+    G4double ABS_LENGTH[NUM]     = { 0.00001 * mm, 0.00001 * mm, 0.00001 * mm, 0.00001 * mm, 0.00001 * mm, 0.00001 * mm, 0.00001 * mm, 0.00001 * mm, 0.00001 * mm, 0.00001 * mm};
+
+    G4MaterialPropertiesTable *Teflon_mt = new G4MaterialPropertiesTable();
+    Teflon_mt->AddProperty ("RINDEX",        Energy,  RIND_INDEX,     NUM);
+    Teflon_mt->AddProperty ("ABSLENGTH",     Energy,  ABS_LENGTH,     NUM);
+
+    Teflon->SetMaterialPropertiesTable (Teflon_mt);
+
+    return Teflon;
+
+}
+
+
 G4Material *MyMaterials::Water()
 {
     G4double a, z, density;
