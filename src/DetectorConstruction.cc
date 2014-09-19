@@ -78,8 +78,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	    
 	    G4OpticalSurface* WrapSurface = new G4OpticalSurface("WrapSurface");
 	    WrapSurface -> SetModel(unified);
-	    //WrapSurface -> SetType(dielectric_dielectric);
-	    WrapSurface -> SetType(dielectric_metal);
+	    WrapSurface -> SetType(dielectric_dielectric);
+	    //WrapSurface -> SetType(dielectric_metal);
 	    WrapSurface -> SetFinish(groundbackpainted);
 	    //WrapSurface -> SetFinish(polishedbackpainted);
 	    
