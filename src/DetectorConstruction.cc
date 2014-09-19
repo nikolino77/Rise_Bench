@@ -102,7 +102,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 	    WrapSurface->SetMaterialPropertiesTable(myST);
 	     
-	    G4LogicalBorderSurface *CrystalWrap  = new G4LogicalBorderSurface("CrystalWrap", expHall_phys, Crystal_phys, WrapSurface);
+	    G4LogicalBorderSurface *CrystalWrap  = new G4LogicalBorderSurface("CrystalWrap", Crystal_phys, expHall_phys, WrapSurface);
 	  }
 	  
 	  /*-------TOP AIR LAYERS/DETECTOR-------*/
