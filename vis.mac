@@ -51,12 +51,13 @@
 /vis/scene/add/hits
 #
 # To draw only gammas:
-#/vis/filtering/trajectories/create/particleFilter
-#/vis/filtering/trajectories/particleFilter-0/add gamma
+/vis/filtering/trajectories/create/particleFilter
+/vis/filtering/trajectories/particleFilter-0/add gamma
+#/vis/filtering/trajectories/paticleFilter-0/add electron
 #
 # To invert the above, drawing all particles except gammas,
 # keep the above two lines but also add:
-#/vis/filtering/trajectories/particleFilter-0/invert true
+/vis/filtering/trajectories/particleFilter-0/invert true
 #
 # Many other options are available with /vis/modeling and /vis/filtering.
 # For example, to select colour by particle ID:
@@ -74,11 +75,19 @@
 #/vis/viewer/flush
 
 # Moving source
-/gps/energy 511 keV
-/gps/particle gamma
+#/gps/energy 511 keV
+#/gps/particle gamma
+#/gps/position 0 0 0 mm
+#/gps/ang/type iso
+#/run/beamOn 3
+
+
+# Positron type
+/gps/energy 350 keV
+/gps/particle e+
 /gps/position 0 0 0 mm
 /gps/ang/type iso
-/run/beamOn 5
+/run/beamOn 1
 
 # Rise type
 #/gps/energy 511 keV
